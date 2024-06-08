@@ -6,7 +6,7 @@ export default function Description(props) {
   
 <div class="mx-auto max-w-lg">
   <div class="divide-y divide-gray-100">
-    <details class="group" open>
+    <details class="group">
       <summary class="flex cursor-pointer list-none items-center justify-between py-1 text-lg font-medium text-secondary-900 bg-orange-400 rounded-xl w-24">
         <div className={styles.description}>
           使い方
