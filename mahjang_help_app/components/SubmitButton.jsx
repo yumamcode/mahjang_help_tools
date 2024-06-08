@@ -4,20 +4,23 @@ const Majiang = require('@kobalab/majiang-core');
 
 export default function SubmitButton(props) {
   return (
-    <button type="button"
-    id={props.id}
-    className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br
-     focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg
-     text-sm px-3 py-2 text-center me-2 mb-2"
-    onClick={buttonHandler}>
-      {props.name}
-    </button>
+    <div className='text-center py-2'>
+      <button type="button"
+      id={props.id}
+      className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br
+      focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg
+      text-sm px-3 py-2 text-center me-2 mb-2"
+      onClick={buttonHandler}>
+        {props.name}
+      </button>
+    </div>
   );
 }
 
 const buttonHandler = ()=>{
   const $input_hai = document.getElementById("input_hai");
-  const input_hai_value =$input_hai.value;
+  const input_hai_value = $input_hai.value;
+  
 
   if(input_hai_value === ""){
     alert("入力欄が空です。");

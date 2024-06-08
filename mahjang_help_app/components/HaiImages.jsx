@@ -10,23 +10,31 @@ export default function HaiImages(props) {
   const [imageList,setImageList] = useState([]);
 
   const addImage = (hai) =>{
-    imageList.push("/haiImg/" + hai + ".jpg");
+    if(imageList.length >= 14){
+      return false;
+    }
+    imageList.push(`/haiImg/${hai}.jpg`);
     setImageList(imageList);
     const root = createRoot(document.getElementById("disp_hai_area"));
     root.render(
       imageList.map(
-        (img)=>{
-      return <Image src={img} width="20" height="20"></Image>
+        (img,index)=>{
+      return <Image src={img} width="20" height="20" alt="" key={index}></Image>
     }));
   }
 
-
-
   const HAI_ARRAY = haiArraySupplier();
 
-  const images = HAI_ARRAY.map(hai=>{
+  const images = HAI_ARRAY.map((hai,index)=>{
     const src = "/haiImg/" + hai + ".jpg";
-    return <Image src={src} width="20" height="20" data-hai={hai} onClick={(e)=>{addImage(e.target.getAttribute("data-hai"))}}></Image>;
+    return <Image src={src} width="20" height="20" data-hai={hai} 
+    onClick={
+      (e)=>
+        {
+          addImage(e.target.getAttribute("data-hai"));
+          updateHiddenHaiInput(e);
+        }
+      } alt="" key={index}></Image>;
   });
 
   return (
@@ -38,10 +46,8 @@ export default function HaiImages(props) {
   );
 }
 
-const haiClickEvent = function (e) {
+const updateHiddenHaiInput = function (e) {
   const $input_hai = document.getElementById("input_hai");
   const hai_value = e.target.getAttribute("data-hai");
   $input_hai.value += hai_value;
-  const $disp_hai_area = document.getElementById("disp_hai_area");
-  const src = "/haiImg/" + hai_value + ".jpg";
 };
