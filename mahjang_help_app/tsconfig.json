@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.jsx", "pages/shanten.jsx", "pages/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.jsx", "pages/shanten.jsx", "pages/index.jsx", "src/mahjang.js"],
   "exclude": ["node_modules"]
 }

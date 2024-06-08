@@ -1,5 +1,4 @@
 import Image from "next/image";
-import xiangtingNum from "@/src/mahjang";
 import Header from "@/components/Header";
 import Contents from "@/components/Contents";
 import BackGroundImg from "@/components/BackGroundImg";
