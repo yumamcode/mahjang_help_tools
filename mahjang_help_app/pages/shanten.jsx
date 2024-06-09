@@ -4,7 +4,7 @@ import Contents from "@/components/Contents";
 import Description from "@/components/Description";
 import Result from "@/components/Result";
 import ErrorMsg from "@/components/ErrorMsg";
-import HaiImages from "@/components/HaiImages";
+import HaiInputForm from "@/components/HaiInputForm";
 import SubmitButton from "@/components/SubmitButton";
 import { Provider } from "@/providers/Provider";
 
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <Provider>
       <Header title="シャンテン数確認"></Header>
-      <HaiImages></HaiImages>
+      <HaiInputForm></HaiInputForm>
       <div className="my-20"></div>
       <div className="flex justify-center">
         <div className="flex flex-wrap  w-48">

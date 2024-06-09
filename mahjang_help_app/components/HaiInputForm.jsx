@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { createRoot } from "react-dom/client";
-import styles from "@/components/HaiImages.module.css"
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import styles from "@/components/HaiInputForm.module.css"
+import React, { SyntheticEvent, createContext, useEffect, useState } from "react";
 import { Provider } from "@/providers/Provider.jsx";
 import { Center, HStack ,Card, Box} from "@chakra-ui/react";
 import SubmitButton from "@/components/SubmitButton.jsx"
@@ -33,7 +33,10 @@ export default function HaiImages() {
     onClick={
       (e)=>
         {
+          if(haiInputState.length < 2*14)
+            {
           addHiddenHaiInput(e);
+            }
         }
       } alt="" key={index}>
           </Image>;
@@ -41,23 +44,12 @@ export default function HaiImages() {
 
   const input_hai_array = haiConverterTextToArray(haiInputState);
 
-  // const user_input_hai_images = input_hai_array.map((input_hai, index ) => {
-  //   const src = `/haiImg/${input_hai}.jpg`;
-  //   return (
-  //     <Image src={src} width="20" height="20" alt="" key={index} />
-  //   );
-  // });
-
-
-  /*次の処理を作成する
-
-  //牌の文字列の配列をURLの配列に変換する。
-  //input_hai_array:牌の文字列の配列
-  //例:"m1"→"/haiImg/m1.jpg"
-
-  //URLの配列から<Image>タグの配列を作成し、定数user_input_hai_imagesに格納する。
-
-  */
+  const user_input_hai_images = Object.values(input_hai_array).map((input_hai, index ) => {
+    const src = `/haiImg/${input_hai}.jpg`;
+    return (
+      <Image src={src} width="20" height="20" alt="" key={index} />
+    );
+  });
 
   return (
     <Provider>
@@ -66,19 +58,17 @@ export default function HaiImages() {
           {images}
         </HStack>
       </Center>
-      <SubmitButton name="決定" id="hai_submit_button" input={haiInputState}>
-      </SubmitButton>
+      <SubmitButton name="決定" id="hai_submit_button" input={haiInputState}></SubmitButton>
       <Box py="10">
       </Box>
       <Center>
         <Box width="auto">
           入力した牌:
         </Box>
-        <Box id="disp_hai_area">
-          {haiInputState}
-        </Box>
+        <HStack spacing="3px" wrap="wrap" width="320px" id="disp_hai_area">
+          {user_input_hai_images}
+        </HStack>
       </Center>
-      
     </Provider>
       );
 }
