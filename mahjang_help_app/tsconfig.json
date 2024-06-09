@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.jsx", "pages/shanten.jsx", "pages/index.jsx", "src/mahjang.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.jsx", "pages/shanten.jsx", "pages/index.jsx", "src/mahjang.js", "components/HaiImages.jsx"],
   "exclude": ["node_modules"]
 }
