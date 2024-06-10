@@ -12,6 +12,9 @@ const Majiang = require('@kobalab/majiang-core');
 
 export default function HaiInputForm() {
   const [haiInputState, setHaiInputState] = useState("");
+  const [overallHaiInputState,setOverallHaiInputState] = useState([]);
+  const CALC_PHASE = ["pureHai","otherHai","checkStateRole"];
+  const [phaseState,setPhaseState] = useState(CALC_PHASE[0]);
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
 
@@ -26,23 +29,8 @@ export default function HaiInputForm() {
   };
 
   const submitButtonOnClick = () => {
-    if (haiInputState === "") {
-      setMsg("入力欄が空です。");
-      setResult("");
-      return;
-    }
-
-    const input_hai_array = haiConverterTextToArray(haiInputState);
-    let shoupai;
-
-    try {
-      shoupai = new Majiang.Shoupai(input_hai_array);
-      setMsg("");
-      setResult(`シャンテン数は ${Majiang.Util.xiangting(shoupai)} です。`);
-    } catch (err) {
-      setMsg("牌の形式が不正です。");
-      setResult("");
-    }
+    setPhaseState(prev => CALC_PHASE[CALC_PHASE.findIndex(prev) + 1]);
+    setOverallHaiInputState(prev => prev.join(haiInputState));
   };
 
   const renderHaiImages = () => {
@@ -83,11 +71,11 @@ export default function HaiInputForm() {
   return (
     <Provider>
       <Center>
-        <HStack spacing="20px" wrap="wrap" width="280px">
+        <HStack spacing="20px" wrap="wrap" width="280px" maxWidth="150%">
           {renderHaiImages()}
         </HStack>
       </Center>
-      <SubmitButton name="決定" id="hai_submit_button" input={haiInputState} onClick={submitButtonOnClick} />
+      <SubmitButton name="次へ" id="hai_submit_button" input={haiInputState} onClick={submitButtonOnClick} />
       <ErrorMsg msg={msg} />
       <Center>
         <Box>入力した牌:</Box>

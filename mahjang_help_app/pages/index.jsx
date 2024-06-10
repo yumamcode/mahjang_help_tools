@@ -17,6 +17,7 @@ export default function Home() {
         <Link href="/majan_role_table.jpg">役表</Link>
         <Link href="/majan_point_table.jpg">点数表</Link>
         <Link href="/shanten">シャンテン数計算</Link>
+        <Link href="/calcuratePoints">点数計算</Link>
       </VStack>
    </Provider>
   );
