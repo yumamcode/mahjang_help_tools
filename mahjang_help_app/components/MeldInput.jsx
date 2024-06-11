@@ -1,6 +1,7 @@
 // components/MeldInput.js
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import Tile from './Tile';
+import ErrorMsg from './ErrorMsg.jsx';
 import { HStack ,Box,Button, ButtonGroup, VStack} from '@chakra-ui/react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
@@ -9,6 +10,7 @@ const tiles = haiArraySupplier();
 const MeldInput = ({ melds, setMelds }) => {
     const [selectedTiles, setSelectedTiles] = useState([]);
     const [meldType, setMeldType] = useState(null);
+    const [errMsg,setErrMsg] = useState("");
 
     const addTile = (tile) => {
         if (meldType === 'chi') {
@@ -28,8 +30,7 @@ const MeldInput = ({ melds, setMelds }) => {
         let valid = true;
         if (meldType === 'chi') {
             const chiNumbers = selectedTiles.map(tile => parseInt(tile[1]));
-            console.log(chiNumbers);
-            const isValidChi = chiNumbers[1] * 2 == (chiNumbers[0] + chiNumbers[2]);
+            const isValidChi = chiNumbers[0] !== chiNumbers[1] && chiNumbers[1] * 2 == chiNumbers[0] + chiNumbers[2];
             valid = isValidChi && selectedTiles.length === 3;
         } else if (meldType === 'pon') {
             const ponNumbers = selectedTiles.map(tile => tile[1]);
@@ -39,10 +40,15 @@ const MeldInput = ({ melds, setMelds }) => {
             const kanNumbers = selectedTiles.map(tile => tile[1]);
             const isValidKan = kanNumbers.every(num => num === kanNumbers[0]);
             valid = isValidKan && selectedTiles.length === 4;
+        }else{
+            return false;
         }
 
         if (valid) {
             setMelds([...melds, { type: meldType, tiles: selectedTiles }]);
+            setErrMsg("");
+        }else{
+            setErrMsg("無効な形式のため、追加されませんでした。")
         }
 
         setSelectedTiles([]);
@@ -72,15 +78,35 @@ const MeldInput = ({ melds, setMelds }) => {
                     ))}
                 </HStack>
             </Box>
+
+            <Box className='py-3'>
+                <ErrorMsg msg={errMsg}></ErrorMsg>
+            </Box>
+
             <Box className='flex justify-center py-5'>
                 <ButtonGroup>
-                    <Button bgColor={meldType === "chi" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('chi')}>チー</Button>
-                    <Button bgColor={meldType === "pon" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('pon')}>ポン</Button>
-                    <Button bgColor={meldType === "kan" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('kan')}>カン</Button>
+                    <Button bgColor={meldType === "chi" ? 'red' : 'grey'} _hover="" onClick={() => {
+                        if(selectedTiles.length < 1){
+                        setMeldType('chi')
+                        }
+                    }
+                    }>チー</Button>
+                    <Button bgColor={meldType === "pon" ? 'red' : 'grey'} _hover="" onClick={() => {
+                        if(selectedTiles.length < 1){
+                        setMeldType('pon')
+                        }
+                    }
+                        }>ポン</Button>
+                    <Button bgColor={meldType === "kan" ? 'red' : 'grey'} _hover="" onClick={() => {
+                        if(selectedTiles.length < 1){
+                        setMeldType('kan')
+                        }
+                    }
+                        }>カン</Button>
                     <Button onClick={confirmMeld}>確定</Button>
                 </ButtonGroup>
             </Box>
-            <Box>
+            <Box className='py-3'>
                 <VStack>
                     {melds.map((meld, index) => (
                         <div key={index}>

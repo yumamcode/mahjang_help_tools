@@ -12,7 +12,7 @@ const Index = () => {
     const [melds, setMelds] = useState([]);
     const [kans, setKans] = useState([]);
     const [situational, setSituational] = useState({
-        riichi: false,
+        richi: false,
         ippatsu: false,
         rinshan: false,
         chankan: false,

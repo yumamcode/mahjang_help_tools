@@ -1,7 +1,7 @@
 import styles from "@/components/HaiInputForm.module.css";
 import React, { useState } from "react";
 import { Provider } from "@/providers/Provider.jsx";
-import { Center, HStack, Box, Image } from "@chakra-ui/react";
+import { Center, HStack, Box, Image, ButtonGroup,Button } from "@chakra-ui/react";
 import SubmitButton from "@/components/SubmitButton.jsx";
 import ErrorMsg from "@/components/ErrorMsg.jsx";
 import Result from "@/components/Result.jsx";
@@ -45,6 +45,12 @@ export default function HaiInputForm() {
     }
   };
 
+  const resetButtonOnClick = () => {
+    setHaiInputState("");
+    setMsg("");
+    setResult("");
+  } 
+
   const renderHaiImages = () => {
     return haiArraySupplier().map((hai, index) => {
       const src = `/haiImg/${hai}.jpg`;
@@ -83,19 +89,24 @@ export default function HaiInputForm() {
   return (
     <Provider>
       <Center>
-        <HStack spacing="20px" wrap="wrap" width="280px">
+        <HStack spacing="10px" wrap="wrap" width="280px">
           {renderHaiImages()}
         </HStack>
       </Center>
-      <SubmitButton name="決定" id="hai_submit_button" input={haiInputState} onClick={submitButtonOnClick} />
       <ErrorMsg msg={msg} />
       <Center>
-        <Box>入力した牌:</Box>
+        <Box className="py-20">入力した牌:</Box>
         <HStack spacing="3px" wrap="wrap" width="280px" id="disp_hai_area">
           {renderUserInputHaiImages()}
         </HStack>
       </Center>
-      <Result className="py-10 text-center" result={result} />
+      <Box className="flex justify-center py-3">
+        <ButtonGroup>
+          <Button onClick={resetButtonOnClick}>リセット</Button>
+          <Button onClick={submitButtonOnClick}>決定</Button>
+        </ButtonGroup>
+      </Box>
+      <Result className="py-3 text-center" result={result} />
     </Provider>
   );
 }
