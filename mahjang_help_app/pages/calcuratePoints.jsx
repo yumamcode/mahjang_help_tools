@@ -23,16 +23,10 @@ const Index = () => {
 
     return (
         <Provider>
-            <h1>麻雀点数計算アプリ</h1>
-            <Center width="200px">
-              <HandInput hand={hand} setHand={setHand} />
-            </Center>
-            <Center width="200px">
-              <MeldInput melds={melds} setMelds={setMelds} />
-            </Center>
-            <Center width="200px">
-              <KanInput kans={kans} setKans={setKans} />
-            </Center>
+            <h1 className='text-center'>麻雀点数計算アプリ</h1>
+            <HandInput hand={hand} setHand={setHand} />
+            <MeldInput melds={melds} setMelds={setMelds} />
+            <KanInput kans={kans} setKans={setKans} />
             <SituationalInput situational={situational} setSituational={setSituational} />
             {/* <ScoreDisplay hand={hand} melds={melds} kans={kans} situational={situational} /> */}
         </Provider>

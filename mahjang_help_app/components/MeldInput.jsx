@@ -1,6 +1,7 @@
 // components/MeldInput.js
 import React, { useState } from 'react';
 import Tile from './Tile';
+import { HStack ,Box,Button, ButtonGroup, VStack} from '@chakra-ui/react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
@@ -10,35 +11,43 @@ const MeldInput = ({ melds, setMelds }) => {
     const [meldType, setMeldType] = useState(null);
 
     const addTile = (tile) => {
-        if ((meldType === 'chi' && selectedTiles.length < 3) ||
-            (meldType === 'pon' && selectedTiles.length < 1) ||
-            (meldType === 'kan' && selectedTiles.length < 1)) {
-            setSelectedTiles([...selectedTiles, tile]);
+        if (meldType === 'chi') {
+            if (['1', '2', '3', '4', '5', '6', '7'].includes(tile[1]) && tile[0] !== "z") {
+                const base = parseInt(tile[1]);
+                const suit = tile[0];
+                setSelectedTiles([`${suit}${base}`, `${suit}${base+1}`, `${suit}${base+2}`]);
+            }
+        } else if (meldType === 'pon' && selectedTiles.length < 1) {
+            setSelectedTiles(Array(3).fill(tile));
+        } else if (meldType === 'kan' && selectedTiles.length < 1) {
+            setSelectedTiles(Array(4).fill(tile));
         }
     };
 
     const confirmMeld = () => {
         let valid = true;
         if (meldType === 'chi') {
-            const sortedTiles = selectedTiles.slice().sort();
-            const isValidChi = sortedTiles[2] === sortedTiles[1] + 1 && sortedTiles[1] === sortedTiles[0] + 1;
-            valid = selectedTiles.length === 3 && isValidChi;
+            const chiNumbers = selectedTiles.map(tile => parseInt(tile[1]));
+            console.log(chiNumbers);
+            const isValidChi = chiNumbers[1] * 2 == (chiNumbers[0] + chiNumbers[2]);
+            valid = isValidChi && selectedTiles.length === 3;
         } else if (meldType === 'pon') {
-            valid = selectedTiles.length === 1;
+            const ponNumbers = selectedTiles.map(tile => tile[1]);
+            const isValidPon = ponNumbers.every(num => num === ponNumbers[0]);
+            valid = isValidPon && selectedTiles.length === 3;
         } else if (meldType === 'kan') {
-            valid = selectedTiles.length === 1;
+            const kanNumbers = selectedTiles.map(tile => tile[1]);
+            const isValidKan = kanNumbers.every(num => num === kanNumbers[0]);
+            valid = isValidKan && selectedTiles.length === 4;
         }
 
         if (valid) {
-            const meldTiles = meldType === 'chi' ? selectedTiles :
-                Array(meldType === 'kan' ? 4 : 3).fill(selectedTiles[0]);
-            setMelds([...melds, { type: meldType, tiles: meldTiles }]);
-            setSelectedTiles([]);
-            setMeldType(null);
-        }else{
-          setMeldType(null);
-          setSelectedTiles([]);
+            setMelds([...melds, { type: meldType, tiles: selectedTiles }]);
         }
+
+        setSelectedTiles([]);
+        setMeldType(null);
+        
     };
 
     const deleteMeld = (index) => {
@@ -47,34 +56,45 @@ const MeldInput = ({ melds, setMelds }) => {
 
     return (
         <div>
-            <h2>副露入力</h2>
-            <div className='flex flex-wrap justify-center'> 
-                {tiles.map((tile) => (
-                    <Tile key={tile} tile={tile} onClick={addTile} />
-                ))}
-            </div>
-            <div>
-                {selectedTiles.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
-                ))}
-            </div>
-            <div className='flex flex-wrap'>
-                <button onClick={() => setMeldType('chi')}>チー</button>
-                <button onClick={() => setMeldType('pon')}>ポン</button>
-                <button onClick={() => setMeldType('kan')}>カン</button>
-                <button onClick={confirmMeld}>確定</button>
-            </div>
-            <div>
-                {melds.map((meld, index) => (
-                    <div key={index}>
-                        <strong>{meld.type.toUpperCase()}:</strong>
-                        {meld.tiles.map((tile, idx) => (
-                            <Tile key={idx} tile={tile} onClick={() => {}} />
-                        ))}
-                        <button onClick={() => deleteMeld(index)}>削除</button>
-                    </div>
-                ))}
-            </div>
+            <h2 className='text-center'>副露入力</h2>
+            <Box className='flex justify-center'>
+                <HStack wrap="wrap" className='w-5/6'> 
+                    {tiles.map((tile) => (
+                        <Tile key={tile} tile={tile} onClick={addTile} />
+                    ))}
+                </HStack>
+            </Box>
+           
+            <Box className='flex justify-center'>
+                <HStack>
+                    {selectedTiles.map((tile, index) => (
+                        <Tile key={index} tile={tile} onClick={() => {}} />
+                    ))}
+                </HStack>
+            </Box>
+            <Box className='flex justify-center'>
+                <ButtonGroup>
+                    <Button bgColor={meldType === "chi" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('chi')}>チー</Button>
+                    <Button bgColor={meldType === "pon" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('pon')}>ポン</Button>
+                    <Button bgColor={meldType === "kan" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('kan')}>カン</Button>
+                    <Button onClick={confirmMeld}>確定</Button>
+                </ButtonGroup>
+            </Box>
+            <Box>
+                <VStack>
+                    {melds.map((meld, index) => (
+                        <div key={index}>
+                            <strong>{meld.type.toUpperCase()}:</strong>
+                            <HStack>
+                                {meld.tiles.map((tile, idx) => (
+                                    <Tile key={idx} tile={tile} onClick={() => {}} />
+                                ))}
+                                <button onClick={() => deleteMeld(index)}>削除</button>
+                            </HStack>
+                        </div>
+                    ))}
+                </VStack>
+            </Box>
         </div>
     );
 };
