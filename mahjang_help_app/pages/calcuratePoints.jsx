@@ -18,7 +18,7 @@ const Index = () => {
         chankan: false,
         haitei: false,
         houtei: false,
-        daburuRiichi: false,
+        wRichi: false,
     });
 
     return (

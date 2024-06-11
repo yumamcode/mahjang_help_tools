@@ -57,7 +57,7 @@ const MeldInput = ({ melds, setMelds }) => {
     return (
         <div>
             <h2 className='text-center'>副露入力</h2>
-            <Box className='flex justify-center'>
+            <Box className='flex justify-center py-5'>
                 <HStack wrap="wrap" className='w-5/6'> 
                     {tiles.map((tile) => (
                         <Tile key={tile} tile={tile} onClick={addTile} />
@@ -68,11 +68,11 @@ const MeldInput = ({ melds, setMelds }) => {
             <Box className='flex justify-center'>
                 <HStack>
                     {selectedTiles.map((tile, index) => (
-                        <Tile key={index} tile={tile} onClick={() => {}} />
+                        <Tile key={index} tile={tile} onClick={() => {setSelectedTiles([])}} />
                     ))}
                 </HStack>
             </Box>
-            <Box className='flex justify-center'>
+            <Box className='flex justify-center py-5'>
                 <ButtonGroup>
                     <Button bgColor={meldType === "chi" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('chi')}>チー</Button>
                     <Button bgColor={meldType === "pon" ? 'red' : 'grey'} _hover="" onClick={() => setMeldType('pon')}>ポン</Button>

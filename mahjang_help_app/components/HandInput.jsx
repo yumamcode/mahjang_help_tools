@@ -14,9 +14,19 @@ const HandInput = ({ hand, setHand }) => {
         }
     };
 
+    const deleteTile = (tile) => {
+        const array = [];
+        for(let tempTile of hand){
+            if(tempTile !== tile){
+                array.push(tempTile);
+            }
+        }
+        setHand(array);
+    }
+
     return (
         <div>
-            <h2 className='text-center'>手牌入力</h2>
+            <h2 className='text-center py-5'>手牌入力</h2>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>
                     {tiles.map((tile) => (
@@ -24,11 +34,11 @@ const HandInput = ({ hand, setHand }) => {
                     ))}
                 </HStack>
             </Box>
-            <div className='flex flex-wrap'>
+            <Box className='flex justify-center py-5'>
                 {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
+                    <Tile key={index} tile={tile} onClick={deleteTile} />
                 ))}
-            </div>
+            </Box>
         </div>
     );
 };
