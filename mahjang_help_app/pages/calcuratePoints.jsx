@@ -8,8 +8,10 @@ import ScoreDisplay from '../components/ScoreDisplay';
 import {Box,HStack,Center} from "@chakra-ui/react";
 import MahjangHeader from '../components/MahjangHeader';
 import Header from '../components/Header';
+import HolaInput from '../components/HolaInput';
 
 const Index = () => {
+    const [hola,setHola] = useState({});
     const [hand, setHand] = useState([]);
     const [melds, setMelds] = useState([]);
     const [kans, setKans] = useState([]);
@@ -27,11 +29,12 @@ const Index = () => {
         <Provider>
             <MahjangHeader></MahjangHeader>
             <Header title="点数計算" className="text-center text-2xl py-4"></Header>
+            <HolaInput hola={hola} setHola={setHola}></HolaInput>
             <HandInput hand={hand} setHand={setHand} />
             <MeldInput melds={melds} setMelds={setMelds} />
             <KanInput kans={kans} setKans={setKans} />
             <SituationalInput situational={situational} setSituational={setSituational} />
-            {/* <ScoreDisplay hand={hand} melds={melds} kans={kans} situational={situational} /> */}
+            <ScoreDisplay hola={hola} hand={hand} melds={melds} kans={kans} situational={situational} />
         </Provider>
     );
 };

@@ -10,7 +10,7 @@ const tiles = haiArraySupplier();
 
 const HandInput = ({ hand, setHand }) => {
     const addTile = (tile) => {
-        if (hand.length < 13) {
+        if (hand.length < 14) {
             setHand([...hand, tile]);
         }
     };
