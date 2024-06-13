@@ -6,6 +6,8 @@ import SituationalInput from '../components/SituationalInput';
 import {Provider} from '../providers/Provider';
 import ScoreDisplay from '../components/ScoreDisplay';
 import {Box,HStack,Center} from "@chakra-ui/react";
+import MahjangHeader from '../components/MahjangHeader';
+import Header from '../components/Header';
 
 const Index = () => {
     const [hand, setHand] = useState([]);
@@ -23,7 +25,8 @@ const Index = () => {
 
     return (
         <Provider>
-            <h1 className='text-center'>麻雀点数計算アプリ</h1>
+            <MahjangHeader></MahjangHeader>
+            <Header title="点数計算" className="text-center text-2xl py-4"></Header>
             <HandInput hand={hand} setHand={setHand} />
             <MeldInput melds={melds} setMelds={setMelds} />
             <KanInput kans={kans} setKans={setKans} />

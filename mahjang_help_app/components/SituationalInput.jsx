@@ -1,5 +1,6 @@
 import React from 'react';
 import { HStack,VStack ,Box} from '@chakra-ui/react';
+import Header from './Header';
 
 const SituationalInput = ({ situational, setSituational }) => {
     const toggleSituational = (key) => {
@@ -41,8 +42,8 @@ const SituationalInput = ({ situational, setSituational }) => {
 
     return (
         <div>
-            <h2 className='text-center'>状況役入力</h2>
-            <HStack className='flex justify-center py-3 w-screen'>
+            <Header title="状況役入力" className="text-center text-lg"></Header>
+            <HStack className='flex justify-center py-3 flex-wrap'>
                 {SituationalRoles.map(role=>{
                     return (
                         <label key={role}>

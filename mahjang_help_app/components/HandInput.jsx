@@ -1,5 +1,6 @@
 import React from 'react';
 import Tile from './Tile';
+import Header from './Header.jsx';
 import { HStack,Box } from '@chakra-ui/react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
@@ -26,11 +27,11 @@ const HandInput = ({ hand, setHand }) => {
 
     return (
         <div>
-            <h2 className='text-center py-5'>手牌入力</h2>
+            <Header title="純手牌入力" className="text-center text-lg py-3"></Header>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>
-                    {tiles.map((tile) => (
-                        <Tile key={tile} tile={tile} onClick={addTile} />
+                    {tiles.map((tile,index) => (
+                        <Tile key={index} tile={tile} onClick={addTile} />
                     ))}
                 </HStack>
             </Box>

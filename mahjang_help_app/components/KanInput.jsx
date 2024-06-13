@@ -1,6 +1,7 @@
 import React from 'react';
 import Tile from './Tile';
 import { Box,HStack,VStack } from '@chakra-ui/react';
+import Header from './Header.jsx';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
@@ -19,7 +20,7 @@ const KanInput = ({ kans, setKans }) => {
 
     return (
         <div>
-            <h2 className="text-center">暗槓入力</h2>
+            <Header title="暗槓入力" className="text-center text-lg py-3"></Header>
             <Box className='flex justify-center py-5'>
                 <HStack wrap="wrap" className='w-5/6'>
                     {tiles.map((tile) => (
