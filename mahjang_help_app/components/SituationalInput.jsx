@@ -38,6 +38,11 @@ const SituationalInput = ({ situational, setSituational }) => {
             ,roleNameJpn :'ダブル立直'
             ,checked : situational.wRichi
         },
+        {
+            roleName : 'rinshan'
+            ,roleNameJpn : "嶺上開花"
+            ,checked : situational.rinshan
+        }
     ];
 
     return (

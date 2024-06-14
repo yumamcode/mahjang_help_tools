@@ -31,18 +31,18 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
-            const playerSituational = [];
-            if (richi) playerSituational.push('立直');
-            if (ippatsu) playerSituational.push('一発');
-            if (rinshan) playerSituational.push('嶺上開花');
-            if (chankan) playerSituational.push('槍槓');
-            if (haitei) playerSituational.push('海底撈月');
-            if (houtei) playerSituational.push('河底撈魚');
-            if (wRichi) playerSituational.push('ダブル立直');
+            // const playerSituational = [];
+            // if (richi) playerSituational.push('立直');
+            // if (ippatsu) playerSituational.push('一発');
+            // if (rinshan) playerSituational.push('嶺上開花');
+            // if (chankan) playerSituational.push('槍槓');
+            // if (haitei) playerSituational.push('海底撈月');
+            // if (houtei) playerSituational.push('河底撈魚');
+            // if (wRichi) playerSituational.push('ダブル立直');
 
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
-              , holaType === "ツモ" ? null : holatile + "-"
+              , holaType === "ツモ" ? null : holaTile + "-"
               ,{
                 rule:Majiang.rule(),
                 zhuangfeng:
