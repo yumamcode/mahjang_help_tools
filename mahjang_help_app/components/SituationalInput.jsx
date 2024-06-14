@@ -42,11 +42,11 @@ const SituationalInput = ({ situational, setSituational }) => {
 
     return (
         <div>
-            <Header title="状況役入力" className="text-center text-lg"></Header>
+            <Header title="状況役入力" className="text-center text-lg py-3"></Header>
             <HStack className='flex justify-center py-3 flex-wrap'>
                 {SituationalRoles.map(role=>{
                     return (
-                        <label key={role}>
+                        <label key={role.roleName}>
                         <input type="checkbox" checked={role.checked} onChange={() => toggleSituational(role.roleName)} />
                         {role.roleNameJpn}
                     </label>

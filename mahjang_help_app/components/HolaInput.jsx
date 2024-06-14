@@ -40,7 +40,6 @@ const HolaInput = ({ hola,setHola }) => {
     return (
         <div>
             <Header title="上がり情報入力" className="text-center text-lg py-3"></Header>
-            <Box className='flex justify-center py-3'>上がり牌入力</Box>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>
                     {tiles.map((tile,index) => (
@@ -53,7 +52,6 @@ const HolaInput = ({ hola,setHola }) => {
                 tile && <Tile tile={tile} onClick={deleteTile} />
               }
             </Box>
-            <Box className='flex justify-center'>上がり方入力</Box>
             <Box className='flex justify-center'>
               <ButtonGroup>
                 <Button bgColor={holaType === "ツモ" ? 'red' : 'grey'} onClick={tumoButtonOnClick} _hover="">ツモ</Button>

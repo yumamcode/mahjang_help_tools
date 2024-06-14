@@ -70,19 +70,22 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
               }
             );
 
+            setMsg("");
+
             setResult(result);
 
             return result;
         } catch (error) {
-            console.log(error);
             setMsg('点数を計算するためのデータが不足しています。');
             return null;
         }
+        
     };
 
     return (
         <div>
             <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>
+                  {result && 
                   <Box className='flex justify-center'>
                     <VStack>
                       <p>符: {result.fu}</p>
@@ -91,7 +94,9 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
                       <p>役 : {result.hupai?.map(yaku => `${yaku.name} ${yaku.fanshu}翻 ` )}</p>
                     </VStack>
                   </Box>
+                  }
                   <ErrorMsg msg={msg}></ErrorMsg>
+                <Box className='py-5'></Box>
         </div>
     );
 };
