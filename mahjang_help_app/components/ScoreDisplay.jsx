@@ -4,8 +4,9 @@ import {Box, VStack} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
 const Majiang = require('@kobalab/majiang-core');
+const winds = ['east', 'south', 'west', 'north'];
 
-const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
+const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans, situational }) => {
 
   const [result,setResult] = useState({});
   const [msg,setMsg] = useState("");
@@ -13,8 +14,8 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
     const calculateScore = () => {
         try {
             let handTiles = hand.join('');
-            if(hola.holaType === "ツモ"){
-              handTiles += hola.tile;
+            if(holaType === "ツモ"){
+              handTiles += holaTile;
             }
 
             const meldTiles = melds.flatMap(meld => meld.tiles[0][0] + meld.tiles.join('').replace(/[a-zA-Z]/g,"") + "-").join(',');
@@ -27,7 +28,6 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
             if(kanTiles != []){
               allTiles += `,${kanTiles}`;
             }
-            // console.log(allTiles);
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
@@ -40,19 +40,21 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
             if (houtei) playerSituational.push('河底撈魚');
             if (wRichi) playerSituational.push('ダブル立直');
 
-            console.log(hola);
-
-            // console.log(Majiang.Shoupai.fromString(allTiles));
-            // console.log(hola.holaType === "ツモ" ? null : hola.tile + "-")
-
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
-              // console.log(Majiang.Shoupai.fromString("s7s8s9p9,p1p2p3-,m1m2m3-,s1s2s3-"))
-              , hola.holaType === "ツモ" ? null : hola.tile + "-"
+              , holaType === "ツモ" ? null : holatile + "-"
               ,{
                 rule:Majiang.rule(),
-                zhuangfeng:0,
-                menfeng:3,
+                zhuangfeng:
+                roundWind === 'east' ? 0
+                : roundWind === 'south' ? 1
+                : roundWind === 'west' ? 2
+                : 3,
+                menfeng:
+                seatWind === 'east' ? 0
+                : seatWind === 'south' ? 1
+                : seatWind === 'west' ? 2
+                : 3,
                 hupai:{
                   lizhi:wRichi ? 2 : richi ? 1 : 0,
                   yifa:ippatsu,
@@ -76,6 +78,7 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
 
             return result;
         } catch (error) {
+            console.log(error);
             setMsg('点数を計算するためのデータが不足しています。');
             return null;
         }
@@ -91,7 +94,10 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
                       <p>符: {result.fu}</p>
                       <p>翻: {result.fanshu}</p>
                       <p>点数: {result.defen}</p>
-                      <p>役 : {result.hupai?.map(yaku => `${yaku.name} ${yaku.fanshu}翻 ` )}</p>
+                      <Box className='flex flex-col'>
+                      <p>役 : </p>
+                        {result.hupai?.map(yaku => <span key={yaku}>{yaku.name} {yaku.fanshu}翻 </span> )}
+                      </Box>
                     </VStack>
                   </Box>
                   }

@@ -8,17 +8,14 @@ const haiArraySupplier = require("../src/haiArraySupplier.js");
 
 const tiles = haiArraySupplier();
 
-const HolaInput = ({ hola,setHola }) => {
-
-  const [tile,setTile] = useState("");
-  const [holaType,setHolaType] = useState("");
+const HolaInput = ({ holaTile,setHolaTile,holaType,setHolaType }) => {
 
     const addTile = (t) => {
-      setTile(t);
+      setHolaTile(t);
   }
 
     const deleteTile = () => {
-      setTile("");
+      setHolaTile("");
     }
 
     const tumoButtonOnClick = () => {
@@ -28,14 +25,6 @@ const HolaInput = ({ hola,setHola }) => {
     const ronButtonOnClick = () => {
       setHolaType("ロン");
     }
-
-    useEffect(() => {
-      if (tile && holaType) {
-          setHola({ holaType: holaType, tile: tile });
-      }
-  }, [tile, holaType, setHola]);
-
-  
 
     return (
         <div>
@@ -49,7 +38,7 @@ const HolaInput = ({ hola,setHola }) => {
             </Box>
             <Box className='flex justify-center py-5'>
               {
-                tile && <Tile tile={tile} onClick={deleteTile} />
+                holaTile && <Tile tile={holaTile} onClick={deleteTile} />
               }
             </Box>
             <Box className='flex justify-center'>
