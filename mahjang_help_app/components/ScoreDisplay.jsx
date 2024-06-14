@@ -14,15 +14,20 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
         try {
             let handTiles = hand.join('');
             if(hola.holaType === "ツモ"){
-              handTiles += hola.tile[0];
+              handTiles += hola.tile;
             }
-            const meldTiles = melds.flatMap(meld => meld.tiles.join('') + "-").join(',');
-            console.log(hola);
-            const kanTiles = kans.flatMap(kan => kan).join(',');
 
-            const allTiles = handTiles + ',' + meldTiles + ',' + kanTiles;
+            const meldTiles = melds.flatMap(meld => meld.tiles[0][0] + meld.tiles.join('').replace(/[a-zA-Z]/g,"") + "-").join(',');
+            const kanTiles = kans.flatMap(kan => kan[0][0] + kan.join('').replace(/[a-zA-Z]/g,"")).join(',');
 
-            console.log(allTiles);
+            let allTiles = handTiles;
+            if(meldTiles != []){
+              allTiles += `,${meldTiles}`
+            }
+            if(kanTiles != []){
+              allTiles += `,${kanTiles}`;
+            }
+            // console.log(allTiles);
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
@@ -35,8 +40,14 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
             if (houtei) playerSituational.push('河底撈魚');
             if (wRichi) playerSituational.push('ダブル立直');
 
+            console.log(hola);
+
+            // console.log(Majiang.Shoupai.fromString(allTiles));
+            // console.log(hola.holaType === "ツモ" ? null : hola.tile + "-")
+
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
+              // console.log(Majiang.Shoupai.fromString("s7s8s9p9,p1p2p3-,m1m2m3-,s1s2s3-"))
               , hola.holaType === "ツモ" ? null : hola.tile + "-"
               ,{
                 rule:Majiang.rule(),
@@ -51,7 +62,7 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
                   tianhu:0
                 },
                 baopai:[],
-                fubaopai:richi ? {uradoraList} :null,
+                fubaopai:null,
                 jicun:{
                   changbang:0,
                   lizhibang:0
@@ -63,6 +74,7 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
 
             return result;
         } catch (error) {
+            console.log(error);
             setMsg('点数を計算するためのデータが不足しています。');
             return null;
         }
@@ -71,7 +83,6 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
     return (
         <div>
             <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>
-            {result != {} ? (
                   <Box className='flex justify-center'>
                     <VStack>
                       <p>符: {result.fu}</p>
@@ -80,9 +91,7 @@ const ScoreDisplay = ({ hola, hand, melds, kans, situational }) => {
                       <p>役 : {result.hupai?.map(yaku => `${yaku.name} ${yaku.fanshu}翻 ` )}</p>
                     </VStack>
                   </Box>
-            ) : (
-                <ErrorMsg msg={msg}></ErrorMsg>
-            )}
+                  <ErrorMsg msg={msg}></ErrorMsg>
         </div>
     );
 };

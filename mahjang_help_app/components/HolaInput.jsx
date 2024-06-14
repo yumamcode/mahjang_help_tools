@@ -2,36 +2,40 @@ import React from 'react';
 import Tile from './Tile';
 import Header from './Header.jsx';
 import { HStack,Box, Button, ButtonGroup } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
 const tiles = haiArraySupplier();
 
-const HolaInput = ({ setHola }) => {
+const HolaInput = ({ hola,setHola }) => {
 
-  const [tile,setTile] = useState([]);
+  const [tile,setTile] = useState("");
   const [holaType,setHolaType] = useState("");
 
     const addTile = (t) => {
-      setTile([t]);
-      setHola({holaType,t});
+      setTile(t);
   }
 
     const deleteTile = () => {
-      setTile([]);
-      setHola();
+      setTile("");
     }
 
     const tumoButtonOnClick = () => {
       setHolaType("ツモ");
-      setHola({holaType:"ツモ",tile});
     }
 
     const ronButtonOnClick = () => {
       setHolaType("ロン");
-      setHola({holaType:"ロン",tile});
     }
+
+    useEffect(() => {
+      if (tile && holaType) {
+          setHola({ holaType: holaType, tile: tile });
+      }
+  }, [tile, holaType, setHola]);
+
+  
 
     return (
         <div>
@@ -46,7 +50,7 @@ const HolaInput = ({ setHola }) => {
             </Box>
             <Box className='flex justify-center py-5'>
               {
-                tile.map((input,index)=><Tile key={index} tile={input} onClick={deleteTile} />)
+                tile && <Tile tile={tile} onClick={deleteTile} />
               }
             </Box>
             <Box className='flex justify-center'>上がり方入力</Box>
