@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './WindInput.module.css';
 import { Box, Button, ButtonGroup } from '@chakra-ui/react';
 
-const winds = ['east', 'south', 'west', 'north'];
+const winds = ['東', '南', '西', '北'];
 
 const WindInput = ({ roundWind, setRoundWind, seatWind, setSeatWind }) => {
     return (

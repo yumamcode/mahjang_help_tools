@@ -4,7 +4,7 @@ import {Box, VStack} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
 const Majiang = require('@kobalab/majiang-core');
-const winds = ['east', 'south', 'west', 'north'];
+const winds = ['東', '南', '西', '北'];
 
 const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans, situational }) => {
 
@@ -31,29 +31,20 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
-            // const playerSituational = [];
-            // if (richi) playerSituational.push('立直');
-            // if (ippatsu) playerSituational.push('一発');
-            // if (rinshan) playerSituational.push('嶺上開花');
-            // if (chankan) playerSituational.push('槍槓');
-            // if (haitei) playerSituational.push('海底撈月');
-            // if (houtei) playerSituational.push('河底撈魚');
-            // if (wRichi) playerSituational.push('ダブル立直');
-
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
               , holaType === "ツモ" ? null : holaTile + "-"
               ,{
                 rule:Majiang.rule(),
                 zhuangfeng:
-                roundWind === 'east' ? 0
-                : roundWind === 'south' ? 1
-                : roundWind === 'west' ? 2
+                roundWind === '東' ? 0
+                : roundWind === '南' ? 1
+                : roundWind === '西' ? 2
                 : 3,
                 menfeng:
-                seatWind === 'east' ? 0
-                : seatWind === 'south' ? 1
-                : seatWind === 'west' ? 2
+                seatWind === '東' ? 0
+                : seatWind === '南' ? 1
+                : seatWind === '西' ? 2
                 : 3,
                 hupai:{
                   lizhi:wRichi ? 2 : richi ? 1 : 0,
