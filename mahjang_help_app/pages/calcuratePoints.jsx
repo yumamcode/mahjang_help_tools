@@ -40,39 +40,31 @@ const Index = () => {
         <Provider>
             <MahjangHeader></MahjangHeader>
             <Header title="点数計算" className="text-center text-xl py-3"></Header>
-            <Box>
-                    <ButtonGroup className='flex flex-wrap justify-center max-w-xl'>
+            <Box className='space-x-1 space-y-1 text-center'>
                         <Button bgColor={showWindInput? 'red' : 'grey'} _hover=""
-                        className='my-2'
                         onClick={() => setShowWindInput(!showWindInput)}>
                             自風・場風入力 {showWindInput ? "▲" : "▼"}
                         </Button>
                         <Button bgColor={showHolaInput? 'red' : 'grey'} _hover=""
-                         className='my-2'
                          onClick={() => setShowHolaInput(!showHolaInput)}>
                             上がり情報入力 {showHolaInput ? "▲" : "▼"}
                         </Button>
                         <Button bgColor={showHandInput? 'red' : 'grey'} _hover="" 
-                         className='my-2'
                          onClick={() => setShowHandInput(!showHandInput)}>
                             純手牌入力 {showHandInput ? "▲" : "▼"}
                         </Button>
                         <Button bgColor={showMeldInput? 'red' : 'grey'} _hover=""
-                         className='my-2'
                          onClick={() => setShowMeldInput(!showMeldInput)}>
                             副露入力 {showMeldInput ? "▲" : "▼"}
                         </Button>
                         <Button bgColor={showKanInput? 'red' : 'grey'} _hover=""
-                         className='my-2'
                          onClick={() => setShowKanInput(!showKanInput)}>
                             暗槓入力 {showKanInput ? "▲" : "▼"}
                         </Button>
                         <Button bgColor={showSituationalInput? 'red' : 'grey'} _hover="" 
-                         className='my-2'
                         onClick={() => setShowSituationalInput(!showSituationalInput)}>
                             状況役入力 {showSituationalInput ? "▲" : "▼"}
                         </Button>
-                    </ButtonGroup>
             </Box>
 
             {showWindInput && <WindInput roundWind={roundWind} setRoundWind={setRoundWind } seatWind={seatWind} setSeatWind={setSeatWind}></WindInput>}
