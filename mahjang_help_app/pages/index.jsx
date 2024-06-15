@@ -7,8 +7,8 @@ export default function Home() {
     <Provider>
       <MahjangHeader></MahjangHeader>
       <VStack bgColor="orange">
-        <Link href="/majan_role_table.jpg" borderBottom="full">役表</Link>
-        <Link href="/majan_point_table.jpg">点数表</Link>
+        <Link href="/roleTable">役表</Link>
+        <Link href="/pointsTable">点数表</Link>
         <Link href="/shanten">シャンテン数計算</Link>
         <Link href="/calcuratePoints">点数計算</Link>
       </VStack>
