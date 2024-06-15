@@ -65,16 +65,22 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
 
             console.log(result);
 
-            setMsg("");
+            if(result == undefined){
+              setMsg('点数を計算するためのデータが不足しています。');
+              setResult(null);
+              return null;
+            }
 
+            setMsg("");
             setResult(result);
 
             return result;
         } catch (error) {
-            console.log(error);
             setMsg('点数を計算するためのデータが不足しています。');
             return null;
         }
+
+        
         
     };
 
