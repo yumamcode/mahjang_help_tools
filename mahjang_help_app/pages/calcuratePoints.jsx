@@ -41,8 +41,7 @@ const Index = () => {
             <MahjangHeader></MahjangHeader>
             <Header title="点数計算" className="text-center text-xl py-3"></Header>
             <Box>
-                <VStack>
-                    <ButtonGroup className='flex flex-col space-y-2'>
+                    <ButtonGroup className='flex'>
                         <Button bgColor={showWindInput? 'red' : 'grey'} _hover="" 
                         onClick={() => setShowWindInput(!showWindInput)}>
                             自風・場風入力 {showWindInput ? "▲" : "▼"}
@@ -64,7 +63,6 @@ const Index = () => {
                             状況役入力 {showSituationalInput ? "▲" : "▼"}
                         </Button>
                     </ButtonGroup>
-                </VStack>
             </Box>
 
             {showWindInput && <WindInput roundWind={roundWind} setRoundWind={setRoundWind } seatWind={seatWind} setSeatWind={setSeatWind}></WindInput>}
