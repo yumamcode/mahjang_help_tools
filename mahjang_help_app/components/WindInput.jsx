@@ -7,7 +7,12 @@ const winds = ['東', '南', '西', '北'];
 const WindInput = ({ roundWind, setRoundWind, seatWind, setSeatWind }) => {
     return (
         <Box className='text-center'>
-            <Box className='py-3'>風の情報入力</Box>
+            <Box className='py-3'>
+                風の情報入力
+            </Box>
+            <Box className='py-1 text-red-400 font-bold'>
+                未入力の場合、場風は東、自風は北になります。
+            </Box>
             <Box>
                 <h3>場風</h3>
                 <ButtonGroup className='py-1'>

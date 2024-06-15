@@ -37,10 +37,10 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
               ,{
                 rule:Majiang.rule(),
                 zhuangfeng:
-                roundWind === '東' ? 0
+                roundWind === '北' ? 3
                 : roundWind === '南' ? 1
                 : roundWind === '西' ? 2
-                : 3,
+                : 0,
                 menfeng:
                 seatWind === '東' ? 0
                 : seatWind === '南' ? 1
@@ -62,6 +62,8 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
                 }
               }
             );
+
+            console.log(result);
 
             setMsg("");
 

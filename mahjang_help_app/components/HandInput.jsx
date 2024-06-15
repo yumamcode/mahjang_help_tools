@@ -15,14 +15,8 @@ const HandInput = ({ hand, setHand }) => {
         }
     };
 
-    const deleteTile = (tile) => {
-        const array = [];
-        for(let tempTile of hand){
-            if(tempTile !== tile){
-                array.push(tempTile);
-            }
-        }
-        setHand(array);
+    const deleteTile = (index) => {
+        setHand(hand.filter((_, i) => i !== index));
     }
 
     return (
@@ -37,7 +31,7 @@ const HandInput = ({ hand, setHand }) => {
             </Box>
             <Box className='flex justify-center py-5'>
                 {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={deleteTile} />
+                    <Tile key={index} tile={tile} onClick={()=>deleteTile(index)} />
                 ))}
             </Box>
         </div>
