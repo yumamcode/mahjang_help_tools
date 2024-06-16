@@ -21,7 +21,7 @@ const KanInput = ({ kans, setKans }) => {
     return (
         <div>
             <Header title="暗槓入力" className="text-center text-lg py-3"></Header>
-            <Box className='flex justify-center py-5'>
+            <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>
                     {tiles.map((tile) => (
                         <Tile key={tile} tile={tile} onClick={addKan} />

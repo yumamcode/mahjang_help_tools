@@ -64,7 +64,7 @@ const MeldInput = ({ melds, setMelds }) => {
     return (
         <div>
             <Header title="副露入力" className="text-center text-lg py-3"></Header>
-            <Box className='flex justify-center py-5'>
+            <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'> 
                     {tiles.map((tile,index) => (
                         <Tile key={index} tile={tile} onClick={addTile} />

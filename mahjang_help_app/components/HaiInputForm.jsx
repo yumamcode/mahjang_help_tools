@@ -1,5 +1,5 @@
 import styles from "@/components/HaiInputForm.module.css";
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import { Provider } from "@/providers/Provider.jsx";
 import { Center, HStack, Box, Image, ButtonGroup,Button } from "@chakra-ui/react";
 import SubmitButton from "@/components/SubmitButton.jsx";
@@ -11,13 +11,13 @@ const haiConverterTextToArray = require('../src/haiConverterTextToArray.js');
 const haiArraySupplier = require('../src/haiArraySupplier.js');
 const Majiang = require('@kobalab/majiang-core');
 
-export default function HaiInputForm() {
+export const haiInputContext = createContext();
+
+export default function HaiInputForm({}) {
   const [haiInputState, setHaiInputState] = useState("");
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
   const [usefulTile,setUsefulTile] = useState([]);
-
-  console.log(usefulTile);
 
   const addHiddenHaiInput = (e) => {
     if (haiInputState.length < 2 * 14) {
@@ -53,10 +53,14 @@ export default function HaiInputForm() {
         setResult("テンパイです。");
         setUsefulTile(dispUsefulTile);
         return;
+      }else if(shantenNum < 3){
+        setResult(`シャンテン数は ${shantenNum} です。`);
+        setUsefulTile(dispUsefulTile);
+        return;
       }
 
       setResult(`シャンテン数は ${shantenNum} です。`);
-      setUsefulTile(dispUsefulTile);
+      setUsefulTile([]);
       
     } catch (err) {
       setMsg("牌の形式が不正です。");
@@ -111,6 +115,7 @@ export default function HaiInputForm() {
 
   return (
     <Provider>
+      <haiInputContext.Provider value={haiInputState}></haiInputContext.Provider>
       <Center>
         <HStack spacing="10px" wrap="wrap" width="280px">
           {renderHaiImages()}
