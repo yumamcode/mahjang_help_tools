@@ -11,7 +11,7 @@ const WindInput = ({ roundWind, setRoundWind, seatWind, setSeatWind }) => {
                 風の情報入力
             </Box>
             <Box className='py-1 text-red-400 font-bold'>
-                未入力の場合、場風は東、自風は北になります。
+                初期値は場風は東、自風は北です。
             </Box>
             <Box>
                 <h3>場風</h3>

@@ -6,7 +6,7 @@ import ErrorMsg from './ErrorMsg';
 const Majiang = require('@kobalab/majiang-core');
 const winds = ['東', '南', '西', '北'];
 
-const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans, situational }) => {
+const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,dispDoras,dispUraDoras, situational }) => {
 
   const [result,setResult] = useState(null);
   const [msg,setMsg] = useState("");
@@ -37,10 +37,10 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
               ,{
                 rule:Majiang.rule(),
                 zhuangfeng:
-                roundWind === '北' ? 3
+                roundWind === '東' ? 0
                 : roundWind === '南' ? 1
                 : roundWind === '西' ? 2
-                : 0,
+                : 3,
                 menfeng:
                 seatWind === '東' ? 0
                 : seatWind === '南' ? 1
@@ -54,16 +54,14 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
                   haidi:houtei ? 2 : haitei ? 1 : 0,
                   tianhu:0
                 },
-                baopai:[],
-                fubaopai:null,
+                baopai:dispDoras,
+                fubaopai:richi || wRichi ? dispUraDoras : [],
                 jicun:{
                   changbang:0,
                   lizhibang:0
                 }
               }
             );
-
-            console.log(result);
 
             if(result == undefined){
               setMsg('点数を計算するためのデータが不足しています。');
@@ -80,8 +78,6 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
             return null;
         }
 
-        
-        
     };
 
     return (
