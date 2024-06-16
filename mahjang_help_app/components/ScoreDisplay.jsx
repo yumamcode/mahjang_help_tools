@@ -8,7 +8,7 @@ const winds = ['東', '南', '西', '北'];
 
 const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans, situational }) => {
 
-  const [result,setResult] = useState({});
+  const [result,setResult] = useState(null);
   const [msg,setMsg] = useState("");
 
     const calculateScore = () => {

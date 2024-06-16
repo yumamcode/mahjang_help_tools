@@ -5,6 +5,7 @@ import { Center, HStack, Box, Image, ButtonGroup,Button } from "@chakra-ui/react
 import SubmitButton from "@/components/SubmitButton.jsx";
 import ErrorMsg from "@/components/ErrorMsg.jsx";
 import Result from "@/components/Result.jsx";
+import Tile from "@/components/Tile.jsx";
 
 const haiConverterTextToArray = require('../src/haiConverterTextToArray.js');
 const haiArraySupplier = require('../src/haiArraySupplier.js');
@@ -14,6 +15,9 @@ export default function HaiInputForm() {
   const [haiInputState, setHaiInputState] = useState("");
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
+  const [usefulTile,setUsefulTile] = useState([]);
+
+  console.log(usefulTile);
 
   const addHiddenHaiInput = (e) => {
     if (haiInputState.length < 2 * 14) {
@@ -38,10 +42,26 @@ export default function HaiInputForm() {
     try {
       shoupai = new Majiang.Shoupai(input_hai_array);
       setMsg("");
-      setResult(`シャンテン数は ${Majiang.Util.xiangting(shoupai)} です。`);
+      const shantenNum = Majiang.Util.xiangting(shoupai);
+      const dispUsefulTile = Majiang.Util.tingpai(shoupai);
+
+      if(shantenNum == -1){
+        setResult("上がりです。");
+        setUsefulTile([]);
+        return;
+      }else if(shantenNum == 0){
+        setResult("テンパイです。");
+        setUsefulTile(dispUsefulTile);
+        return;
+      }
+
+      setResult(`シャンテン数は ${shantenNum} です。`);
+      setUsefulTile(dispUsefulTile);
+      
     } catch (err) {
       setMsg("牌の形式が不正です。");
       setResult("");
+      setUsefulTile([]);
     }
   };
 
@@ -49,6 +69,7 @@ export default function HaiInputForm() {
     setHaiInputState("");
     setMsg("");
     setResult("");
+    setUsefulTile([]);
   } 
 
   const renderHaiImages = () => {
@@ -86,6 +107,8 @@ export default function HaiInputForm() {
     });
   };
 
+  const noop = () => {};
+
   return (
     <Provider>
       <Center>
@@ -93,7 +116,6 @@ export default function HaiInputForm() {
           {renderHaiImages()}
         </HStack>
       </Center>
-      <ErrorMsg msg={msg} />
       <Center>
         <Box className="py-20">入力した牌:</Box>
         <HStack spacing="3px" wrap="wrap" width="280px" id="disp_hai_area">
@@ -107,6 +129,17 @@ export default function HaiInputForm() {
         </ButtonGroup>
       </Box>
       <Result className="py-3 text-center" result={result} />
+      <ErrorMsg className="py-3" msg={msg} />
+      <Box className="text-center">待ち牌・有効牌</Box>
+      <Box className="flex justify-center py-3">
+        {usefulTile.map(tile=>
+        <Tile
+        tile={tile}
+        onClick={noop}
+        key={tile}/>
+        )
+        }
+      </Box>
     </Provider>
   );
 }
