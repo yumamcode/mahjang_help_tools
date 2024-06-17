@@ -1,7 +1,7 @@
 export default function SubmitButton(props) {
 
   return (
-    <div className='text-center py-10'>
+    <div className='text-center py-3'>
       <button type="button"
       id={props.id}
       className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br

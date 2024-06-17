@@ -8,7 +8,7 @@ const haiArraySupplier = require("../src/haiArraySupplier.js");
 
 const tiles = haiArraySupplier();
 
-const HandInput = ({ hand, setHand }) => {
+const HandInput = ({ hand, setHand ,hasPasteButton}) => {
     const addTile = (tile) => {
         if (hand.length < 14) {
             setHand([...hand, tile]);
@@ -33,9 +33,6 @@ const HandInput = ({ hand, setHand }) => {
         <div>
             <Box className='flex justify-center space-x-2 py-3'>
             <Header title="純手牌入力" className="text-center text-lg"></Header>
-            <Button onClick={pasteHandsfromLocalStorage}>
-                 貼付
-            </Button>
             </Box>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>

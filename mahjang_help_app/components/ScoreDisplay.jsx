@@ -1,12 +1,14 @@
 // components/ScoreDisplay.js
 import React,{useState} from 'react';
-import {Box, VStack} from '@chakra-ui/react';
+import {Box, ButtonGroup, VStack} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
+import MeldInput from './MeldInput';
 const Majiang = require('@kobalab/majiang-core');
 const winds = ['東', '南', '西', '北'];
 
-const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,dispDoras,dispUraDoras, situational }) => {
+const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, 
+  hand,setHand, melds,setMelds,kans,setKans,dispDoras,dispUraDoras, situational }) => {
 
   const [result,setResult] = useState(null);
   const [msg,setMsg] = useState("");
@@ -80,9 +82,38 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, hand, melds, kans,
 
     };
 
+    const copyInputTiles = () =>{
+      localStorage.setItem("handInput",JSON.stringify(hand));
+      localStorage.setItem("meldsInput",JSON.stringify(melds));
+      localStorage.setItem("kansInput",JSON.stringify(kans));
+
+      alert("牌情報をコピーしました。");
+    };
+
+    const pasteInputTiles = () =>{
+
+      const handInputOnLocalStorage = localStorage.getItem("handInput");
+      const meldsInputOnLocalStorage = localStorage.getItem("meldsInput");
+      const kansInputOnLocalStorage = localStorage.getItem("kansInput");
+
+      setHand(JSON.parse(handInputOnLocalStorage));
+      setMelds(JSON.parse(meldsInputOnLocalStorage));
+      setKans(JSON.parse(kansInputOnLocalStorage));
+
+      alert("牌情報を貼り付けました。");
+
+    };
+
     return (
         <div>
-            <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>
+            <Box className='flex justify-center'>
+              <ButtonGroup>
+                <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>
+                <SubmitButton name="牌情報コピー" onClick={copyInputTiles}></SubmitButton>
+                <SubmitButton name="牌情報貼付" onClick={pasteInputTiles}></SubmitButton>
+              </ButtonGroup>
+            </Box>
+            
                   {result && 
                   <Box className='flex justify-center'>
                     <VStack>

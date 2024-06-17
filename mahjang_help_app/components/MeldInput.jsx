@@ -14,30 +14,30 @@ const MeldInput = ({ melds, setMelds }) => {
     const [errMsg,setErrMsg] = useState("");
 
     const addTile = (tile) => {
-        if (meldType === 'chi') {
+        if (meldType === 'チー') {
             if (['1', '2', '3', '4', '5', '6', '7'].includes(tile[1]) && tile[0] !== "z") {
                 const base = parseInt(tile[1]);
                 const suit = tile[0];
                 setSelectedTiles([`${suit}${base}`, `${suit}${base+1}`, `${suit}${base+2}`]);
             }
-        } else if (meldType === 'pon' && selectedTiles.length < 1) {
+        } else if (meldType === 'ポン' && selectedTiles.length < 1) {
             setSelectedTiles(Array(3).fill(tile));
-        } else if (meldType === 'kan' && selectedTiles.length < 1) {
+        } else if (meldType === 'カン' && selectedTiles.length < 1) {
             setSelectedTiles(Array(4).fill(tile));
         }
     };
 
     const confirmMeld = () => {
         let valid = true;
-        if (meldType === 'chi') {
+        if (meldType === 'チー') {
             const chiNumbers = selectedTiles.map(tile => parseInt(tile[1]));
             const isValidChi = chiNumbers[0] !== chiNumbers[1] && chiNumbers[1] * 2 == chiNumbers[0] + chiNumbers[2];
             valid = isValidChi && selectedTiles.length === 3;
-        } else if (meldType === 'pon') {
+        } else if (meldType === 'ポン') {
             const ponNumbers = selectedTiles.map(tile => tile[1]);
             const isValidPon = ponNumbers.every(num => num === ponNumbers[0]);
             valid = isValidPon && selectedTiles.length === 3;
-        } else if (meldType === 'kan') {
+        } else if (meldType === 'カン') {
             const kanNumbers = selectedTiles.map(tile => tile[1]);
             const isValidKan = kanNumbers.every(num => num === kanNumbers[0]);
             valid = isValidKan && selectedTiles.length === 4;
@@ -72,7 +72,7 @@ const MeldInput = ({ melds, setMelds }) => {
                 </HStack>
             </Box>
            
-            <Box className='flex justify-center'>
+            <Box className='flex justify-center py-3'>
                 <HStack>
                     {selectedTiles.map((tile, index) => (
                         <Tile key={index} tile={tile} onClick={() => {setSelectedTiles([])}} />
@@ -86,21 +86,21 @@ const MeldInput = ({ melds, setMelds }) => {
 
             <Box className='flex justify-center py-5'>
                 <ButtonGroup>
-                    <Button bgColor={meldType === "chi" ? 'red' : 'grey'} _hover="" onClick={() => {
+                    <Button bgColor={meldType === "チー" ? 'red' : 'grey'} _hover="" onClick={() => {
                         if(selectedTiles.length < 1){
-                        setMeldType('chi')
+                        setMeldType('チー')
                         }
                     }
                     }>チー</Button>
-                    <Button bgColor={meldType === "pon" ? 'red' : 'grey'} _hover="" onClick={() => {
+                    <Button bgColor={meldType === "ポン" ? 'red' : 'grey'} _hover="" onClick={() => {
                         if(selectedTiles.length < 1){
-                        setMeldType('pon')
+                        setMeldType('ポン')
                         }
                     }
                         }>ポン</Button>
-                    <Button bgColor={meldType === "kan" ? 'red' : 'grey'} _hover="" onClick={() => {
+                    <Button bgColor={meldType === "カン" ? 'red' : 'grey'} _hover="" onClick={() => {
                         if(selectedTiles.length < 1){
-                        setMeldType('kan')
+                        setMeldType('カン')
                         }
                     }
                         }>カン</Button>
@@ -111,7 +111,7 @@ const MeldInput = ({ melds, setMelds }) => {
                 <VStack>
                     {melds.map((meld, index) => (
                         <div key={index}>
-                            <strong>{meld.type.toUpperCase()}:</strong>
+                            <strong>{meld.type}:</strong>
                             <HStack>
                                 {meld.tiles.map((tile, idx) => (
                                     <Tile key={idx} tile={tile} onClick={() => {}} />

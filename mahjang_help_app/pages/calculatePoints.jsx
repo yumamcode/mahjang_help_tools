@@ -5,7 +5,7 @@ import KanInput from '../components/KanInput';
 import SituationalInput from '../components/SituationalInput';
 import {Provider} from '../providers/Provider';
 import ScoreDisplay from '../components/ScoreDisplay';
-import {Box,HStack,Center, ButtonGroup, VStack,Button} from "@chakra-ui/react";
+import {Box,HStack,Center, ButtonGroup, VStack,Button,Link} from "@chakra-ui/react";
 import MahjangHeader from '../components/MahjangHeader';
 import Header from '../components/Header';
 import HolaInput from '../components/HolaInput';
@@ -54,6 +54,12 @@ const Index = () => {
         setShowSituationalInput(false);
         setShowHolaInput(false);
     }
+
+    const copyInputTiles = () =>{
+        localStorage.setItem("handInput",JSON.stringify(hand));
+        localStorage.setItem("meldsInput",JSON.stringify(melds));
+        localStorage.setItem("kansInput",JSON.stringify(kans));
+      };
 
     return (
         <Provider>
@@ -141,9 +147,13 @@ const Index = () => {
 
             {/* <AkaDorasInput></AkaDorasInput> */}
            
-            {showSituationalInput &&  <SituationalInput situational={situational} setSituational={setSituational} />}
+            {showSituationalInput &&  <SituationalInput situational={situational} setSituational={setSituational} melds={melds}/>}
 
-            <ScoreDisplay roundWind={roundWind} seatWind={seatWind} holaTile={holaTile} holaType={holaType} hand={hand} melds={melds} kans={kans} dispDoras={dispDoras} dispUraDoras={dispUraDoras} situational={situational} />
+            <Box className="flex justify-center py-2">
+                <Link href="/shanten" className="font-bold" onClick={copyInputTiles}>シャンテン数計算へ</Link>
+            </Box>
+
+            <ScoreDisplay roundWind={roundWind} seatWind={seatWind} holaTile={holaTile} holaType={holaType} hand={hand} setHand={setHand} melds={melds} setMelds={setMelds} kans={kans} setKans={setKans} dispDoras={dispDoras} dispUraDoras={dispUraDoras} situational={situational} />
         </Provider>
     );
 };

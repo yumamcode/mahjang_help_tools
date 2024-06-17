@@ -2,7 +2,7 @@ import React from 'react';
 import { HStack,VStack ,Box} from '@chakra-ui/react';
 import Header from './Header';
 
-const SituationalInput = ({ situational, setSituational }) => {
+const SituationalInput = ({ melds,situational, setSituational }) => {
     const toggleSituational = (key) => {
         setSituational({ ...situational, [key]: !situational[key] });
     };
@@ -12,6 +12,11 @@ const SituationalInput = ({ situational, setSituational }) => {
             roleName :  'richi'
             ,roleNameJpn :'立直'
             ,checked : situational.richi
+        },
+        {
+            roleName :  'wRichi'
+            ,roleNameJpn :'ダブル立直'
+            ,checked : situational.wRichi
         },
         {
             roleName :  'ippatsu'
@@ -33,11 +38,7 @@ const SituationalInput = ({ situational, setSituational }) => {
             ,roleNameJpn :'ホウテイ'
             ,checked : situational.houtei
         },
-        {
-            roleName :  'wRichi'
-            ,roleNameJpn :'ダブル立直'
-            ,checked : situational.wRichi
-        },
+       
         {
             roleName : 'rinshan'
             ,roleNameJpn : "嶺上開花"
@@ -52,7 +53,10 @@ const SituationalInput = ({ situational, setSituational }) => {
                 {SituationalRoles.map(role=>{
                     return (
                         <label key={role.roleName}>
-                        <input type="checkbox" checked={role.checked} onChange={() => toggleSituational(role.roleName)} />
+                        <input type="checkbox" 
+                        disabled={melds?.length > 0 && (role.roleNameJpn == "立直" || role.roleNameJpn == "ダブル立直")} 
+                        checked={role.checked} 
+                        onChange={() => toggleSituational(role.roleName)} />
                         {role.roleNameJpn}
                     </label>
                     )
