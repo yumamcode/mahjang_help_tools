@@ -144,6 +144,9 @@ export default function HaiInputForm({}) {
       <Result className="py-3 text-center" result={result} />
       <ErrorMsg className="py-3" msg={msg} />
       <Box className="text-center">待ち牌・有効牌</Box>
+      <Box className='py-1 text-red-400 font-bold'>
+        待ち牌・有効牌はシャンテン数が2以下のとき表示されます。
+      </Box>
       <Box className="flex justify-center py-3">
         {usefulTile.map(tile=>
         <Tile

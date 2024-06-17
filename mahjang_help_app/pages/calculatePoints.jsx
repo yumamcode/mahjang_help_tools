@@ -12,6 +12,7 @@ import HolaInput from '../components/HolaInput';
 import WindInput from '../components/WindInput';
 import DispDorasInput from '../components/DispDorasInput';
 import DispUraDorasInput from '../components/DispUraDorasInput';
+import AkaDorasInput from '../components/AkaDorasInput';
 
 
 const Index = () => {
@@ -58,66 +59,69 @@ const Index = () => {
         <Provider>
             <MahjangHeader></MahjangHeader>
             <Header title="点数計算" className="text-center text-xl py-3"></Header>
-            <Box className='space-x-1 space-y-1 text-center'>
-                        <Button bgColor={showWindInput? 'red' : 'grey'} _hover=""
-                        onClick={() => {
-                            hideAllInput();
-                            setShowWindInput(!showWindInput);
-                            }
-                        }>
-                            自風・場風入力 {showWindInput ? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showHolaInput? 'red' : 'grey'} _hover=""
-                         onClick={() => {
-                            hideAllInput();
-                            setShowHolaInput(!showHolaInput);
-                        }
-                            }>
-                            上がり情報入力 {showHolaInput ? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showHandInput? 'red' : 'grey'} _hover="" 
-                         onClick={() => {
-                            hideAllInput();
-                            setShowHandInput(!showHandInput)}
-                            }>
-                            純手牌入力 {showHandInput ? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showMeldInput? 'red' : 'grey'} _hover=""
-                         onClick={() => {
-                            hideAllInput();
-                            setShowMeldInput(!showMeldInput);
-                            }
-                            }>
-                            副露入力 {showMeldInput ? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showKanInput? 'red' : 'grey'} _hover=""
-                         onClick={() => {
-                            hideAllInput();
-                            setShowKanInput(!showKanInput);
-                            }}>
-                            暗槓入力 {showKanInput ? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showDispDorasInput? 'red' : 'grey'} _hover=""
-                         onClick={() => {
-                            hideAllInput();
-                            setShowDispDorasInput(!showDispDorasInput);
-                            }}>
-                            ドラ表示牌入力 {showDispDorasInput? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showDispUraDorasInput? 'red' : 'grey'} _hover=""
-                         onClick={() => {
-                            hideAllInput();
-                            setShowDispUraDorasInput(!showDispUraDorasInput);
-                            }}>
-                            裏ドラ表示牌入力 {showDispUraDorasInput? "▲" : "▼"}
-                        </Button>
-                        <Button bgColor={showSituationalInput? 'red' : 'grey'} _hover="" 
-                        onClick={() => {
-                            hideAllInput();
-                            setShowSituationalInput(!showSituationalInput)
-                            }}>
-                            状況役入力 {showSituationalInput ? "▲" : "▼"}
-                        </Button>
+            <Box className='text-center'>
+                <ButtonGroup className='flex-wrap space-y-2 w-5/6'>
+                <Button style={{display:"none"}}></Button>
+                <Button bgColor={showWindInput? 'red' : 'grey'} _hover=""
+                onClick={() => {
+                    hideAllInput();
+                    setShowWindInput(!showWindInput);
+                    }
+                }>
+                    自風・場風入力 {showWindInput ? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showHolaInput? 'red' : 'grey'} _hover=""
+                    onClick={() => {
+                    hideAllInput();
+                    setShowHolaInput(!showHolaInput);
+                }
+                    }>
+                    上がり情報入力 {showHolaInput ? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showHandInput? 'red' : 'grey'} _hover="" 
+                    onClick={() => {
+                    hideAllInput();
+                    setShowHandInput(!showHandInput)}
+                    }>
+                    純手牌入力 {showHandInput ? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showMeldInput? 'red' : 'grey'} _hover=""
+                    onClick={() => {
+                    hideAllInput();
+                    setShowMeldInput(!showMeldInput);
+                    }
+                    }>
+                    副露入力 {showMeldInput ? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showKanInput? 'red' : 'grey'} _hover=""
+                    onClick={() => {
+                    hideAllInput();
+                    setShowKanInput(!showKanInput);
+                    }}>
+                    暗槓入力 {showKanInput ? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showDispDorasInput? 'red' : 'grey'} _hover=""
+                    onClick={() => {
+                    hideAllInput();
+                    setShowDispDorasInput(!showDispDorasInput);
+                    }}>
+                    ドラ表示牌入力 {showDispDorasInput? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showDispUraDorasInput? 'red' : 'grey'} _hover=""
+                    onClick={() => {
+                    hideAllInput();
+                    setShowDispUraDorasInput(!showDispUraDorasInput);
+                    }}>
+                    裏ドラ表示牌入力 {showDispUraDorasInput? "▲" : "▼"}
+                </Button>
+                <Button bgColor={showSituationalInput? 'red' : 'grey'} _hover="" 
+                onClick={() => {
+                    hideAllInput();
+                    setShowSituationalInput(!showSituationalInput)
+                    }}>
+                    状況役入力 {showSituationalInput ? "▲" : "▼"}
+                </Button>
+                </ButtonGroup>
             </Box>
 
             {showWindInput && <WindInput roundWind={roundWind} setRoundWind={setRoundWind } seatWind={seatWind} setSeatWind={setSeatWind}></WindInput>}
@@ -134,6 +138,8 @@ const Index = () => {
             {showDispDorasInput && <DispDorasInput dispDoras={dispDoras} setDispDoras={setDispDoras} />}
 
             {showDispUraDorasInput && <DispUraDorasInput dispUraDoras={dispUraDoras} setDispUraDoras={setDispUraDoras} />}
+
+            {/* <AkaDorasInput></AkaDorasInput> */}
            
             {showSituationalInput &&  <SituationalInput situational={situational} setSituational={setSituational} />}
 
