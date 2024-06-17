@@ -1,7 +1,7 @@
 import React from 'react';
 import Tile from './Tile';
 import Header from './Header.jsx';
-import { HStack,Box } from '@chakra-ui/react';
+import { HStack,Box,Button } from '@chakra-ui/react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
@@ -19,9 +19,24 @@ const HandInput = ({ hand, setHand }) => {
         setHand(hand.filter((_, i) => i !== index));
     }
 
+    const haiConverterTextToArray = require('../src/haiConverterTextToArray.js');
+
+    const pasteHandsfromLocalStorage = () => {
+        const handInputOnLocalStorage = localStorage.getItem("handInput");
+        if(!handInputOnLocalStorage){
+            return;
+        }
+        setHand(haiConverterTextToArray(handInputOnLocalStorage));
+    };
+
     return (
         <div>
-            <Header title="純手牌入力" className="text-center text-lg py-3"></Header>
+            <Box className='flex justify-center space-x-2 py-3'>
+            <Header title="純手牌入力" className="text-center text-lg"></Header>
+            <Button onClick={pasteHandsfromLocalStorage}>
+                 貼付
+            </Button>
+            </Box>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'>
                     {tiles.map((tile,index) => (

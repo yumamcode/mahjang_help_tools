@@ -1,7 +1,7 @@
 import styles from "@/components/HaiInputForm.module.css";
 import React, { createContext, useState } from "react";
 import { Provider } from "@/providers/Provider.jsx";
-import { Center, HStack, Box, Image, ButtonGroup,Button } from "@chakra-ui/react";
+import { Center, HStack, Box, Image, ButtonGroup,Button,Link } from "@chakra-ui/react";
 import SubmitButton from "@/components/SubmitButton.jsx";
 import ErrorMsg from "@/components/ErrorMsg.jsx";
 import Result from "@/components/Result.jsx";
@@ -113,9 +113,17 @@ export default function HaiInputForm({}) {
 
   const noop = () => {};
 
+  const saveHandsOnLocalStorage = () =>{
+    localStorage.setItem("handInput",haiInputState);
+  }
+
   return (
     <Provider>
-      <haiInputContext.Provider value={haiInputState}></haiInputContext.Provider>
+      <Center className="py-2">
+        <Link href="/calculatePoints" className="font-semibold" onClick={saveHandsOnLocalStorage}>
+          点数計算ページへ
+        </Link>
+      </Center>
       <Center>
         <HStack spacing="10px" wrap="wrap" width="280px">
           {renderHaiImages()}
