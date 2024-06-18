@@ -68,49 +68,49 @@ const Index = () => {
         {
             boolean_show : showWindInput,
             setter:setShowWindInput,
-            name:"場風・自風入力"
+            name:"場風・自風"
         }
         ,
         {
             boolean_show:showHolaInput,
             setter:setShowHolaInput,
-            name:"上がり情報入力"
+            name:"上がり牌"
 
         },
         {
             boolean_show : showHandInput,
             setter : setShowHandInput,
-            name:"純手牌入力"
+            name:"純手牌"
         },
         {
           boolean_show:showMeldInput,
           setter:setShowMeldInput,
-          name:"副露入力"
+          name:"副露"
         },
         {
           boolean_show:showKanInput,
           setter:setShowKanInput,
-          name:"暗槓入力"
+          name:"暗槓"
         },
         {
             boolean_show:showDispDorasInput,
             setter:setShowDispDorasInput,
-            name:"ドラ表示牌入力"
+            name:"ドラ表示牌"
         },
         {
             boolean_show:showDispUraDorasInput,
             setter:setShowDispUraDorasInput,
-            name:"裏ドラ表示牌入力"
+            name:"裏ドラ表示牌"
         },
-        {
-            boolean_show:showAkaDorasInput,
-            setter:setShowAkaDorasInput,
-            name:"赤ドラ枚数入力"
-        },
+        // {
+        //     boolean_show:showAkaDorasInput,
+        //     setter:setShowAkaDorasInput,
+        //     name:"赤ドラ枚数"
+        // },
         {
             boolean_show:showSituationalInput,
             setter:setShowSituationalInput,
-            name:"状況役入力"
+            name:"状況役"
         }
       ];
 
@@ -126,6 +126,7 @@ const Index = () => {
                     btn => (
                     <Button
                     key={btn.name} 
+                    width="150px"
                     bgColor={btn.boolean_show ? 'red' : 'grey'}
                     _hover=""
                     onClick={()=>{

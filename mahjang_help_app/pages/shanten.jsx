@@ -36,17 +36,17 @@ export default function Home() {
   {
       boolean_show : showHandInput,
       setter : setShowHandInput,
-      name:"純手牌入力"
+      name:"純手牌"
   },
   {
     boolean_show:showMeldInput,
     setter:setShowMeldInput,
-    name:"副露入力"
+    name:"副露"
   },
   {
     boolean_show:showKanInput,
     setter:setShowKanInput,
-    name:"暗槓入力"
+    name:"暗槓"
   }
 ];
 
@@ -63,6 +63,7 @@ export default function Home() {
             btn => (
               <Button
               key={btn.name} 
+              width="150px"
               bgColor={btn.boolean_show ? 'red' : 'grey'}
               _hover=""
               onClick={()=>{

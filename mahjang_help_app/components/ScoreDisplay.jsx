@@ -25,26 +25,33 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
             const kanTiles = kans.flatMap(kan => kan[0][0] + kan.join('').replace(/[a-zA-Z]/g,"")).join(',');
 
             let allTiles = handTiles;
-            if(meldTiles != []){
-              allTiles += `,${meldTiles}`
-            }
             if(kanTiles != []){
               allTiles += `,${kanTiles}`;
             }
+            if(meldTiles != []){
+              allTiles += `,${meldTiles}`
+            }
 
-            let i = akaDoras;
+            // let i = akaDoras;
 
-            allTiles = allTiles.replace(/5/g,()=>{
+            // console.log(i);
 
-              if(i > 0){
-                i--;
-                return '0';
-              }
+            // console.log(allTiles);
 
-              return '0';
+            // allTiles = allTiles.replace(/([^z])5+(, | $)/g,(m,p)=>{
 
-            });
+            //   console.log(p);
 
+            //   if(i > 0){
+            //     i--;
+            //     return '0';
+            //   }
+
+            //   return '5';
+
+            // });
+
+            // console.log(allTiles);
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
@@ -100,6 +107,7 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
             return result;
         } catch (error) {
             setMsg('点数を計算するためのデータが不足しています。');
+            setResult(null);
             return null;
         }
 
