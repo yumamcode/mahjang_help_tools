@@ -4,11 +4,12 @@ import {Box, ButtonGroup, VStack} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
 import MeldInput from './MeldInput';
+import { type } from 'os';
 const Majiang = require('@kobalab/majiang-core');
 const winds = ['東', '南', '西', '北'];
 
 const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType, 
-  hand,setHand, melds,setMelds,kans,setKans,dispDoras,dispUraDoras, situational }) => {
+  hand,setHand, melds,setMelds,kans,setKans,dispDoras,dispUraDoras,akaDoras, situational }) => {
 
   const [result,setResult] = useState(null);
   const [msg,setMsg] = useState("");
@@ -31,13 +32,35 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
               allTiles += `,${kanTiles}`;
             }
 
+            let i = akaDoras;
+
+            allTiles = allTiles.replace(/5/g,()=>{
+
+              if(i > 0){
+                i--;
+                return '0';
+              }
+
+              return '0';
+
+            });
+
+
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
+
+            const rule = Majiang.rule();
+
+            rule.赤牌 = {
+              m:3,
+              p:3,
+              s:3
+            }
 
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
               , holaType === "ツモ" ? null : holaTile + "-"
               ,{
-                rule:Majiang.rule(),
+                rule:rule,
                 zhuangfeng:
                 roundWind === '東' ? 0
                 : roundWind === '南' ? 1
@@ -122,7 +145,7 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
                       <p>点数: {result.defen}</p>
                       <Box className='flex flex-col'>
                       <p>役 : </p>
-                        {result.hupai?.map(yaku => <span key={yaku}>{yaku.name} {yaku.fanshu}翻 </span> )}
+                        {result.hupai?.map(yaku => <span key={yaku.name}>{yaku.name} {yaku.fanshu}翻 </span> )}
                       </Box>
                     </VStack>
                   </Box>

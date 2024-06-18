@@ -35,12 +35,14 @@ const Index = () => {
         houtei: false,
         wRichi: false,
     });
+    const [akaDoras,setAkaDoras] = useState(0);
     const [showWindInput,setShowWindInput] = useState(false);
     const [showHandInput, setShowHandInput] = useState(false);
     const [showMeldInput, setShowMeldInput] = useState(false);
     const [showKanInput, setShowKanInput] = useState(false);
     const [showDispDorasInput,setShowDispDorasInput] = useState(false);
     const [showDispUraDorasInput,setShowDispUraDorasInput] = useState(false);
+    const [showAkaDorasInput,setShowAkaDorasInput] = useState(false);
     const [showSituationalInput, setShowSituationalInput] = useState(false);
     const [showHolaInput, setShowHolaInput] = useState(false);
 
@@ -53,6 +55,7 @@ const Index = () => {
         setShowDispUraDorasInput(false);
         setShowSituationalInput(false);
         setShowHolaInput(false);
+        setShowAkaDorasInput(false);
     }
 
     const copyInputTiles = () =>{
@@ -61,6 +64,56 @@ const Index = () => {
         localStorage.setItem("kansInput",JSON.stringify(kans));
       };
 
+      const TOGGLE_SHOW_BUTTONS = [
+        {
+            boolean_show : showWindInput,
+            setter:setShowWindInput,
+            name:"場風・自風入力"
+        }
+        ,
+        {
+            boolean_show:showHolaInput,
+            setter:setShowHolaInput,
+            name:"上がり情報入力"
+
+        },
+        {
+            boolean_show : showHandInput,
+            setter : setShowHandInput,
+            name:"純手牌入力"
+        },
+        {
+          boolean_show:showMeldInput,
+          setter:setShowMeldInput,
+          name:"副露入力"
+        },
+        {
+          boolean_show:showKanInput,
+          setter:setShowKanInput,
+          name:"暗槓入力"
+        },
+        {
+            boolean_show:showDispDorasInput,
+            setter:setShowDispDorasInput,
+            name:"ドラ表示牌入力"
+        },
+        {
+            boolean_show:showDispUraDorasInput,
+            setter:setShowDispUraDorasInput,
+            name:"裏ドラ表示牌入力"
+        },
+        {
+            boolean_show:showAkaDorasInput,
+            setter:setShowAkaDorasInput,
+            name:"赤ドラ枚数入力"
+        },
+        {
+            boolean_show:showSituationalInput,
+            setter:setShowSituationalInput,
+            name:"状況役入力"
+        }
+      ];
+
     return (
         <Provider>
             <MahjangHeader></MahjangHeader>
@@ -68,65 +121,22 @@ const Index = () => {
             <Box className='text-center'>
                 <ButtonGroup className='flex-wrap space-y-2 w-5/6'>
                 <Button style={{display:"none"}}></Button>
-                <Button bgColor={showWindInput? 'red' : 'grey'} _hover=""
-                onClick={() => {
-                    hideAllInput();
-                    setShowWindInput(!showWindInput);
-                    }
-                }>
-                    自風・場風入力 {showWindInput ? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showHolaInput? 'red' : 'grey'} _hover=""
-                    onClick={() => {
-                    hideAllInput();
-                    setShowHolaInput(!showHolaInput);
+                {
+                TOGGLE_SHOW_BUTTONS.map(
+                    btn => (
+                    <Button
+                    key={btn.name} 
+                    bgColor={btn.boolean_show ? 'red' : 'grey'}
+                    _hover=""
+                    onClick={()=>{
+                        hideAllInput();
+                        btn.setter(!btn.boolean_show);
+                    }}>
+                        {btn.name} {btn.boolean_show ? "▲" : "▼"}
+                    </Button>
+                    )
+                )
                 }
-                    }>
-                    上がり情報入力 {showHolaInput ? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showHandInput? 'red' : 'grey'} _hover="" 
-                    onClick={() => {
-                    hideAllInput();
-                    setShowHandInput(!showHandInput)}
-                    }>
-                    純手牌入力 {showHandInput ? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showMeldInput? 'red' : 'grey'} _hover=""
-                    onClick={() => {
-                    hideAllInput();
-                    setShowMeldInput(!showMeldInput);
-                    }
-                    }>
-                    副露入力 {showMeldInput ? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showKanInput? 'red' : 'grey'} _hover=""
-                    onClick={() => {
-                    hideAllInput();
-                    setShowKanInput(!showKanInput);
-                    }}>
-                    暗槓入力 {showKanInput ? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showDispDorasInput? 'red' : 'grey'} _hover=""
-                    onClick={() => {
-                    hideAllInput();
-                    setShowDispDorasInput(!showDispDorasInput);
-                    }}>
-                    ドラ表示牌入力 {showDispDorasInput? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showDispUraDorasInput? 'red' : 'grey'} _hover=""
-                    onClick={() => {
-                    hideAllInput();
-                    setShowDispUraDorasInput(!showDispUraDorasInput);
-                    }}>
-                    裏ドラ表示牌入力 {showDispUraDorasInput? "▲" : "▼"}
-                </Button>
-                <Button bgColor={showSituationalInput? 'red' : 'grey'} _hover="" 
-                onClick={() => {
-                    hideAllInput();
-                    setShowSituationalInput(!showSituationalInput)
-                    }}>
-                    状況役入力 {showSituationalInput ? "▲" : "▼"}
-                </Button>
                 </ButtonGroup>
             </Box>
 
@@ -145,7 +155,7 @@ const Index = () => {
 
             {showDispUraDorasInput && <DispUraDorasInput dispUraDoras={dispUraDoras} setDispUraDoras={setDispUraDoras} />}
 
-            {/* <AkaDorasInput></AkaDorasInput> */}
+            {showAkaDorasInput && <AkaDorasInput akaDoras={akaDoras} setAkaDoras={setAkaDoras}></AkaDorasInput>}
            
             {showSituationalInput &&  <SituationalInput situational={situational} setSituational={setSituational} melds={melds}/>}
 
@@ -153,7 +163,8 @@ const Index = () => {
                 <Link href="/shanten" className="font-bold" onClick={copyInputTiles}>シャンテン数計算へ</Link>
             </Box>
 
-            <ScoreDisplay roundWind={roundWind} seatWind={seatWind} holaTile={holaTile} holaType={holaType} hand={hand} setHand={setHand} melds={melds} setMelds={setMelds} kans={kans} setKans={setKans} dispDoras={dispDoras} dispUraDoras={dispUraDoras} situational={situational} />
+            <ScoreDisplay roundWind={roundWind} seatWind={seatWind} holaTile={holaTile} holaType={holaType} hand={hand} setHand={setHand} melds={melds} setMelds={setMelds} kans={kans} setKans={setKans} dispDoras={dispDoras} dispUraDoras={dispUraDoras} 
+            akaDoras={akaDoras} situational={situational} />
         </Provider>
     );
 };
