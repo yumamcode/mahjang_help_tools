@@ -102,11 +102,11 @@ const Index = () => {
             setter:setShowDispUraDorasInput,
             name:"裏ドラ表示牌"
         },
-        // {
-        //     boolean_show:showAkaDorasInput,
-        //     setter:setShowAkaDorasInput,
-        //     name:"赤ドラ枚数"
-        // },
+        {
+            boolean_show:showAkaDorasInput,
+            setter:setShowAkaDorasInput,
+            name:"赤ドラ枚数"
+        },
         {
             boolean_show:showSituationalInput,
             setter:setShowSituationalInput,

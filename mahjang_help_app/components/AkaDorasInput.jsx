@@ -1,4 +1,4 @@
-import { Box, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from "@chakra-ui/react";
+import { Box, Input ,NumberInput,NumberInputField,NumberInputStepper,NumberIncrementStepper,NumberDecrementStepper} from "@chakra-ui/react";
 
 const AkaDorasInput = ({akaDoras,setAkaDoras}) =>{
   return (
@@ -6,9 +6,13 @@ const AkaDorasInput = ({akaDoras,setAkaDoras}) =>{
       <Box className="flex justify-center py-3">
         赤ドラ枚数入力
       </Box>
-      <Box className="flex justify-center w-2/3 h-10 mx-auto rounded-lg bg-lime-500">
-        <input type="number" className="w-10" max="3" onChange={(e)=>setAkaDoras(e.currentTarget.value)}/>
-      </Box>
+      <NumberInput className="mx-auto w-20" defaultValue={0} min={0} max={3} onChange={(v)=>setAkaDoras(v)}>
+        <NumberInputField />
+        <NumberInputStepper>
+          <NumberIncrementStepper />
+          <NumberDecrementStepper />
+        </NumberInputStepper>
+      </NumberInput>
     </>
   )
 };

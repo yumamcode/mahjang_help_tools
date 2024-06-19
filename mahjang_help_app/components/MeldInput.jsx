@@ -64,6 +64,9 @@ const MeldInput = ({ melds, setMelds }) => {
     return (
         <div>
             <Header title="副露入力" className="text-center text-lg py-3"></Header>
+            <Box className='text-center text-red-400 font-bold'>
+                ※確定を押すまで副露に反映されません。
+            </Box>
             <Box className='flex justify-center'>
                 <HStack wrap="wrap" className='w-5/6'> 
                     {tiles.map((tile,index) => (
@@ -80,11 +83,11 @@ const MeldInput = ({ melds, setMelds }) => {
                 </HStack>
             </Box>
 
-            <Box className='py-3'>
+            <Box className='py-1'>
                 <ErrorMsg msg={errMsg}></ErrorMsg>
             </Box>
 
-            <Box className='flex justify-center py-5'>
+            <Box className='flex justify-center py-2'>
                 <ButtonGroup>
                     <Button bgColor={meldType === "チー" ? 'red' : 'grey'} _hover="" onClick={() => {
                         if(selectedTiles.length < 1){

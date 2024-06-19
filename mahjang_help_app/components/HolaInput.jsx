@@ -36,7 +36,7 @@ const HolaInput = ({ holaTile,setHolaTile,holaType,setHolaType }) => {
                     ))}
                 </HStack>
             </Box>
-            <Box className='flex justify-center py-5'>
+            <Box className='flex justify-center py-1'>
               {
                 holaTile && <Tile tile={holaTile} onClick={deleteTile} />
               }

@@ -16,42 +16,53 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
 
     const calculateScore = () => {
         try {
+            let i = akaDoras;
             let handTiles = hand.join('');
             if(holaType === "ツモ"){
               handTiles += holaTile;
             }
 
-            const meldTiles = melds.flatMap(meld => meld.tiles[0][0] + meld.tiles.join('').replace(/[a-zA-Z]/g,"") + "-").join(',');
-            const kanTiles = kans.flatMap(kan => kan[0][0] + kan.join('').replace(/[a-zA-Z]/g,"")).join(',');
+            handTiles = handTiles.replace(/([msp])5/g,(m,p)=>{
+              if(i > 0){
+                i--;
+                return p + '0';
+              }
+
+              return p + '5';
+            });
+
+            let meldTiles = melds.flatMap(meld => meld.tiles[0][0] + meld.tiles.join('').replace(/[a-zA-Z]/g,"") + "-").join(',');
+
+            const replaceToAkaDora = (tilesStr,numOfReplace) => {
+              return tilesStr.split(',').map(tiles => {
+                if(tiles.startsWith('z')){
+                  return tiles;
+                }else{
+                  return tiles.replace(/5/g,()=>{
+                    if(numOfReplace > 0){
+                      numOfReplace--;
+                      return '0';
+                    }
+
+                    return '5';
+                  });
+                }
+              }).join(',');
+            };
+
+            meldTiles = replaceToAkaDora(meldTiles,i);
+
+            let kanTiles = kans.flatMap(kan => kan[0][0] + kan.join('').replace(/[a-zA-Z]/g,"")).join(',');
+
+            kanTiles = replaceToAkaDora(kanTiles,i);
 
             let allTiles = handTiles;
-            if(kanTiles != []){
-              allTiles += `,${kanTiles}`;
-            }
             if(meldTiles != []){
               allTiles += `,${meldTiles}`
             }
-
-            // let i = akaDoras;
-
-            // console.log(i);
-
-            // console.log(allTiles);
-
-            // allTiles = allTiles.replace(/([^z])5+(, | $)/g,(m,p)=>{
-
-            //   console.log(p);
-
-            //   if(i > 0){
-            //     i--;
-            //     return '0';
-            //   }
-
-            //   return '5';
-
-            // });
-
-            // console.log(allTiles);
+            if(kanTiles != []){
+              allTiles += `,${kanTiles}`;
+            }
 
             const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
 
