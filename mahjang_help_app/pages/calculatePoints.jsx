@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import HandInput from '../components/HandInput';
 import MeldInput from '../components/MeldInput';
 import KanInput from '../components/KanInput';
