@@ -8,7 +8,7 @@ import { HStack ,Box,Button, ButtonGroup, VStack} from '@chakra-ui/react';
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
 const tiles = haiArraySupplier();
-const MeldInput = ({ melds, setMelds }) => {
+const MeldInput = ({ melds, setMelds ,kans}) => {
     const [meldType, setMeldType] = useState(null);
     const [errMsg,setErrMsg] = useState("");
 
@@ -16,8 +16,21 @@ const MeldInput = ({ melds, setMelds }) => {
 
         let meldTiles;
 
+        const NumOfmeldsAndKans = melds?.length + kans?.length;
+
+        if(NumOfmeldsAndKans >= 4){
+            setErrMsg("これ以上副露出来ません。");
+            return false;
+        }
+
         if (meldType === 'チー') {
-            if (['1', '2', '3', '4', '5', '6', '7'].includes(tile[1]) && tile[0] !== "z") {
+
+            if(tile[0] == 'z'){
+                setErrMsg("字牌はチー出来ません。");
+                return false;
+            }
+
+            if (['1', '2', '3', '4', '5', '6', '7'].includes(tile[1]) && tile[0] !== 'z') {
                 const base = parseInt(tile[1]);
                 const suit = tile[0];
                 meldTiles = [`${suit}${base}`, `${suit}${base+1}`, `${suit}${base+2}`];

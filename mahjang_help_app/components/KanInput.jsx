@@ -2,16 +2,24 @@ import React from 'react';
 import Tile from './Tile';
 import { Box,HStack,VStack } from '@chakra-ui/react';
 import Header from './Header.jsx';
+import ErrorMsg from './ErrorMsg';
+import { useState } from 'react';
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
 const tiles = haiArraySupplier();
 
-const KanInput = ({ kans, setKans }) => {
+const KanInput = ({ kans, setKans,melds }) => {
+    const [msg,setMsg] = useState("");
+
     const addKan = (tile) => {
-        if (kans.length < 4) {
-            setKans([...kans, [tile, tile, tile, tile]]);
+        const NumOfMeldsAndKans = melds?.length + kans?.length;
+        if (NumOfMeldsAndKans >= 4) {
+            setMsg("これ以上暗槓出来ません。");
+            return false;
         }
+        setKans([...kans, [tile, tile, tile, tile]]);
+        
     };
 
     const deleteKan = (index) => {
@@ -28,6 +36,7 @@ const KanInput = ({ kans, setKans }) => {
                     ))}
                 </HStack>
             </Box>
+            <ErrorMsg msg={msg}></ErrorMsg>
             <Box className='flex justify-center py-5'>
                 <VStack>
                 {kans.map((kan,index) => (

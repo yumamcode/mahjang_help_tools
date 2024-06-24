@@ -174,36 +174,39 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
                     牌姿
                   </Center>
                   <HStack className='py-2'>
-                    <HStack spacing="0px">
-                      {hand.map((tile, index) => (
-                          <Tile key={index} tile={tile} onClick={()=>{}} />
-                      ))}
-                    </HStack>
-                    <HStack>
+                    <HStack className='flex-wrap justify-center space-x-3'>
+                      <HStack spacing="0px">
+                        {hand.map((tile, index) => (
+                            <Tile key={index} tile={tile} onClick={()=>{}} />
+                        ))}
+                      </HStack>
                       {melds.map((meld, index) => (
                         <HStack key={index} ml="10px" spacing="0px">
-                            {meld.tiles.map((tile, idx) => (
-                                <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
+                          {meld.tiles.map((tile, idx) => (
+                            <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
                             ))}
                         </HStack>
-                      ))}
+                        ))}
                     </HStack>
-                    <HStack>
-                    {kans.map((kan,index) => (
-                      <HStack key={index} spacing="0px">
-                      {kan.map((tile, idx) => {
+                  </HStack>
+                  <Center>
+                    暗槓
+                  </Center>
+                  <HStack className='flex-wrap justify-center space-x-3'>
+                  {kans.map((kan,index) => (
+                    <HStack key={index} spacing="0px">
+                    {kan.map((tile, idx) => {
                         if(idx == 0 || idx == 3){
                           tile = 'turnoverdTile';
                         }
-                        return <Tile key={idx} tile={tile} onClick={() => {}} />
+                      return <Tile key={idx} tile={tile} onClick={() => {}} />
+                    }
+                      )
                       }
-                       )
-                      }
-                      </HStack>
+                    </HStack>
                         )
                       )
-                    }
-                    </HStack>
+                  }
                   </HStack>
                 </Box>
                 <Box>

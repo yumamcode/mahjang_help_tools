@@ -1,6 +1,6 @@
 // components/ScoreDisplay.js
 import React,{useState} from 'react';
-import {Box, ButtonGroup, HStack,VStack} from '@chakra-ui/react';
+import {Box, ButtonGroup, HStack,VStack,Center} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
 import Tile from './Tile';
@@ -76,35 +76,48 @@ const ShantenDisplay = ({ hand,setHand, melds,setMelds, kans,setKans }) => {
               <SubmitButton name="牌情報貼付" onClick={pasteInputTiles}></SubmitButton>
             </ButtonGroup>
           </Box>
-          <Box className='h-24 bg-green-400'>
+          <Box className='bg-green-400'>
             <VStack>
               <Box>入力一覧</Box>
               <Box>
-               <HStack>
-                <HStack spacing="0px">
-                {hand.map((tile, index) => (
-                <Tile key={index} tile={tile} onClick={()=>{}} />
-                ))}
-                </HStack>
-                {melds.map((meld, index) => (
-                  <HStack key={index} ml="10px" spacing="0px">
-                  {meld.tiles.map((tile, idx) => (
-                   <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
+                <Center>
+                  牌姿
+                </Center>
+                <HStack className='py-2'>
+                  <HStack className='flex-wrap justify-center space-x-3'>
+                    <HStack spacing="0px">
+                      {hand.map((tile, index) => (
+                          <Tile key={index} tile={tile} onClick={()=>{}} />
+                      ))}
+                    </HStack>
+                    {melds.map((meld, index) => (
+                      <HStack key={index} ml="10px" spacing="0px">
+                        {meld.tiles.map((tile, idx) => (
+                          <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
                           ))}
+                      </HStack>
+                      ))}
                   </HStack>
-                    ))}
+                </HStack>
+                <Center>
+                  暗槓
+                </Center>
+                <HStack className='flex-wrap justify-center space-x-3'>
                 {kans.map((kan,index) => (
-                 <HStack key={index} spacing="0px">
-                 {kan.map((tile, idx) => {
-                    if(idx == 0 || idx == 3){
-                      tile = 'turnoverdTile';
-                    }
+                  <HStack key={index} spacing="0px">
+                  {kan.map((tile, idx) => {
+                      if(idx == 0 || idx == 3){
+                        tile = 'turnoverdTile';
+                      }
                     return <Tile key={idx} tile={tile} onClick={() => {}} />
-                 }
-                 )}
-                 </HStack>
-                ))}
-               </HStack>
+                  }
+                    )
+                    }
+                  </HStack>
+                      )
+                    )
+                }
+                </HStack>
               </Box>
             </VStack>
           </Box>
@@ -113,7 +126,8 @@ const ShantenDisplay = ({ hand,setHand, melds,setMelds, kans,setKans }) => {
           </Box>
           <Box className='flex justify-center'>
             <label>シャンテン数:</label>
-            {shantenResult}
+            {shantenResult != -1 && shantenResult != 0 && shantenResult}
+            {shantenResult == -1 ? "上がり形" : shantenResult == 0 ? "テンパイ" : ""}
           </Box>
           <Box className='flex justify-center py-3'>
             <label>待ち・有効牌</label>

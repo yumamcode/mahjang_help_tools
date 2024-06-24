@@ -133,9 +133,9 @@ const Index = () => {
 
             {showHandInput && <HandInput hand={hand} setHand={setHand} /> }
             
-            {showMeldInput && <MeldInput melds={melds} setMelds={setMelds} />}
+            {showMeldInput && <MeldInput melds={melds} setMelds={setMelds} kans={kans}/>}
 
-            {showKanInput && <KanInput kans={kans} setKans={setKans} />}
+            {showKanInput && <KanInput kans={kans} setKans={setKans} melds={melds}/>}
 
             {showDispDorasInput && <DispDorasInput dispDoras={dispDoras} setDispDoras={setDispDoras} />}
 
