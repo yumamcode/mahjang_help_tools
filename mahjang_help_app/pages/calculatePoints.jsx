@@ -18,7 +18,6 @@ import AkaDorasInput from '../components/AkaDorasInput';
 const Index = () => {
     const [roundWind,setRoundWind] = useState("東");
     const [seatWind,setSeatWind] = useState("北");
-    // const [hola,setHola] = useState({});
     const [holaTile,setHolaTile] = useState("");
     const [holaType,setHolaType] = useState("");
     const [hand, setHand] = useState([]);
@@ -26,15 +25,7 @@ const Index = () => {
     const [kans, setKans] = useState([]);
     const [dispDoras,setDispDoras] = useState([]);
     const [dispUraDoras,setDispUraDoras] = useState([]);
-    const [situational, setSituational] = useState({
-        richi: false,
-        ippatsu: false,
-        rinshan: false,
-        chankan: false,
-        haitei: false,
-        houtei: false,
-        wRichi: false,
-    });
+    const [situational, setSituational] = useState([]);
     const [akaDoras,setAkaDoras] = useState(0);
     const [showWindInput,setShowWindInput] = useState(false);
     const [showHandInput, setShowHandInput] = useState(false);
@@ -57,12 +48,6 @@ const Index = () => {
         setShowHolaInput(false);
         setShowAkaDorasInput(false);
     }
-
-    const copyInputTiles = () =>{
-        localStorage.setItem("handInput",JSON.stringify(hand));
-        localStorage.setItem("meldsInput",JSON.stringify(melds));
-        localStorage.setItem("kansInput",JSON.stringify(kans));
-      };
 
       const TOGGLE_SHOW_BUTTONS = [
         {
@@ -141,7 +126,7 @@ const Index = () => {
                 </ButtonGroup>
             </Box>
 
-            {showWindInput && <WindInput roundWind={roundWind} setRoundWind={setRoundWind } seatWind={seatWind} setSeatWind={setSeatWind}></WindInput>}
+            {showWindInput && <WindInput roundWind={roundWind} setRoundWind={setRoundWind} seatWind={seatWind} setSeatWind={setSeatWind}></WindInput>}
 
             {showHolaInput && <HolaInput holaTile={holaTile} setHolaTile={setHolaTile}
             holaType={holaType} setHolaType={setHolaType}></HolaInput>}
@@ -161,7 +146,7 @@ const Index = () => {
             {showSituationalInput &&  <SituationalInput situational={situational} setSituational={setSituational} melds={melds}/>}
 
             <Box className="flex justify-center py-2">
-                <Link href="/shanten" className="font-bold" onClick={copyInputTiles}>シャンテン数計算へ</Link>
+                <Link href="/shanten" className="font-bold">シャンテン数計算へ</Link>
             </Box>
 
             <ScoreDisplay roundWind={roundWind} seatWind={seatWind} holaTile={holaTile} holaType={holaType} hand={hand} setHand={setHand} melds={melds} setMelds={setMelds} kans={kans} setKans={setKans} dispDoras={dispDoras} dispUraDoras={dispUraDoras} 

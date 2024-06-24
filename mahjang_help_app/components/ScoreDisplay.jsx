@@ -1,7 +1,8 @@
 // components/ScoreDisplay.js
 import React,{useState} from 'react';
-import {Box, ButtonGroup, VStack} from '@chakra-ui/react';
+import {Box, ButtonGroup, VStack,HStack, Center} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
+import Tile from './Tile';
 import ErrorMsg from './ErrorMsg';
 import MeldInput from './MeldInput';
 import { type } from 'os';
@@ -64,15 +65,21 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
               allTiles += `,${kanTiles}`;
             }
 
-            const { richi, ippatsu, rinshan, chankan, haitei, houtei, wRichi } = situational;
-
             const rule = Majiang.rule();
-
+            
             rule.赤牌 = {
               m:3,
               p:3,
               s:3
             }
+
+            const richi = situational.includes("立直");
+            const wRichi = situational.includes("ダブル立直");
+            const ippatsu = situational.includes("一発");
+            const chankan = situational.includes("槍槓");
+            const rinshan = situational.includes("嶺上開花");
+            const haitei = situational.includes("ハイテイ");
+            const houtei = situational.includes("ホウテイ");
 
             const result = Majiang.Util.hule(
               Majiang.Shoupai.fromString(allTiles)
@@ -148,6 +155,77 @@ const ScoreDisplay = ({ roundWind,seatWind,holaTile,holaType,
 
     return (
         <div>
+            <Box className='bg-green-400'>
+              <VStack>
+                <Box className='text-lg font-semibold'>入力一覧</Box>
+                <Box>{roundWind}場 {seatWind}家</Box>
+                <Box>
+                  <Center>
+                    上がり牌:
+                    {holaTile && <Tile
+                    tile={holaTile}
+                    onClick={()=>{}}/>
+                    }
+                  </Center>
+                  上がり方:{holaType}
+                </Box>
+                <Box>
+                  <Center>
+                    牌姿
+                  </Center>
+                  <HStack className='py-2'>
+                    <HStack spacing="0px">
+                      {hand.map((tile, index) => (
+                          <Tile key={index} tile={tile} onClick={()=>{}} />
+                      ))}
+                    </HStack>
+                    <HStack>
+                      {melds.map((meld, index) => (
+                        <HStack key={index} ml="10px" spacing="0px">
+                            {meld.tiles.map((tile, idx) => (
+                                <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
+                            ))}
+                        </HStack>
+                      ))}
+                    </HStack>
+                    <HStack>
+                    {kans.map((kan,index) => (
+                      <HStack key={index} spacing="0px">
+                      {kan.map((tile, idx) => {
+                        if(idx == 0 || idx == 3){
+                          tile = 'turnoverdTile';
+                        }
+                        return <Tile key={idx} tile={tile} onClick={() => {}} />
+                      }
+                       )
+                      }
+                      </HStack>
+                        )
+                      )
+                    }
+                    </HStack>
+                  </HStack>
+                </Box>
+                <Box>
+                  ドラ表示牌
+                <HStack spacing="0px" py="3px">
+                  {dispDoras.map((dora,idx) => <Tile tile={dora} key={idx} onClick={()=>{}}/>)}
+                </HStack>
+                </Box>
+                <Box>
+                  裏ドラ表示牌
+                <HStack spacing="0px" py="3px">
+                  {dispUraDoras.map((dora,idx) => <Tile tile={dora} key={idx} onClick={()=>{}}/>)}
+                </HStack>
+                </Box>
+                <Box>
+                  赤ドラ枚数:{akaDoras}
+                </Box>
+                <Box>
+                  状況役:{situational.join(',')}
+                </Box>
+              </VStack>
+            </Box>
             <Box className='flex justify-center'>
               <ButtonGroup>
                 <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>

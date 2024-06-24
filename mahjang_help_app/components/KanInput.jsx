@@ -32,9 +32,13 @@ const KanInput = ({ kans, setKans }) => {
                 <VStack>
                 {kans.map((kan,index) => (
                     <HStack key={index}>
-                        {kan.map((tile, idx) => (
-                            <Tile key={idx} tile={tile} onClick={() => {}} />
-                        ))}
+                        {kan.map((tile, idx) => {
+                            if(idx == 0 || idx == 3){
+                                tile = 'turnoverdTile';
+                            }
+                            return <Tile key={idx} tile={tile} onClick={() => {}} />
+                        }   
+                        )}
                         <button onClick={() => deleteKan(index)}>削除</button>
                     </HStack>
                 ))}

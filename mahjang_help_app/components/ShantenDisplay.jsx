@@ -1,6 +1,6 @@
 // components/ScoreDisplay.js
 import React,{useState} from 'react';
-import {Box, ButtonGroup, VStack} from '@chakra-ui/react';
+import {Box, ButtonGroup, HStack,VStack} from '@chakra-ui/react';
 import SubmitButton from '../components/SubmitButton';
 import ErrorMsg from './ErrorMsg';
 import Tile from './Tile';
@@ -75,6 +75,38 @@ const ShantenDisplay = ({ hand,setHand, melds,setMelds, kans,setKans }) => {
               <SubmitButton name="牌情報コピー" onClick={copyInputTiles}></SubmitButton>
               <SubmitButton name="牌情報貼付" onClick={pasteInputTiles}></SubmitButton>
             </ButtonGroup>
+          </Box>
+          <Box className='h-24 bg-green-400'>
+            <VStack>
+              <Box>入力一覧</Box>
+              <Box>
+               <HStack>
+                <HStack spacing="0px">
+                {hand.map((tile, index) => (
+                <Tile key={index} tile={tile} onClick={()=>{}} />
+                ))}
+                </HStack>
+                {melds.map((meld, index) => (
+                  <HStack key={index} ml="10px" spacing="0px">
+                  {meld.tiles.map((tile, idx) => (
+                   <Tile className={idx == 0 ? 'rotate-90 mr-2' : ''} key={idx} tile={tile} onClick={() => {}} />
+                          ))}
+                  </HStack>
+                    ))}
+                {kans.map((kan,index) => (
+                 <HStack key={index} spacing="0px">
+                 {kan.map((tile, idx) => {
+                    if(idx == 0 || idx == 3){
+                      tile = 'turnoverdTile';
+                    }
+                    return <Tile key={idx} tile={tile} onClick={() => {}} />
+                 }
+                 )}
+                 </HStack>
+                ))}
+               </HStack>
+              </Box>
+            </VStack>
           </Box>
           <Box className='flex justify-center'>
             <ErrorMsg msg={errorMsg}></ErrorMsg>

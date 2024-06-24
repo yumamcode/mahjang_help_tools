@@ -25,13 +25,6 @@ export default function Home() {
       setShowKanInput(false);
   }
 
-
-  const copyInputTiles = () =>{
-    localStorage.setItem("handInput",JSON.stringify(hand));
-    localStorage.setItem("meldsInput",JSON.stringify(melds));
-    localStorage.setItem("kansInput",JSON.stringify(kans));
-  };
-
   const TOGGLE_SHOW_BUTTONS = [
   {
       boolean_show : showHandInput,
@@ -81,7 +74,7 @@ export default function Home() {
       {showMeldInput && <MeldInput melds={melds} setMelds={setMelds}></MeldInput>}
       {showKanInput && <KanInput kans={kans} setKans={setKans}></KanInput>}
       <Box className="flex justify-center py-2">
-        <Link href="/calculatePoints" className="font-bold" onClick={copyInputTiles}>点数計算へ</Link>
+        <Link href="/calculatePoints" className="font-bold">点数計算へ</Link>
       </Box>
       <ShantenDisplay hand={hand} setHand={setHand} melds={melds} setMelds={setMelds} kans={kans} setKans={setKans}></ShantenDisplay>
       <Box py="20"></Box>

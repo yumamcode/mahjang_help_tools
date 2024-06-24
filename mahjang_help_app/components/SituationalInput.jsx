@@ -3,46 +3,37 @@ import { HStack,VStack ,Box} from '@chakra-ui/react';
 import Header from './Header';
 
 const SituationalInput = ({ melds,situational, setSituational }) => {
-    const toggleSituational = (key) => {
-        setSituational({ ...situational, [key]: !situational[key] });
+
+    const addSituational = (newSituational) => {
+        setSituational([...situational,newSituational]);
+    };
+
+    const deleteSituational = (targetSituational) => {
+        setSituational(situational.filter(sit => sit != targetSituational));
     };
 
     const SituationalRoles = [
         {
-            roleName :  'richi'
-            ,roleNameJpn :'立直'
-            ,checked : situational.richi
+            roleName :'立直'
         },
         {
-            roleName :  'wRichi'
-            ,roleNameJpn :'ダブル立直'
-            ,checked : situational.wRichi
+            roleName :'ダブル立直'
         },
         {
-            roleName :  'ippatsu'
-            ,roleNameJpn :'一発'
-            ,checked : situational.ippatsu
+            roleName :'一発'
         },
         {
-            roleName :  'chankan'
-            ,roleNameJpn :'槍槓'
-            ,checked : situational.chankan
+            roleName :'槍槓'
         },
         {
-            roleName :  'haitei'
-            ,roleNameJpn :'ハイテイ'
-            ,checked : situational.haitei
+            roleName :'ハイテイ'
         },
         {
-            roleName :  'houtei'
-            ,roleNameJpn :'ホウテイ'
-            ,checked : situational.houtei
+            roleName :'ホウテイ'
         },
        
         {
-            roleName : 'rinshan'
-            ,roleNameJpn : "嶺上開花"
-            ,checked : situational.rinshan
+            roleName : "嶺上開花"
         }
     ];
 
@@ -50,14 +41,16 @@ const SituationalInput = ({ melds,situational, setSituational }) => {
         <div>
             <Header title="状況役入力" className="text-center text-lg py-3"></Header>
             <HStack className='flex justify-center py-3 flex-wrap'>
-                {SituationalRoles.map(role=>{
+                {SituationalRoles.map((role,idx)=>{
                     return (
                         <label key={role.roleName}>
                         <input type="checkbox" 
-                        disabled={melds?.length > 0 && (role.roleNameJpn == "立直" || role.roleNameJpn == "ダブル立直")} 
-                        checked={role.checked} 
-                        onChange={() => toggleSituational(role.roleName)} />
-                        {role.roleNameJpn}
+                        disabled={melds?.length > 0 && (role.roleName == "立直" || role.roleName == "ダブル立直")} 
+                        checked={situational.includes(role.roleName)} 
+                        onChange={() => 
+                            situational.includes(role.roleName) ?  deleteSituational(role.roleName) : addSituational(role.roleName)
+                            } />
+                        {role.roleName}
                     </label>
                     )
                 })}
