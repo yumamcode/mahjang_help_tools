@@ -1,10 +1,7 @@
-import Image from "next/image";
-import styles from "@/components/Result.module.css"
-
 export default function Result(props) {
   return (
-  <div id={props.id} className={props.className}>
-    {props.result}
-  </div>
+    <div id={props.id} className={props.className}>
+      {props.result}
+    </div>
   );
 }

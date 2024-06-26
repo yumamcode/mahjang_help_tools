@@ -1,15 +1,21 @@
-import styles from "@/components/HaiInputForm.module.css";
 import React, { createContext, useState } from "react";
 import { Provider } from "@/providers/Provider.jsx";
-import { Center, HStack, Box, Image, ButtonGroup,Button,Link } from "@chakra-ui/react";
-import SubmitButton from "@/components/SubmitButton.jsx";
+import {
+  Center,
+  HStack,
+  Box,
+  Image,
+  ButtonGroup,
+  Button,
+  Link,
+} from "@chakra-ui/react";
 import ErrorMsg from "@/components/ErrorMsg.jsx";
 import Result from "@/components/Result.jsx";
 import Tile from "@/components/Tile.jsx";
 
-const haiConverterTextToArray = require('../src/haiConverterTextToArray.js');
-const haiArraySupplier = require('../src/haiArraySupplier.js');
-const Majiang = require('@kobalab/majiang-core');
+const haiConverterTextToArray = require("../src/haiConverterTextToArray.js");
+const haiArraySupplier = require("../src/haiArraySupplier.js");
+const Majiang = require("@kobalab/majiang-core");
 
 export const haiInputContext = createContext();
 
@@ -17,16 +23,18 @@ export default function HaiInputForm({}) {
   const [haiInputState, setHaiInputState] = useState("");
   const [msg, setMsg] = useState("");
   const [result, setResult] = useState("");
-  const [usefulTile,setUsefulTile] = useState([]);
+  const [usefulTile, setUsefulTile] = useState([]);
 
   const addHiddenHaiInput = (e) => {
     if (haiInputState.length < 2 * 14) {
-      setHaiInputState(prev => prev + e.target.getAttribute("data-hai"));
+      setHaiInputState((prev) => prev + e.target.getAttribute("data-hai"));
     }
   };
 
   const reductHiddenHaiInput = (e) => {
-    setHaiInputState(prev => prev.replace(e.target.getAttribute("data-hai"), ""));
+    setHaiInputState((prev) =>
+      prev.replace(e.target.getAttribute("data-hai"), "")
+    );
   };
 
   const submitButtonOnClick = () => {
@@ -45,15 +53,15 @@ export default function HaiInputForm({}) {
       const shantenNum = Majiang.Util.xiangting(shoupai);
       const dispUsefulTile = Majiang.Util.tingpai(shoupai);
 
-      if(shantenNum == -1){
+      if (shantenNum == -1) {
         setResult("上がりです。");
         setUsefulTile([]);
         return;
-      }else if(shantenNum == 0){
+      } else if (shantenNum == 0) {
         setResult("テンパイです。");
         setUsefulTile(dispUsefulTile);
         return;
-      }else if(shantenNum < 3){
+      } else if (shantenNum < 3) {
         setResult(`シャンテン数は ${shantenNum} です。`);
         setUsefulTile(dispUsefulTile);
         return;
@@ -61,7 +69,6 @@ export default function HaiInputForm({}) {
 
       setResult(`シャンテン数は ${shantenNum} です。`);
       setUsefulTile([]);
-      
     } catch (err) {
       setMsg("牌の形式が不正です。");
       setResult("");
@@ -74,7 +81,7 @@ export default function HaiInputForm({}) {
     setMsg("");
     setResult("");
     setUsefulTile([]);
-  } 
+  };
 
   const renderHaiImages = () => {
     return haiArraySupplier().map((hai, index) => {
@@ -113,14 +120,18 @@ export default function HaiInputForm({}) {
 
   const noop = () => {};
 
-  const saveHandsOnLocalStorage = () =>{
-    localStorage.setItem("handInput",haiInputState);
-  }
+  const saveHandsOnLocalStorage = () => {
+    localStorage.setItem("handInput", haiInputState);
+  };
 
   return (
     <Provider>
       <Center className="py-2">
-        <Link href="/calculatePoints" className="font-semibold" onClick={saveHandsOnLocalStorage}>
+        <Link
+          href="/calculatePoints"
+          className="font-semibold"
+          onClick={saveHandsOnLocalStorage}
+        >
           点数計算ページへ
         </Link>
       </Center>
@@ -144,17 +155,13 @@ export default function HaiInputForm({}) {
       <Result className="py-3 text-center" result={result} />
       <ErrorMsg className="py-3" msg={msg} />
       <Box className="text-center">待ち牌・有効牌</Box>
-      <Box className='py-1 text-red-400 font-bold'>
+      <Box className="py-1 text-red-400 font-bold">
         待ち牌・有効牌はシャンテン数が2以下のとき表示されます。
       </Box>
       <Box className="flex justify-center py-3">
-        {usefulTile.map(tile=>
-        <Tile
-        tile={tile}
-        onClick={noop}
-        key={tile}/>
-        )
-        }
+        {usefulTile.map((tile) => (
+          <Tile tile={tile} onClick={noop} key={tile} />
+        ))}
       </Box>
     </Provider>
   );

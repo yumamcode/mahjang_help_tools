@@ -1,15 +1,15 @@
-import MahjangHeader from '../components/MahjangHeader';
-import Seo from '../components/MahjangHead';
+import MahjangHeader from "../components/MahjangHeader";
+import Seo from "../components/MahjangHead";
 import { Provider } from "@/providers/Provider";
-import { Box, Center ,Container,VStack,Link,Image, CardHeader} from "@chakra-ui/react";
+import { VStack, Link } from "@chakra-ui/react";
 
 export default function Home() {
   return (
     <Provider>
       <Seo
-      pageTitle="麻雀支援ツール"
-      pageDescription="麻雀の難しいところをサポートします。シャンテン数・和了点計算 待ち牌の検索ができます。">
-      </Seo>
+        pageTitle="麻雀支援ツール"
+        pageDescription="麻雀の難しいところをサポートします。シャンテン数・和了点計算 待ち牌の検索ができます。"
+      ></Seo>
       <MahjangHeader></MahjangHeader>
       <VStack bgColor="orange">
         <Link href="/roleTable">役表</Link>
@@ -17,6 +17,6 @@ export default function Home() {
         <Link href="/shanten">シャンテン数計算</Link>
         <Link href="/calculatePoints">点数計算</Link>
       </VStack>
-   </Provider>
+    </Provider>
   );
 }
