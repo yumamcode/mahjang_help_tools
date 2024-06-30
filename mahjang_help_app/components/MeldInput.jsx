@@ -55,7 +55,7 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
 
     setMelds([...melds, { type: meldType, tiles: meldTiles }]);
     setSituational(
-      situational.filter(
+      situational?.filter(
         (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
       )
     );
@@ -63,7 +63,7 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
   };
 
   const deleteMeld = (index) => {
-    setMelds(melds.filter((_, i) => i !== index));
+    setMelds(melds?.filter((_, i) => i !== index));
   };
 
   return (
@@ -114,11 +114,11 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
       </Box>
       <Box className="py-3">
         <VStack>
-          {melds.map((meld, index) => (
+          {melds?.map((meld, index) => (
             <div key={index}>
               <strong>{meld.type}:</strong>
               <HStack>
-                {meld.tiles.map((tile, idx) => (
+                {meld.tiles?.map((tile, idx) => (
                   <Tile
                     className={idx == 0 ? "rotate-90 " : ""}
                     key={idx}

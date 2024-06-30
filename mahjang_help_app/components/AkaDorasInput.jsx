@@ -8,8 +8,6 @@ import {
 } from "@chakra-ui/react";
 
 const AkaDorasInput = ({ akaDoras, setAkaDoras }) => {
-  console.log(akaDoras);
-
   return (
     <>
       <Box className="flex justify-center py-3">赤ドラ枚数入力</Box>

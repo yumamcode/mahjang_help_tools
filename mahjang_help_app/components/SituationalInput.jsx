@@ -9,7 +9,7 @@ const SituationalInput = ({ melds, situational, setSituational }) => {
   };
 
   const deleteSituational = (targetSituational) => {
-    setSituational(situational.filter((sit) => sit != targetSituational));
+    setSituational(situational?.filter((sit) => sit != targetSituational));
   };
 
   return (
