@@ -54,11 +54,14 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
     }
 
     setMelds([...melds, { type: meldType, tiles: meldTiles }]);
-    setSituational(
-      situational?.filter(
-        (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
-      )
-    );
+
+    if (situational) {
+      setSituational(
+        situational?.filter(
+          (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
+        )
+      );
+    }
     setErrMsg("");
   };
 

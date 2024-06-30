@@ -1,5 +1,5 @@
 // components/ScoreDisplay.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, ButtonGroup, HStack, VStack, Center } from "@chakra-ui/react";
 import SubmitButton from "../components/SubmitButton";
 import ErrorMsg from "./ErrorMsg";
@@ -11,6 +11,10 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
   const [usefulTileResult, setUsefulTileResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
   const [recommendResult, setReCommendResult] = useState(null);
+
+  useEffect(() => {
+    setReCommendResult(null);
+  }, [hand, melds, kans]);
 
   const calcShanten = () => {
     try {
@@ -39,9 +43,17 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
 
       const shoupai = Majiang.Shoupai.fromString(allTiles);
 
-      setShantenResult(Majiang.Util.xiangting(shoupai));
+      const shanten = Majiang.Util.xiangting(shoupai);
+
+      if (shanten == -1) {
+        setReCommendResult(null);
+      }
+
+      setShantenResult(shanten);
       setUsefulTileResult(Majiang.Util.tingpai(shoupai));
       setErrorMsg("");
+
+      return shanten;
     } catch (error) {
       setShantenResult(null);
       setUsefulTileResult(null);
@@ -69,22 +81,40 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
     alert("牌情報を貼り付けました。");
   };
 
-  const recommendDapai = () => {
-    if (hand.length != 14) {
-      setErrorMsg("おすすめは純手牌が14枚のときだけ使えます。");
+  const recommendDapai = (prevShanten) => {
+    if (prevShanten == -1) {
       return;
     }
 
-    if (melds.length != 0) {
-      setErrorMsg("おすすめは副露してないときだけ使えます。");
-    }
-
-    if (kans.length != 0) {
-      setErrorMsg("おすすめは暗槓してないときだけ使えます。");
+    if (
+      hand.length != 14 &&
+      hand.length != 11 &&
+      hand.length != 8 &&
+      hand.length != 5 &&
+      hand.length != 2
+    ) {
+      return;
     }
 
     const daopais = [];
     const recommends = [];
+
+    const handTiles = hand.join("");
+
+    const meldTiles = melds
+      .flatMap(
+        (meld) =>
+          meld.tiles[0][0] + meld.tiles.join("").replace(/[a-zA-Z]/g, "") + "-"
+      )
+      .join(",");
+
+    const kanTiles = kans
+      .flatMap((kan) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
+      .join(",");
+
+    const b_shoupai = Majiang.Shoupai.fromString(
+      handTiles + meldTiles + kanTiles
+    );
 
     for (let i in hand) {
       const daopai = hand[i];
@@ -95,7 +125,17 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
 
       const afterDaopai = hand.filter((_, idx) => idx != i);
 
-      const shoupai = Majiang.Shoupai.fromString(afterDaopai.join(""));
+      let allTiles = afterDaopai.join("");
+
+      if (meldTiles != []) {
+        allTiles += `,${meldTiles}`;
+      }
+
+      if (kanTiles != []) {
+        allTiles += `,${kanTiles}`;
+      }
+
+      const shoupai = Majiang.Shoupai.fromString(allTiles);
 
       const shanten = Majiang.Util.xiangting(shoupai);
 
@@ -120,6 +160,10 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
         return 1;
       }
 
+      if (!a.usefulTiles || !b.usefulTiles) {
+        return 0;
+      }
+
       if (a.usefulTiles.length < b.usefulTiles.length) {
         return 1;
       }
@@ -130,6 +174,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
     });
 
     setReCommendResult(recommends[0].daopai);
+    console.log(recommends);
   };
 
   return (
@@ -137,8 +182,11 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       <Box className="text-center">
         <ButtonGroup className="justify-center">
           <SubmitButton
-            name="シャンテン数表示"
-            onClick={calcShanten}
+            name="計算"
+            onClick={() => {
+              const shanten = calcShanten();
+              recommendDapai(shanten);
+            }}
           ></SubmitButton>
           <SubmitButton
             name="牌情報コピー"
@@ -148,7 +196,6 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
             name="牌情報貼付"
             onClick={pasteInputTiles}
           ></SubmitButton>
-          <SubmitButton name="おすすめ" onClick={recommendDapai}></SubmitButton>
         </ButtonGroup>
       </Box>
       <Box className="bg-green-400">
@@ -197,14 +244,6 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
         <ErrorMsg msg={errorMsg}></ErrorMsg>
       </Box>
       <Box className="flex justify-center">
-        <label>おすすめ牌</label>
-      </Box>
-      <Box className="flex justify-center">
-        {recommendResult && (
-          <Tile tile={recommendResult} onClick={() => {}}></Tile>
-        )}
-      </Box>
-      <Box className="flex justify-center">
         <label>シャンテン数:</label>
         {shantenResult != -1 && shantenResult != 0 && shantenResult}
         {shantenResult == -1
@@ -220,6 +259,14 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
         {usefulTileResult?.map((tile) => (
           <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
         ))}
+      </Box>
+      <Box className="flex justify-center">
+        <label>おすすめ打牌</label>
+      </Box>
+      <Box className="flex justify-center">
+        {recommendResult && (
+          <Tile tile={recommendResult} onClick={() => {}}></Tile>
+        )}
       </Box>
     </div>
   );
