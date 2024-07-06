@@ -45,4 +45,4 @@ const WindInput = ({ roundWind, setRoundWind, seatWind, setSeatWind }) => {
   );
 };
 
-export default WindInput;
+export { WindInput };

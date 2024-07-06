@@ -1,10 +1,10 @@
-import { useState } from "react";
-import HandInput from "../components/HandInput";
-import MeldInput from "../components/MeldInput";
-import KanInput from "../components/KanInput";
-import SituationalInput from "../components/SituationalInput";
+import { SetStateAction, useState } from "react";
+import {HandInput} from "../components/HandInput";
+import {MeldInput} from "../components/MeldInput";
+import {KanInput} from "../components/KanInput";
+import {SituationalInput} from "../components/SituationalInput";
 import { Provider } from "../providers/Provider";
-import ScoreDisplay from "../components/ScoreDisplay";
+import {ScoreDisplay} from "../components/ScoreDisplay";
 import {
   Box,
   HStack,
@@ -16,23 +16,24 @@ import {
 } from "@chakra-ui/react";
 import MahjangHeader from "../components/MahjangHeader";
 import Header from "../components/Header";
-import HolaInput from "../components/HolaInput";
-import WindInput from "../components/WindInput";
-import DispDorasInput from "../components/DispDorasInput";
-import DispUraDorasInput from "../components/DispUraDorasInput";
-import AkaDorasInput from "../components/AkaDorasInput";
+import {HolaInput} from "../components/HolaInput";
+import {WindInput} from "../components/WindInput";
+import {DispDorasInput} from "../components/DispDorasInput";
+import {DispUraDorasInput} from "../components/DispUraDorasInput";
+import {AkaDorasInput} from "../components/AkaDorasInput";
+import type { Meld } from "../components/MeldInput";
 
 const Index = () => {
   const [roundWind, setRoundWind] = useState("東");
   const [seatWind, setSeatWind] = useState("北");
   const [holaTile, setHolaTile] = useState("");
   const [holaType, setHolaType] = useState("");
-  const [hand, setHand] = useState([]);
-  const [melds, setMelds] = useState([]);
-  const [kans, setKans] = useState([]);
-  const [dispDoras, setDispDoras] = useState([]);
-  const [dispUraDoras, setDispUraDoras] = useState([]);
-  const [situational, setSituational] = useState([]);
+  const [hand, setHand] = useState<string[]>([]);
+  const [melds, setMelds] = useState<Meld[]>([]);
+  const [kans, setKans] = useState<string[][]>([]);
+  const [dispDoras, setDispDoras] = useState<string[]>([]);
+  const [dispUraDoras, setDispUraDoras] = useState<string[]>([]);
+  const [situational, setSituational] = useState<string[]>([]);
   const [akaDoras, setAkaDoras] = useState(0);
   const [showWindInput, setShowWindInput] = useState(false);
   const [showHandInput, setShowHandInput] = useState(false);

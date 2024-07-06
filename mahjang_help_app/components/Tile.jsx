@@ -16,4 +16,4 @@ const Tile = ({ tile, className, onClick }) => (
   </Provider>
 );
 
-export default Tile;
+export { Tile };

@@ -2,16 +2,17 @@ import Header from "@/components/Header";
 import { Provider } from "@/providers/Provider";
 import { Box, ButtonGroup, Link, Button } from "@chakra-ui/react";
 import MahjangHeader from "@/components/MahjangHeader";
-import HandInput from "@/components/HandInput";
-import MeldInput from "@/components/MeldInput";
-import KanInput from "@/components/KanInput";
-import ShantenDisplay from "@/components/ShantenDisplay";
+import {HandInput} from "@/components/HandInput";
+import {MeldInput} from "@/components/MeldInput";
+import {KanInput} from "@/components/KanInput";
+import {ShantenDisplay} from "@/components/ShantenDisplay";
 import { useState } from "react";
+import type { Meld } from "@/components/MeldInput";
 
 export default function Home() {
-  const [hand, setHand] = useState([]);
-  const [melds, setMelds] = useState([]);
-  const [kans, setKans] = useState([]);
+  const [hand, setHand] = useState<string[]>([]);
+  const [melds, setMelds] = useState<Meld[]>([]);
+  const [kans, setKans] = useState<string[][]>([]);
 
   const [showHandInput, setShowHandInput] = useState(false);
   const [showMeldInput, setShowMeldInput] = useState(false);

@@ -1,9 +1,9 @@
 // components/ScoreDisplay.js
 import React, { useState, useEffect } from "react";
 import { Box, ButtonGroup, HStack, VStack, Center } from "@chakra-ui/react";
-import SubmitButton from "../components/SubmitButton";
-import ErrorMsg from "./ErrorMsg";
-import Tile from "./Tile";
+import { SubmitButton } from "../components/SubmitButton";
+import { ErrorMsg } from "./ErrorMsg";
+import { Tile } from "./Tile";
 const Majiang = require("@kobalab/majiang-core");
 
 const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
@@ -272,4 +272,4 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
   );
 };
 
-export default ShantenDisplay;
+export { ShantenDisplay };

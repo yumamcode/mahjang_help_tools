@@ -1,8 +1,8 @@
 import React from "react";
-import Tile from "./Tile";
+import { Tile } from "./Tile";
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import Header from "./Header.jsx";
-import ErrorMsg from "./ErrorMsg";
+import { ErrorMsg } from "./ErrorMsg";
 import { useState } from "react";
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
@@ -55,4 +55,4 @@ const KanInput = ({ kans, setKans, melds }) => {
   );
 };
 
-export default KanInput;
+export { KanInput };

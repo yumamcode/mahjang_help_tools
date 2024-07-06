@@ -1,4 +1,4 @@
-export default function SubmitButton(props) {
+const SubmitButton = function SubmitButton(props) {
   return (
     <div className="text-center py-3">
       <button
@@ -13,4 +13,6 @@ export default function SubmitButton(props) {
       </button>
     </div>
   );
-}
+};
+
+export { SubmitButton };

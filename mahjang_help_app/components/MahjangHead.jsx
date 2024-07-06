@@ -16,4 +16,4 @@ const Seo = ({ pageTitle, pageDescription }) => {
   );
 };
 
-export default Seo;
+export { Seo };

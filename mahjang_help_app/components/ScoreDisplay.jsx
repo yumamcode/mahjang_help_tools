@@ -1,9 +1,9 @@
 // components/ScoreDisplay.js
 import React, { useState } from "react";
 import { Box, ButtonGroup, VStack, HStack, Center } from "@chakra-ui/react";
-import SubmitButton from "../components/SubmitButton";
-import Tile from "./Tile";
-import ErrorMsg from "./ErrorMsg";
+import { SubmitButton } from "../components/SubmitButton";
+import { Tile } from "./Tile";
+import { ErrorMsg } from "./ErrorMsg";
 import SITUATIONALS from "../src/SituationalStringConstant";
 
 const Majiang = require("@kobalab/majiang-core");
@@ -289,4 +289,4 @@ const ScoreDisplay = ({
   );
 };
 
-export default ScoreDisplay;
+export { ScoreDisplay };

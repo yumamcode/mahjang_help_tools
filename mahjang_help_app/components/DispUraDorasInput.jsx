@@ -1,6 +1,6 @@
 import Header from "./Header";
 import { Box, HStack } from "@chakra-ui/react";
-import Tile from "./Tile";
+import { Tile } from "./Tile";
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
@@ -39,4 +39,4 @@ const DispUraDorasInput = ({ dispUraDoras, setDispUraDoras }) => {
   );
 };
 
-export default DispUraDorasInput;
+export { DispUraDorasInput };

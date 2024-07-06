@@ -41,4 +41,4 @@ const SituationalInput = ({ melds, situational, setSituational }) => {
   );
 };
 
-export default SituationalInput;
+export { SituationalInput };

@@ -28,4 +28,4 @@ const AkaDorasInput = ({ akaDoras, setAkaDoras }) => {
   );
 };
 
-export default AkaDorasInput;
+export { AkaDorasInput };

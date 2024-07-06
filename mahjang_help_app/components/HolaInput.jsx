@@ -1,5 +1,5 @@
 import React from "react";
-import Tile from "./Tile";
+import { Tile } from "./Tile";
 import Header from "./Header.jsx";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
 
@@ -62,4 +62,4 @@ const HolaInput = ({ holaTile, setHolaTile, holaType, setHolaType }) => {
   );
 };
 
-export default HolaInput;
+export { HolaInput };

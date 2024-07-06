@@ -1,19 +1,25 @@
 // components/MeldInput.js
-import React, { useState } from "react";
-import Tile from "./Tile";
-import ErrorMsg from "./ErrorMsg.jsx";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import {Tile} from "./Tile";
+import {ErrorMsg} from "./ErrorMsg.jsx";
 import Header from "./Header.jsx";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
 import SITUATIONALS from "../src/SituationalStringConstant";
 
 const haiArraySupplier = require("../src/haiArraySupplier.js");
 
-const tiles = haiArraySupplier();
-const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
-  const [meldType, setMeldType] = useState(null);
-  const [errMsg, setErrMsg] = useState("");
+type Meld = {
+  meldType:string,
+  meldTiles:string[]
+};
 
-  const addMeld = (tile) => {
+const tiles = haiArraySupplier();
+const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
+  {melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],situational?:string[],setSituational?:Dispatch<SetStateAction<string[]>>}) => {
+  const [meldType, setMeldType] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
+
+  const addMeld = (tile:string) => {
     let meldTiles;
 
     const NumOfmeldsAndKans = melds?.length + kans?.length;
@@ -53,10 +59,12 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
       return false;
     }
 
-    setMelds([...melds, { type: meldType, tiles: meldTiles }]);
+    const newMeld : Meld = {meldType: meldType, meldTiles: meldTiles};
+
+    setMelds([...melds,newMeld]);
 
     if (situational) {
-      setSituational(
+      setSituational && setSituational(
         situational?.filter(
           (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
         )
@@ -65,7 +73,7 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
     setErrMsg("");
   };
 
-  const deleteMeld = (index) => {
+  const deleteMeld = (index:number) => {
     setMelds(melds?.filter((_, i) => i !== index));
   };
 
@@ -74,8 +82,8 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
       <Header title="副露入力" className="text-center text-lg py-3"></Header>
       <Box className="flex justify-center">
         <HStack wrap="wrap" className="w-5/6">
-          {tiles.map((tile, index) => (
-            <Tile key={index} tile={tile} onClick={addMeld} />
+          {tiles.map((tile:string, index:number) => (
+            <Tile key={index} tile={tile} onClick={addMeld} className={null}/>
           ))}
         </HStack>
       </Box>
@@ -119,9 +127,9 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
         <VStack>
           {melds?.map((meld, index) => (
             <div key={index}>
-              <strong>{meld.type}:</strong>
+              <strong>{meld.meldType}:</strong>
               <HStack>
-                {meld.tiles?.map((tile, idx) => (
+                {meld.meldTiles?.map((tile, idx) => (
                   <Tile
                     className={idx == 0 ? "rotate-90 " : ""}
                     key={idx}
@@ -139,4 +147,5 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational }) => {
   );
 };
 
-export default MeldInput;
+export { MeldInput };
+export type {Meld};
