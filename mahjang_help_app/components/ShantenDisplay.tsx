@@ -1,16 +1,22 @@
 // components/ScoreDisplay.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Box, ButtonGroup, HStack, VStack, Center } from "@chakra-ui/react";
-import { SubmitButton } from "../components/SubmitButton";
+import { SubmitButton } from "./SubmitButton";
 import { ErrorMsg } from "./ErrorMsg";
 import { Tile } from "./Tile";
+import type { Meld } from "./MeldInput";
 const Majiang = require("@kobalab/majiang-core");
+type Recommend = {
+  daopai: string,
+  shanten: number,
+  usefulTiles: string[]
+}
 
-const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
-  const [shantenResult, setShantenResult] = useState(null);
-  const [usefulTileResult, setUsefulTileResult] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [recommendResult, setReCommendResult] = useState(null);
+const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand:string[],setHand:Dispatch<SetStateAction<string[]>>,melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],setKans:Dispatch<SetStateAction<string[][]>>}) => {
+  const [shantenResult, setShantenResult] = useState<number|null>(null);
+  const [usefulTileResult, setUsefulTileResult] = useState<string[]|null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+  const [recommendResult, setReCommendResult] = useState<string | null>(null);
 
   useEffect(() => {
     setReCommendResult(null);
@@ -22,8 +28,8 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       const meldTiles = melds
         .flatMap(
           (meld) =>
-            meld.tiles[0][0] +
-            meld.tiles.join("").replace(/[a-zA-Z]/g, "") +
+            meld.meldTiles[0][0] +
+            meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
             "-"
         )
         .join(",");
@@ -33,11 +39,11 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
 
       let allTiles = handTiles;
 
-      if (meldTiles != []) {
+      if (meldTiles != "") {
         allTiles += `,${meldTiles}`;
       }
 
-      if (kanTiles != []) {
+      if (kanTiles != "") {
         allTiles += `,${kanTiles}`;
       }
 
@@ -74,14 +80,14 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
     const meldsInputOnLocalStorage = localStorage.getItem("meldsInput");
     const kansInputOnLocalStorage = localStorage.getItem("kansInput");
 
-    setHand(JSON.parse(handInputOnLocalStorage));
-    setMelds(JSON.parse(meldsInputOnLocalStorage));
-    setKans(JSON.parse(kansInputOnLocalStorage));
+    handInputOnLocalStorage && setHand(JSON.parse(handInputOnLocalStorage));
+    meldsInputOnLocalStorage && setMelds(JSON.parse(meldsInputOnLocalStorage));
+    kansInputOnLocalStorage && setKans(JSON.parse(kansInputOnLocalStorage));
 
     alert("牌情報を貼り付けました。");
   };
 
-  const recommendDapai = (prevShanten) => {
+  const recommendDapai = (prevShanten :number) => {
     if (prevShanten == -1) {
       return;
     }
@@ -96,15 +102,15 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       return;
     }
 
-    const daopais = [];
-    const recommends = [];
+    const daopais : string[] = [];
+    const recommends : Recommend[]= [];
 
     const handTiles = hand.join("");
 
     const meldTiles = melds
       .flatMap(
         (meld) =>
-          meld.tiles[0][0] + meld.tiles.join("").replace(/[a-zA-Z]/g, "") + "-"
+          meld.meldTiles[0][0] + meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") + "-"
       )
       .join(",");
 
@@ -112,26 +118,21 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       .flatMap((kan) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
       .join(",");
 
-    const b_shoupai = Majiang.Shoupai.fromString(
-      handTiles + meldTiles + kanTiles
-    );
-
-    for (let i in hand) {
-      const daopai = hand[i];
+    for (let daopai of hand) {
 
       if (daopais.includes(daopai)) {
         continue;
       }
 
-      const afterDaopai = hand.filter((_, idx) => idx != i);
+      const afterDaopai = hand.filter(h => h != daopai);
 
       let allTiles = afterDaopai.join("");
 
-      if (meldTiles != []) {
+      if (meldTiles != "") {
         allTiles += `,${meldTiles}`;
       }
 
-      if (kanTiles != []) {
+      if (kanTiles != "") {
         allTiles += `,${kanTiles}`;
       }
 
@@ -151,7 +152,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       recommends.push(recommend);
     }
 
-    recommends.sort((a, b) => {
+    recommends.sort((a:Recommend, b:Recommend) => {
       if (a.shanten < b.shanten) {
         return -1;
       }
@@ -171,10 +172,11 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       if (a.usefulTiles.length > b.usefulTiles.length) {
         return -1;
       }
+
+      return 0;
     });
 
     setReCommendResult(recommends[0].daopai);
-    console.log(recommends);
   };
 
   return (
@@ -207,12 +209,12 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
                   {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
+                    <Tile key={index} tile={tile} onClick={() => {}} className={null}/>
                   ))}
                 </HStack>
                 {melds.map((meld, index) => (
                   <HStack key={index} ml="10px" spacing="0px">
-                    {meld.tiles.map((tile, idx) => (
+                    {meld.meldTiles.map((tile, idx) => (
                       <Tile
                         className={idx == 0 ? "rotate-90 mr-2" : ""}
                         key={idx}
@@ -232,7 +234,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
                     if (idx == 0 || idx == 3) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
+                    return <Tile key={idx} tile={tile} onClick={() => {}} className={null}/>;
                   })}
                 </HStack>
               ))}
@@ -257,7 +259,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       </Box>
       <Box className="flex flex-wrap justify-center">
         {usefulTileResult?.map((tile) => (
-          <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
+          <Tile key={tile} tile={tile} onClick={() => {}} className={null}></Tile>
         ))}
       </Box>
       <Box className="flex justify-center">
@@ -265,7 +267,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans }) => {
       </Box>
       <Box className="flex justify-center">
         {recommendResult && (
-          <Tile tile={recommendResult} onClick={() => {}}></Tile>
+          <Tile tile={recommendResult} onClick={() => {}} className={null}></Tile>
         )}
       </Box>
     </div>

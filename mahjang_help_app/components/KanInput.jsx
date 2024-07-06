@@ -4,10 +4,9 @@ import { Box, HStack, VStack } from "@chakra-ui/react";
 import Header from "./Header.jsx";
 import { ErrorMsg } from "./ErrorMsg";
 import { useState } from "react";
+import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 
-const haiArraySupplier = require("../src/haiArraySupplier.js");
-
-const tiles = haiArraySupplier();
+const tiles = HAI_ARRAY;
 
 const KanInput = ({ kans, setKans, melds }) => {
   const [msg, setMsg] = useState("");

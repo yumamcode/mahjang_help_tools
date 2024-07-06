@@ -1,10 +1,22 @@
 // components/ScoreDisplay.js
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, ButtonGroup, VStack, HStack, Center } from "@chakra-ui/react";
-import { SubmitButton } from "../components/SubmitButton";
+import { SubmitButton } from "./SubmitButton";
 import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
 import SITUATIONALS from "../src/SituationalStringConstant";
+import { Meld } from "./MeldInput";
+type ScoreResult = {
+  fu:number,
+  fanshu:number,
+  defen:number,
+  hupai:Role[]
+}
+
+type Role = {
+  name:string,
+  fanshu:number
+}
 
 const Majiang = require("@kobalab/majiang-core");
 
@@ -23,8 +35,8 @@ const ScoreDisplay = ({
   dispUraDoras,
   akaDoras,
   situational,
-}) => {
-  const [result, setResult] = useState(null);
+} : {roundWind:string,seatWind:string,holaTile:string,holaType:string,hand:string[],setHand:Dispatch<SetStateAction<string[]>>,melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],setKans:Dispatch<SetStateAction<string[][]>>,dispDoras:string[],dispUraDoras:string[],akaDoras:number,situational:string[]}) => {
+  const [result, setResult] = useState<ScoreResult|null>(null);
   const [msg, setMsg] = useState("");
 
   const calculateScore = () => {
@@ -35,28 +47,28 @@ const ScoreDisplay = ({
         handTiles += holaTile;
       }
 
-      handTiles = handTiles.replace(/([msp])5/g, (m, p) => {
+      handTiles = handTiles.replace(/([msp])5/g, (tile:string) => {
         if (i > 0) {
           i--;
-          return p + "0";
+          return tile.charAt(0) + "0";
         }
 
-        return p + "5";
+        return tile.charAt(0) + "5";
       });
 
       let meldTiles = melds
         .flatMap(
-          (meld) =>
-            meld.tiles[0][0] +
-            meld.tiles.join("").replace(/[a-zA-Z]/g, "") +
+          (meld :Meld) =>
+            meld.meldTiles[0][0] +
+            meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
             "-"
         )
         .join(",");
 
-      const replaceToAkaDora = (tilesStr, numOfReplace) => {
+      const replaceToAkaDora = (tilesStr:string, numOfReplace:number) => {
         return tilesStr
           .split(",")
-          .map((tiles) => {
+          .map((tiles:string) => {
             if (tiles.startsWith("z")) {
               return tiles;
             } else {
@@ -76,16 +88,16 @@ const ScoreDisplay = ({
       meldTiles = replaceToAkaDora(meldTiles, i);
 
       let kanTiles = kans
-        .flatMap((kan) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
+        .flatMap((kan :string[]) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
         .join(",");
 
       kanTiles = replaceToAkaDora(kanTiles, i);
 
       let allTiles = handTiles;
-      if (meldTiles != []) {
+      if (meldTiles != "") {
         allTiles += `,${meldTiles}`;
       }
-      if (kanTiles != []) {
+      if (kanTiles != "") {
         allTiles += `,${kanTiles}`;
       }
 
@@ -107,7 +119,10 @@ const ScoreDisplay = ({
 
       const result = Majiang.Util.hule(
         Majiang.Shoupai.fromString(allTiles),
-        holaType === "ツモ" ? null : holaTile + "-",
+        holaType === "ツモ" ? null 
+        : ["s5","m5","p5"].includes(holaTile) && i > 0 ? holaTile.replace(/5/,"0") + "-"
+        : holaTile + "-"
+        ,
         {
           rule: rule,
           zhuangfeng:
@@ -154,6 +169,7 @@ const ScoreDisplay = ({
 
       return result;
     } catch (error) {
+      console.log(error);
       setMsg("点数を計算するためのデータが不足しています。");
       setResult(null);
       return null;
@@ -173,9 +189,9 @@ const ScoreDisplay = ({
     const meldsInputOnLocalStorage = localStorage.getItem("meldsInput");
     const kansInputOnLocalStorage = localStorage.getItem("kansInput");
 
-    setHand(JSON.parse(handInputOnLocalStorage));
-    setMelds(JSON.parse(meldsInputOnLocalStorage));
-    setKans(JSON.parse(kansInputOnLocalStorage));
+    handInputOnLocalStorage && setHand(JSON.parse(handInputOnLocalStorage));
+    meldsInputOnLocalStorage && setMelds(JSON.parse(meldsInputOnLocalStorage));
+    kansInputOnLocalStorage && setKans(JSON.parse(kansInputOnLocalStorage));
 
     alert("牌情報を貼り付けました。");
   };
@@ -191,7 +207,7 @@ const ScoreDisplay = ({
           <Box>
             <Center>
               上がり牌:
-              {holaTile && <Tile tile={holaTile} onClick={() => {}} />}
+              {holaTile && <Tile tile={holaTile} onClick={() => {}} className={null}/>}
             </Center>
             上がり方:{holaType}
           </Box>
@@ -200,13 +216,13 @@ const ScoreDisplay = ({
             <HStack className="py-2">
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
-                  {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
+                  {hand.map((tile:string, index:number) => (
+                    <Tile key={index} tile={tile} onClick={() => {}} className={null}/>
                   ))}
                 </HStack>
-                {melds.map((meld, index) => (
+                {melds.map((meld:Meld, index:number) => (
                   <HStack key={index} ml="10px" spacing="0px">
-                    {meld.tiles.map((tile, idx) => (
+                    {meld.meldTiles.map((tile, idx) => (
                       <Tile
                         className={idx == 0 ? "rotate-90 mr-2" : ""}
                         key={idx}
@@ -220,13 +236,13 @@ const ScoreDisplay = ({
             </HStack>
             <Center>暗槓</Center>
             <HStack className="flex-wrap justify-center space-x-3">
-              {kans.map((kan, index) => (
+              {kans.map((kan:string[], index:number) => (
                 <HStack key={index} spacing="0px">
-                  {kan.map((tile, idx) => {
+                  {kan.map((tile:string, idx:number) => {
                     if (idx == 0 || idx == 3) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
+                    return <Tile key={idx} tile={tile} onClick={() => {}} className={null} />;
                   })}
                 </HStack>
               ))}
@@ -235,16 +251,16 @@ const ScoreDisplay = ({
           <Box>
             ドラ表示牌
             <HStack spacing="0px" py="3px">
-              {dispDoras.map((dora, idx) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} />
+              {dispDoras.map((dora:string, idx:number) => (
+                <Tile tile={dora} key={idx} onClick={() => {}} className={null}/>
               ))}
             </HStack>
           </Box>
           <Box>
             裏ドラ表示牌
             <HStack spacing="0px" py="3px">
-              {dispUraDoras.map((dora, idx) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} />
+              {dispUraDoras.map((dora:string, idx:number) => (
+                <Tile tile={dora} key={idx} onClick={() => {}} className={null} />
               ))}
             </HStack>
           </Box>

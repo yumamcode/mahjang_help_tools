@@ -1,10 +1,9 @@
 import Header from "./Header";
 import { Box, HStack } from "@chakra-ui/react";
 import { Tile } from "./Tile";
+import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 
-const haiArraySupplier = require("../src/haiArraySupplier.js");
-
-const tiles = haiArraySupplier();
+const tiles = HAI_ARRAY;
 
 const DispDorasInput = ({ dispDoras, setDispDoras }) => {
   const addTile = (tile) => {

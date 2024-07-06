@@ -5,7 +5,7 @@ import MahjangHeader from "@/components/MahjangHeader";
 import {HandInput} from "@/components/HandInput";
 import {MeldInput} from "@/components/MeldInput";
 import {KanInput} from "@/components/KanInput";
-import {ShantenDisplay} from "@/components/ShantenDisplay";
+import { ShantenDisplay } from "@/components/ShantenDisplay";
 import { useState } from "react";
 import type { Meld } from "@/components/MeldInput";
 

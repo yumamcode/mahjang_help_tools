@@ -2,10 +2,9 @@ import React, { Dispatch, SetStateAction } from "react";
 import {Tile} from "./Tile";
 import Header from "./Header.jsx";
 import { HStack, Box, Button } from "@chakra-ui/react";
+import { HAI_ARRAY }from "@/src/AllHaiArrayConstant";
 
-const haiArraySupplier = require("../src/haiArraySupplier.js");
-
-const tiles = haiArraySupplier();
+const tiles = HAI_ARRAY;
 
 const HandInput = ({ hand,setHand } :{hand :string[],setHand:Dispatch<SetStateAction<string[]>>})  => {
   const addTile = (tile:string) => {

@@ -2,10 +2,9 @@ import React from "react";
 import { Tile } from "./Tile";
 import Header from "./Header.jsx";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 
-const haiArraySupplier = require("../src/haiArraySupplier.js");
-
-const tiles = haiArraySupplier();
+const tiles = HAI_ARRAY;
 
 const HolaInput = ({ holaTile, setHolaTile, holaType, setHolaType }) => {
   const addTile = (t) => {

@@ -5,15 +5,14 @@ import {ErrorMsg} from "./ErrorMsg.jsx";
 import Header from "./Header.jsx";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
 import SITUATIONALS from "../src/SituationalStringConstant";
-
-const haiArraySupplier = require("../src/haiArraySupplier.js");
+import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 
 type Meld = {
   meldType:string,
   meldTiles:string[]
 };
 
-const tiles = haiArraySupplier();
+const tiles = HAI_ARRAY;
 const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
   {melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],situational?:string[],setSituational?:Dispatch<SetStateAction<string[]>>}) => {
   const [meldType, setMeldType] = useState<string>("");
