@@ -1,26 +1,39 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Tile } from "./Tile";
 import { Box, HStack, VStack } from "@chakra-ui/react";
-import Header from "./Header.jsx";
+import { Header } from "./Header";
 import { ErrorMsg } from "./ErrorMsg";
 import { useState } from "react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import type { Meld } from "./MeldInput";
+import {
+  ANKAN_TURNOVER_INDEX_ARRAY,
+  MAX_MELDS_AND_KANS_LENGTH,
+} from "@/src/Constant";
 
 const tiles = HAI_ARRAY;
 
-const KanInput = ({ kans, setKans, melds }) => {
+const KanInput = ({
+  kans,
+  setKans,
+  melds,
+}: {
+  kans: string[][];
+  setKans: Dispatch<SetStateAction<string[][]>>;
+  melds: Meld[];
+}) => {
   const [msg, setMsg] = useState("");
 
-  const addKan = (tile) => {
+  const addKan = (tile: string) => {
     const NumOfMeldsAndKans = melds?.length + kans?.length;
-    if (NumOfMeldsAndKans >= 4) {
+    if (NumOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setMsg("これ以上暗槓出来ません。");
       return false;
     }
     setKans([...kans, [tile, tile, tile, tile]]);
   };
 
-  const deleteKan = (index) => {
+  const deleteKan = (index: number) => {
     setKans(kans.filter((_, i) => i !== index));
   };
 
@@ -40,7 +53,7 @@ const KanInput = ({ kans, setKans, melds }) => {
           {kans.map((kan, index) => (
             <HStack key={index}>
               {kan.map((tile, idx) => {
-                if (idx == 0 || idx == 3) {
+                if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                   tile = "turnoverdTile";
                 }
                 return <Tile key={idx} tile={tile} onClick={() => {}} />;

@@ -1,5 +1,5 @@
 import { Provider } from "../providers/Provider";
-import Header from "./Header";
+import { Header } from "./Header";
 import { Image, Box, Link } from "@chakra-ui/react";
 
 export default function MahjangHeader() {

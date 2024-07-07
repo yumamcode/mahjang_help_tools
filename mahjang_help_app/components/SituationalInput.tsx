@@ -1,14 +1,23 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { HStack } from "@chakra-ui/react";
-import Header from "./Header";
-import SITUATIONALS from "../src/SituationalStringConstant";
+import { Header } from "./Header";
+import { SITUATIONALS } from "../src/Constant";
+import type { Meld } from "./MeldInput";
 
-const SituationalInput = ({ melds, situational, setSituational }) => {
-  const addSituational = (newSituational) => {
+const SituationalInput = ({
+  melds,
+  situational,
+  setSituational,
+}: {
+  melds: Meld[];
+  situational: string[];
+  setSituational: Dispatch<SetStateAction<string[]>>;
+}) => {
+  const addSituational = (newSituational: string) => {
     setSituational([...situational, newSituational]);
   };
 
-  const deleteSituational = (targetSituational) => {
+  const deleteSituational = (targetSituational: string) => {
     setSituational(situational?.filter((sit) => sit != targetSituational));
   };
 

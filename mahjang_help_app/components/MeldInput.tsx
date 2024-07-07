@@ -1,42 +1,59 @@
 // components/MeldInput.js
 import React, { Dispatch, SetStateAction, useState } from "react";
-import {Tile} from "./Tile";
-import {ErrorMsg} from "./ErrorMsg.jsx";
-import Header from "./Header.jsx";
+import { Tile } from "./Tile";
+import { ErrorMsg } from "./ErrorMsg";
+import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
-import SITUATIONALS from "../src/SituationalStringConstant";
+import {
+  CHI_ABLE_NUMBER_STRINGS,
+  MAX_MELDS_AND_KANS_LENGTH,
+  SITUATIONALS,
+  SUITS,
+} from "../src/Constant";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import { MELD_TYPE } from "../src/Constant";
 
 type Meld = {
-  meldType:string,
-  meldTiles:string[]
+  meldType: string;
+  meldTiles: string[];
 };
 
 const tiles = HAI_ARRAY;
-const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
-  {melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],situational?:string[],setSituational?:Dispatch<SetStateAction<string[]>>}) => {
+const MeldInput = ({
+  melds,
+  setMelds,
+  kans,
+  situational,
+  setSituational,
+}: {
+  melds: Meld[];
+  setMelds: Dispatch<SetStateAction<Meld[]>>;
+  kans: string[][];
+  situational?: string[];
+  setSituational?: Dispatch<SetStateAction<string[]>>;
+}) => {
   const [meldType, setMeldType] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
 
-  const addMeld = (tile:string) => {
+  const addMeld = (tile: string) => {
     let meldTiles;
 
     const NumOfmeldsAndKans = melds?.length + kans?.length;
 
-    if (NumOfmeldsAndKans >= 4) {
+    if (NumOfmeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
       return false;
     }
 
-    if (meldType === "チー") {
-      if (tile[0] == "z") {
+    if (meldType === MELD_TYPE.CHI) {
+      if (tile[0] == SUITS.ZIHAI) {
         setErrMsg("字牌はチー出来ません。");
         return false;
       }
 
       if (
-        ["1", "2", "3", "4", "5", "6", "7"].includes(tile[1]) &&
-        tile[0] !== "z"
+        CHI_ABLE_NUMBER_STRINGS.includes(tile[1]) &&
+        tile[0] !== SUITS.ZIHAI
       ) {
         const base = parseInt(tile[1]);
         const suit = tile[0];
@@ -49,30 +66,31 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
         setErrMsg("チーは順子の中で最小のものを選択してください。");
         return false;
       }
-    } else if (meldType === "ポン") {
+    } else if (meldType === MELD_TYPE.PON) {
       meldTiles = Array(3).fill(tile);
-    } else if (meldType === "カン") {
+    } else if (meldType === MELD_TYPE.KAN) {
       meldTiles = Array(4).fill(tile);
     } else {
       setErrMsg("先にチー・ポン・カンのいずれかを選択してください");
       return false;
     }
 
-    const newMeld : Meld = {meldType: meldType, meldTiles: meldTiles};
+    const newMeld: Meld = { meldType: meldType, meldTiles: meldTiles };
 
-    setMelds([...melds,newMeld]);
+    setMelds([...melds, newMeld]);
 
     if (situational) {
-      setSituational && setSituational(
-        situational?.filter(
-          (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
-        )
-      );
+      setSituational &&
+        setSituational(
+          situational?.filter(
+            (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
+          )
+        );
     }
     setErrMsg("");
   };
 
-  const deleteMeld = (index:number) => {
+  const deleteMeld = (index: number) => {
     setMelds(melds?.filter((_, i) => i !== index));
   };
 
@@ -81,8 +99,8 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
       <Header title="副露入力" className="text-center text-lg py-3"></Header>
       <Box className="flex justify-center">
         <HStack wrap="wrap" className="w-5/6">
-          {tiles.map((tile:string, index:number) => (
-            <Tile key={index} tile={tile} onClick={addMeld} className={null}/>
+          {tiles.map((tile: string, index: number) => (
+            <Tile key={index} tile={tile} onClick={addMeld} />
           ))}
         </HStack>
       </Box>
@@ -94,31 +112,31 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
       <Box className="flex justify-center py-2">
         <ButtonGroup>
           <Button
-            bgColor={meldType === "チー" ? "red" : "grey"}
+            bgColor={meldType === MELD_TYPE.CHI ? "red" : "grey"}
             _hover=""
             onClick={() => {
-              setMeldType("チー");
+              setMeldType(MELD_TYPE.CHI);
             }}
           >
-            チー
+            {MELD_TYPE.CHI}
           </Button>
           <Button
-            bgColor={meldType === "ポン" ? "red" : "grey"}
+            bgColor={meldType === MELD_TYPE.PON ? "red" : "grey"}
             _hover=""
             onClick={() => {
-              setMeldType("ポン");
+              setMeldType(MELD_TYPE.PON);
             }}
           >
-            ポン
+            {MELD_TYPE.PON}
           </Button>
           <Button
-            bgColor={meldType === "カン" ? "red" : "grey"}
+            bgColor={meldType === MELD_TYPE.KAN ? "red" : "grey"}
             _hover=""
             onClick={() => {
-              setMeldType("カン");
+              setMeldType(MELD_TYPE.KAN);
             }}
           >
-            カン
+            {MELD_TYPE.KAN}
           </Button>
         </ButtonGroup>
       </Box>
@@ -147,4 +165,4 @@ const MeldInput = ({ melds, setMelds, kans, situational, setSituational } :
 };
 
 export { MeldInput };
-export type {Meld};
+export type { Meld };

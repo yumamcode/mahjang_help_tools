@@ -1,10 +1,10 @@
 import { SetStateAction, useState } from "react";
-import {HandInput} from "../components/HandInput";
-import {MeldInput} from "../components/MeldInput";
-import {KanInput} from "../components/KanInput";
-import {SituationalInput} from "../components/SituationalInput";
+import { HandInput } from "../components/HandInput";
+import { MeldInput } from "../components/MeldInput";
+import { KanInput } from "../components/KanInput";
+import { SituationalInput } from "../components/SituationalInput";
 import { Provider } from "../providers/Provider";
-import {ScoreDisplay} from "../components/ScoreDisplay";
+import { ScoreDisplay } from "../components/ScoreDisplay";
 import {
   Box,
   HStack,
@@ -15,12 +15,12 @@ import {
   Link,
 } from "@chakra-ui/react";
 import MahjangHeader from "../components/MahjangHeader";
-import Header from "../components/Header";
-import {HolaInput} from "../components/HolaInput";
-import {WindInput} from "../components/WindInput";
-import {DispDorasInput} from "../components/DispDorasInput";
-import {DispUraDorasInput} from "../components/DispUraDorasInput";
-import {AkaDorasInput} from "../components/AkaDorasInput";
+import { Header } from "../components/Header";
+import { HolaInput } from "../components/HolaInput";
+import { WindInput } from "../components/WindInput";
+import { DispDorasInput } from "../components/DispDorasInput";
+import { DispUraDorasInput } from "../components/DispUraDorasInput";
+import { AkaDorasInput } from "../components/AkaDorasInput";
 import type { Meld } from "../components/MeldInput";
 
 const Index = () => {

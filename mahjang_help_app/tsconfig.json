@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.jsx", "pages/shanten.jsx", "pages/index.tsx", "src/mahjang.js", "components/HaiInputForm.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/Contents.jsx", "components/Header.tsx", "pages/shanten.jsx", "pages/index.tsx", "src/mahjang.js"],
   "exclude": ["node_modules"]
 }

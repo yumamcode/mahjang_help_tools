@@ -1,13 +1,24 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Tile } from "./Tile";
-import Header from "./Header.jsx";
+import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import { HOLA_TYPE } from "@/src/Constant";
 
 const tiles = HAI_ARRAY;
 
-const HolaInput = ({ holaTile, setHolaTile, holaType, setHolaType }) => {
-  const addTile = (t) => {
+const HolaInput = ({
+  holaTile,
+  setHolaTile,
+  holaType,
+  setHolaType,
+}: {
+  holaTile: string;
+  setHolaTile: Dispatch<SetStateAction<string>>;
+  holaType: string;
+  setHolaType: Dispatch<SetStateAction<string>>;
+}) => {
+  const addTile = (t: string) => {
     setHolaTile(t);
   };
 
@@ -16,11 +27,11 @@ const HolaInput = ({ holaTile, setHolaTile, holaType, setHolaType }) => {
   };
 
   const tumoButtonOnClick = () => {
-    setHolaType("ツモ");
+    setHolaType(HOLA_TYPE.TSUMO);
   };
 
   const ronButtonOnClick = () => {
-    setHolaType("ロン");
+    setHolaType(HOLA_TYPE.RONG);
   };
 
   return (
@@ -42,18 +53,18 @@ const HolaInput = ({ holaTile, setHolaTile, holaType, setHolaType }) => {
       <Box className="flex justify-center">
         <ButtonGroup>
           <Button
-            bgColor={holaType === "ツモ" ? "red" : "grey"}
+            bgColor={holaType === HOLA_TYPE.TSUMO ? "red" : "grey"}
             onClick={tumoButtonOnClick}
             _hover=""
           >
-            ツモ
+            {HOLA_TYPE.TSUMO}
           </Button>
           <Button
-            bgColor={holaType === "ロン" ? "red" : "grey"}
+            bgColor={holaType === HOLA_TYPE.RONG ? "red" : "grey"}
             onClick={ronButtonOnClick}
             _hover=""
           >
-            ロン
+            {HOLA_TYPE.RONG}
           </Button>
         </ButtonGroup>
       </Box>

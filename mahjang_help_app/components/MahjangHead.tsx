@@ -1,6 +1,12 @@
 import Head from "next/head";
 
-const Seo = ({ pageTitle, pageDescription }) => {
+const Seo = ({
+  pageTitle,
+  pageDescription,
+}: {
+  pageTitle: string;
+  pageDescription: string;
+}) => {
   const title = pageTitle;
   const description = pageDescription;
 

@@ -2,7 +2,15 @@ import { Img } from "@chakra-ui/react";
 import React from "react";
 import { Provider } from "@/providers/Provider.jsx";
 
-const Tile = ({ tile, className, onClick }) => (
+const Tile = ({
+  tile,
+  className,
+  onClick,
+}: {
+  tile: string;
+  className?: string;
+  onClick: Function;
+}) => (
   <Provider>
     <Img
       src={`/haiImg/${tile}.jpg`}

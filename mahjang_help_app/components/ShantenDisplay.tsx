@@ -7,19 +7,39 @@ import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
 const Majiang = require("@kobalab/majiang-core");
 type Recommend = {
-  daopai: string,
-  shanten: number,
-  usefulTiles: string[]
-}
+  daopai: string;
+  shanten: number;
+  usefulTiles: string[];
+};
 
-const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand:string[],setHand:Dispatch<SetStateAction<string[]>>,melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],setKans:Dispatch<SetStateAction<string[][]>>}) => {
-  const [shantenResult, setShantenResult] = useState<number|null>(null);
-  const [usefulTileResult, setUsefulTileResult] = useState<string[]|null>(null);
+const ShantenDisplay = ({
+  hand,
+  setHand,
+  melds,
+  setMelds,
+  kans,
+  setKans,
+}: {
+  hand: string[];
+  setHand: Dispatch<SetStateAction<string[]>>;
+  melds: Meld[];
+  setMelds: Dispatch<SetStateAction<Meld[]>>;
+  kans: string[][];
+  setKans: Dispatch<SetStateAction<string[][]>>;
+}) => {
+  const [shantenResult, setShantenResult] = useState<number | undefined>(
+    undefined
+  );
+  const [usefulTileResult, setUsefulTileResult] = useState<
+    string[] | undefined
+  >(undefined);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const [recommendResult, setReCommendResult] = useState<string | null>(null);
+  const [recommendResult, setRecommendResult] = useState<string | undefined>(
+    undefined
+  );
 
   useEffect(() => {
-    setReCommendResult(null);
+    setRecommendResult(undefined);
   }, [hand, melds, kans]);
 
   const calcShanten = () => {
@@ -52,7 +72,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       const shanten = Majiang.Util.xiangting(shoupai);
 
       if (shanten == -1) {
-        setReCommendResult(null);
+        setRecommendResult(undefined);
       }
 
       setShantenResult(shanten);
@@ -61,8 +81,8 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
 
       return shanten;
     } catch (error) {
-      setShantenResult(null);
-      setUsefulTileResult(null);
+      setShantenResult(undefined);
+      setUsefulTileResult(undefined);
       setErrorMsg("入力に問題があります。");
     }
   };
@@ -87,7 +107,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
     alert("牌情報を貼り付けました。");
   };
 
-  const recommendDapai = (prevShanten :number) => {
+  const recommendDapai = (prevShanten: number) => {
     if (prevShanten == -1) {
       return;
     }
@@ -102,15 +122,15 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       return;
     }
 
-    const daopais : string[] = [];
-    const recommends : Recommend[]= [];
-
-    const handTiles = hand.join("");
+    const daopais: string[] = [];
+    const recommends: Recommend[] = [];
 
     const meldTiles = melds
       .flatMap(
         (meld) =>
-          meld.meldTiles[0][0] + meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") + "-"
+          meld.meldTiles[0][0] +
+          meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
+          "-"
       )
       .join(",");
 
@@ -119,12 +139,11 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       .join(",");
 
     for (let daopai of hand) {
-
       if (daopais.includes(daopai)) {
         continue;
       }
 
-      const afterDaopai = hand.filter(h => h != daopai);
+      const afterDaopai = hand.filter((h) => h != daopai);
 
       let allTiles = afterDaopai.join("");
 
@@ -152,7 +171,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       recommends.push(recommend);
     }
 
-    recommends.sort((a:Recommend, b:Recommend) => {
+    recommends.sort((a: Recommend, b: Recommend) => {
       if (a.shanten < b.shanten) {
         return -1;
       }
@@ -176,7 +195,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       return 0;
     });
 
-    setReCommendResult(recommends[0].daopai);
+    setRecommendResult(recommends[0].daopai);
   };
 
   return (
@@ -186,7 +205,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
           <SubmitButton
             name="計算"
             onClick={() => {
-              const shanten = calcShanten();
+              const shanten: number = calcShanten();
               recommendDapai(shanten);
             }}
           ></SubmitButton>
@@ -209,7 +228,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
                   {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} className={null}/>
+                    <Tile key={index} tile={tile} onClick={() => {}} />
                   ))}
                 </HStack>
                 {melds.map((meld, index) => (
@@ -234,7 +253,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
                     if (idx == 0 || idx == 3) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} className={null}/>;
+                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
                   })}
                 </HStack>
               ))}
@@ -247,7 +266,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       </Box>
       <Box className="flex justify-center">
         <label>シャンテン数:</label>
-        {shantenResult != -1 && shantenResult != 0 && shantenResult}
+        {shantenResult != undefined && shantenResult > 0 && shantenResult}
         {shantenResult == -1
           ? "上がり形"
           : shantenResult == 0
@@ -259,7 +278,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       </Box>
       <Box className="flex flex-wrap justify-center">
         {usefulTileResult?.map((tile) => (
-          <Tile key={tile} tile={tile} onClick={() => {}} className={null}></Tile>
+          <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
         ))}
       </Box>
       <Box className="flex justify-center">
@@ -267,7 +286,7 @@ const ShantenDisplay = ({ hand, setHand, melds, setMelds, kans, setKans } :{hand
       </Box>
       <Box className="flex justify-center">
         {recommendResult && (
-          <Tile tile={recommendResult} onClick={() => {}} className={null}></Tile>
+          <Tile tile={recommendResult} onClick={() => {}}></Tile>
         )}
       </Box>
     </div>

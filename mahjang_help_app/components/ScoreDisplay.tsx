@@ -4,19 +4,19 @@ import { Box, ButtonGroup, VStack, HStack, Center } from "@chakra-ui/react";
 import { SubmitButton } from "./SubmitButton";
 import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
-import SITUATIONALS from "../src/SituationalStringConstant";
+import { HOLA_TYPE, SITUATIONALS, WINDS } from "../src/Constant";
 import { Meld } from "./MeldInput";
 type ScoreResult = {
-  fu:number,
-  fanshu:number,
-  defen:number,
-  hupai:Role[]
-}
+  fu: number;
+  fanshu: number;
+  defen: number;
+  hupai: Role[];
+};
 
 type Role = {
-  name:string,
-  fanshu:number
-}
+  name: string;
+  fanshu: number;
+};
 
 const Majiang = require("@kobalab/majiang-core");
 
@@ -35,8 +35,23 @@ const ScoreDisplay = ({
   dispUraDoras,
   akaDoras,
   situational,
-} : {roundWind:string,seatWind:string,holaTile:string,holaType:string,hand:string[],setHand:Dispatch<SetStateAction<string[]>>,melds:Meld[],setMelds:Dispatch<SetStateAction<Meld[]>>,kans:string[][],setKans:Dispatch<SetStateAction<string[][]>>,dispDoras:string[],dispUraDoras:string[],akaDoras:number,situational:string[]}) => {
-  const [result, setResult] = useState<ScoreResult|null>(null);
+}: {
+  roundWind: string;
+  seatWind: string;
+  holaTile: string;
+  holaType: string;
+  hand: string[];
+  setHand: Dispatch<SetStateAction<string[]>>;
+  melds: Meld[];
+  setMelds: Dispatch<SetStateAction<Meld[]>>;
+  kans: string[][];
+  setKans: Dispatch<SetStateAction<string[][]>>;
+  dispDoras: string[];
+  dispUraDoras: string[];
+  akaDoras: number;
+  situational: string[];
+}) => {
+  const [result, setResult] = useState<ScoreResult | null>(null);
   const [msg, setMsg] = useState("");
 
   const calculateScore = () => {
@@ -47,38 +62,37 @@ const ScoreDisplay = ({
         handTiles += holaTile;
       }
 
-      handTiles = handTiles.replace(/([msp])5/g, (tile:string) => {
-        if (i > 0) {
-          i--;
-          return tile.charAt(0) + "0";
+      handTiles = handTiles.replace(/([msp])5/g, (tile: string) => {
+        if (i <= 0) {
+          return tile.charAt(0) + "5";
         }
 
-        return tile.charAt(0) + "5";
+        i--;
+        return tile.charAt(0) + "0";
       });
 
       let meldTiles = melds
         .flatMap(
-          (meld :Meld) =>
+          (meld: Meld) =>
             meld.meldTiles[0][0] +
             meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
             "-"
         )
         .join(",");
 
-      const replaceToAkaDora = (tilesStr:string, numOfReplace:number) => {
+      const replaceToAkaDora = (tilesStr: string, numOfReplace: number) => {
         return tilesStr
           .split(",")
-          .map((tiles:string) => {
+          .map((tiles: string) => {
             if (tiles.startsWith("z")) {
               return tiles;
             } else {
               return tiles.replace(/5/g, () => {
-                if (numOfReplace > 0) {
-                  numOfReplace--;
-                  return "0";
+                if (numOfReplace <= 0) {
+                  return "5";
                 }
-
-                return "5";
+                numOfReplace--;
+                return "0";
               });
             }
           })
@@ -88,7 +102,9 @@ const ScoreDisplay = ({
       meldTiles = replaceToAkaDora(meldTiles, i);
 
       let kanTiles = kans
-        .flatMap((kan :string[]) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
+        .flatMap(
+          (kan: string[]) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, "")
+        )
         .join(",");
 
       kanTiles = replaceToAkaDora(kanTiles, i);
@@ -117,28 +133,31 @@ const ScoreDisplay = ({
       const haitei = situational.includes(SITUATIONALS.HAITEI);
       const houtei = situational.includes(SITUATIONALS.HOTEI);
 
+      console.log(i);
+
       const result = Majiang.Util.hule(
         Majiang.Shoupai.fromString(allTiles),
-        holaType === "ツモ" ? null 
-        : ["s5","m5","p5"].includes(holaTile) && i > 0 ? holaTile.replace(/5/,"0") + "-"
-        : holaTile + "-"
-        ,
+        holaType === HOLA_TYPE.TSUMO
+          ? null
+          : ["s5", "m5", "p5"].includes(holaTile) && i > 0
+          ? holaTile.replace(/5/, "0") + "-"
+          : holaTile + "-",
         {
           rule: rule,
           zhuangfeng:
-            roundWind === "東"
+            roundWind === WINDS.TON
               ? 0
-              : roundWind === "南"
+              : roundWind === WINDS.NAN
               ? 1
-              : roundWind === "西"
+              : roundWind === WINDS.SHA
               ? 2
               : 3,
           menfeng:
-            seatWind === "東"
+            seatWind === WINDS.TON
               ? 0
-              : seatWind === "南"
+              : seatWind === WINDS.NAN
               ? 1
-              : seatWind === "西"
+              : seatWind === WINDS.SHA
               ? 2
               : 3,
           hupai: {
@@ -169,7 +188,6 @@ const ScoreDisplay = ({
 
       return result;
     } catch (error) {
-      console.log(error);
       setMsg("点数を計算するためのデータが不足しています。");
       setResult(null);
       return null;
@@ -207,7 +225,7 @@ const ScoreDisplay = ({
           <Box>
             <Center>
               上がり牌:
-              {holaTile && <Tile tile={holaTile} onClick={() => {}} className={null}/>}
+              {holaTile && <Tile tile={holaTile} onClick={() => {}} />}
             </Center>
             上がり方:{holaType}
           </Box>
@@ -216,11 +234,11 @@ const ScoreDisplay = ({
             <HStack className="py-2">
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
-                  {hand.map((tile:string, index:number) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} className={null}/>
+                  {hand.map((tile: string, index: number) => (
+                    <Tile key={index} tile={tile} onClick={() => {}} />
                   ))}
                 </HStack>
-                {melds.map((meld:Meld, index:number) => (
+                {melds.map((meld: Meld, index: number) => (
                   <HStack key={index} ml="10px" spacing="0px">
                     {meld.meldTiles.map((tile, idx) => (
                       <Tile
@@ -236,13 +254,13 @@ const ScoreDisplay = ({
             </HStack>
             <Center>暗槓</Center>
             <HStack className="flex-wrap justify-center space-x-3">
-              {kans.map((kan:string[], index:number) => (
+              {kans.map((kan: string[], index: number) => (
                 <HStack key={index} spacing="0px">
-                  {kan.map((tile:string, idx:number) => {
+                  {kan.map((tile: string, idx: number) => {
                     if (idx == 0 || idx == 3) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} className={null} />;
+                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
                   })}
                 </HStack>
               ))}
@@ -251,16 +269,16 @@ const ScoreDisplay = ({
           <Box>
             ドラ表示牌
             <HStack spacing="0px" py="3px">
-              {dispDoras.map((dora:string, idx:number) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} className={null}/>
+              {dispDoras.map((dora: string, idx: number) => (
+                <Tile tile={dora} key={idx} onClick={() => {}} />
               ))}
             </HStack>
           </Box>
           <Box>
             裏ドラ表示牌
             <HStack spacing="0px" py="3px">
-              {dispUraDoras.map((dora:string, idx:number) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} className={null} />
+              {dispUraDoras.map((dora: string, idx: number) => (
+                <Tile tile={dora} key={idx} onClick={() => {}} />
               ))}
             </HStack>
           </Box>

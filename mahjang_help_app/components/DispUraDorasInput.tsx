@@ -1,18 +1,26 @@
-import Header from "./Header";
+import { Header } from "./Header";
 import { Box, HStack } from "@chakra-ui/react";
 import { Tile } from "./Tile";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import { Dispatch, SetStateAction } from "react";
+import { MAX_DISP_DORAS_LENGTH } from "@/src/Constant";
 
 const tiles = HAI_ARRAY;
 
-const DispUraDorasInput = ({ dispUraDoras, setDispUraDoras }) => {
-  const addTile = (tile) => {
-    if (dispUraDoras.length < 4) {
+const DispUraDorasInput = ({
+  dispUraDoras,
+  setDispUraDoras,
+}: {
+  dispUraDoras: string[];
+  setDispUraDoras: Dispatch<SetStateAction<string[]>>;
+}) => {
+  const addTile = (tile: string) => {
+    if (dispUraDoras.length < MAX_DISP_DORAS_LENGTH) {
       setDispUraDoras([...dispUraDoras, tile]);
     }
   };
 
-  const deleteTile = (index) => {
+  const deleteTile = (index: number) => {
     setDispUraDoras(dispUraDoras.filter((_, i) => i !== index));
   };
 

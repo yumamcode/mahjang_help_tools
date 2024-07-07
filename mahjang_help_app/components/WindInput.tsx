@@ -1,10 +1,21 @@
 // components/WindInput.js
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
+import { WINDS } from "@/src/Constant";
 
-const winds = ["東", "南", "西", "北"];
+const winds = Object.values(WINDS);
 
-const WindInput = ({ roundWind, setRoundWind, seatWind, setSeatWind }) => {
+const WindInput = ({
+  roundWind,
+  setRoundWind,
+  seatWind,
+  setSeatWind,
+}: {
+  roundWind: string;
+  setRoundWind: Dispatch<SetStateAction<string>>;
+  seatWind: string;
+  setSeatWind: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <Box className="text-center">
       <Box className="py-3">風の情報入力</Box>
