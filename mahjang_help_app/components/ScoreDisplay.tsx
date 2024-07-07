@@ -10,7 +10,7 @@ type ScoreResult = {
   fu: number;
   fanshu: number;
   defen: number;
-  hupai: Role[];
+  hupai?: Role[];
 };
 
 type Role = {
@@ -133,7 +133,7 @@ const ScoreDisplay = ({
       const haitei = situational.includes(SITUATIONALS.HAITEI);
       const houtei = situational.includes(SITUATIONALS.HOTEI);
 
-      const result = Majiang.Util.hule(
+      const result: ScoreResult = Majiang.Util.hule(
         Majiang.Shoupai.fromString(allTiles),
         holaType === HOLA_TYPE.TSUMO
           ? null
@@ -183,8 +183,7 @@ const ScoreDisplay = ({
 
       setMsg("");
       setResult(result);
-
-      return result;
+      return;
     } catch (error) {
       setMsg("点数を計算するためのデータが不足しています。");
       setResult(undefined);
@@ -306,7 +305,7 @@ const ScoreDisplay = ({
             <p>点数: {result.defen}</p>
             <Box className="flex flex-col">
               <p>役 : </p>
-              {result.hupai.map((yaku) => (
+              {result.hupai?.map((yaku) => (
                 <span key={yaku.name}>
                   {yaku.name} {yaku.fanshu}翻{" "}
                 </span>
