@@ -306,7 +306,7 @@ const ScoreDisplay = ({
             <p>点数: {result.defen}</p>
             <Box className="flex flex-col">
               <p>役 : </p>
-              {result.hupai?.map((yaku) => (
+              {result.hupai.map((yaku) => (
                 <span key={yaku.name}>
                   {yaku.name} {yaku.fanshu}翻{" "}
                 </span>

@@ -281,9 +281,10 @@ const ShantenDisplay = ({
         <label>待ち・有効牌</label>
       </Box>
       <Box className="flex flex-wrap justify-center">
-        {usefulTileResult?.map((tile) => (
-          <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
-        ))}
+        {usefulTileResult &&
+          usefulTileResult.map((tile) => (
+            <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
+          ))}
       </Box>
       <Box className="flex justify-center">
         <label>おすすめ打牌</label>

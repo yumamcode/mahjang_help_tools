@@ -25,7 +25,7 @@ const SituationalInput = ({
     <div>
       <Header title="状況役入力" className="text-center text-lg py-3"></Header>
       <HStack className="flex justify-center py-3 flex-wrap">
-        {Object.values(SITUATIONALS)?.map((role, idx) => {
+        {Object.values(SITUATIONALS).map((role, idx) => {
           return (
             <label key={role}>
               <input
