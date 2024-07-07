@@ -139,11 +139,11 @@ const MeldInput = ({
       </Box>
       <Box className="py-3">
         <VStack>
-          {melds?.map((meld, index) => (
+          {melds.map((meld, index) => (
             <div key={index}>
               <strong>{meld.meldType}:</strong>
               <HStack>
-                {meld.meldTiles?.map((tile, idx) => (
+                {meld.meldTiles.map((tile, idx) => (
                   <Tile
                     className={idx == 0 ? "rotate-90 " : ""}
                     key={idx}

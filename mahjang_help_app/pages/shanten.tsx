@@ -68,7 +68,14 @@ export default function Home() {
           ))}
         </ButtonGroup>
       </Box>
-      {showHandInput && <HandInput hand={hand} setHand={setHand}></HandInput>}
+      {showHandInput && (
+        <HandInput
+          hand={hand}
+          setHand={setHand}
+          melds={melds}
+          kans={kans}
+        ></HandInput>
+      )}
       {showMeldInput && (
         <MeldInput melds={melds} setMelds={setMelds} kans={kans}></MeldInput>
       )}

@@ -7,6 +7,7 @@ import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
 import {
   ANKAN_TURNOVER_INDEX_ARRAY,
+  MAX_HAND_LENGTH_WITH_MELDS_AND_KANS,
   SHANTEN_DESCRIPTIONS,
 } from "@/src/Constant";
 const Majiang = require("@kobalab/majiang-core");
@@ -117,12 +118,9 @@ const ShantenDisplay = ({
     }
 
     if (
-      hand.length != 14 &&
-      hand.length != 11 &&
-      hand.length != 8 &&
-      hand.length != 5 &&
-      hand.length != 2
+      !Object.values(MAX_HAND_LENGTH_WITH_MELDS_AND_KANS).includes(hand.length)
     ) {
+      //純手牌が最大枚数でないならreturnして終了
       return;
     }
 

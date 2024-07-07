@@ -1,23 +1,37 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { Tile } from "./Tile";
 import { Header } from "./Header";
 import { HStack, Box, Button } from "@chakra-ui/react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
-import { MAX_HANDS_LENGTH } from "@/src/Constant";
+import { Meld } from "./MeldInput";
+import { getMaxHandLength } from "@/src/getMaxHandLength";
+import { ErrorMsg } from "./ErrorMsg";
 
 const tiles = HAI_ARRAY;
 
 const HandInput = ({
   hand,
   setHand,
+  melds,
+  kans,
 }: {
   hand: string[];
   setHand: Dispatch<SetStateAction<string[]>>;
+  melds: Meld[];
+  kans: string[][];
 }) => {
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  useEffect(() => {
+    setErrorMsg("");
+  }, [hand, melds, kans]);
   const addTile = (tile: string): void => {
-    if (hand.length < MAX_HANDS_LENGTH) {
-      setHand([...hand, tile]);
+    const meldsAndKansLength = melds.length + kans.length;
+    if (hand.length >= getMaxHandLength(meldsAndKansLength)) {
+      setErrorMsg("純手牌は既に最大枚数です。");
+      return;
     }
+    setHand([...hand, tile]);
   };
 
   const deleteTile = (index: number): void => {
@@ -36,10 +50,17 @@ const HandInput = ({
           ))}
         </HStack>
       </Box>
+      <Box className="flex justify-center">
+        <label>純手牌枚数:</label>
+        {hand.length}
+      </Box>
       <Box className="flex justify-center py-5">
         {hand.map((tile: string, index: number) => (
           <Tile key={index} tile={tile} onClick={() => deleteTile(index)} />
         ))}
+      </Box>
+      <Box>
+        <ErrorMsg msg={errorMsg}></ErrorMsg>
       </Box>
     </div>
   );

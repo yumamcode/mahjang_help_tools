@@ -147,7 +147,9 @@ const Index = () => {
         ></HolaInput>
       )}
 
-      {showHandInput && <HandInput hand={hand} setHand={setHand} />}
+      {showHandInput && (
+        <HandInput hand={hand} setHand={setHand} melds={melds} kans={kans} />
+      )}
 
       {showMeldInput && (
         <MeldInput
