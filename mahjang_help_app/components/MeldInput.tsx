@@ -5,13 +5,13 @@ import { ErrorMsg } from "./ErrorMsg";
 import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
 import {
-  CHI_ABLE_NUMBER_STRINGS,
   MAX_MELDS_AND_KANS_LENGTH,
   SITUATIONALS,
   SUITS,
 } from "../src/Constant";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { MELD_TYPE } from "../src/Constant";
+import { isChiable } from "@/src/isChiable";
 
 type Meld = {
   meldType: string;
@@ -35,28 +35,25 @@ const MeldInput = ({
   const [meldType, setMeldType] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
 
-  const addMeld = (tile: string) => {
+  const addMeld = (tile: string): void => {
     let meldTiles;
 
     const NumOfmeldsAndKans = melds?.length + kans?.length;
 
     if (NumOfmeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
-      return false;
+      return;
     }
 
     if (meldType === MELD_TYPE.CHI) {
-      if (tile[0] == SUITS.ZIHAI) {
+      if (tile.charAt(0) == SUITS.ZIHAI) {
         setErrMsg("字牌はチー出来ません。");
-        return false;
+        return;
       }
 
-      if (
-        CHI_ABLE_NUMBER_STRINGS.includes(tile[1]) &&
-        tile[0] !== SUITS.ZIHAI
-      ) {
-        const base = parseInt(tile[1]);
-        const suit = tile[0];
+      if (isChiable(tile.charAt(1)) && tile.charAt(0) !== SUITS.ZIHAI) {
+        const base = parseInt(tile.charAt(1));
+        const suit = tile.charAt(0);
         meldTiles = [
           `${suit}${base}`,
           `${suit}${base + 1}`,
@@ -64,7 +61,7 @@ const MeldInput = ({
         ];
       } else {
         setErrMsg("チーは順子の中で最小のものを選択してください。");
-        return false;
+        return;
       }
     } else if (meldType === MELD_TYPE.PON) {
       meldTiles = Array(3).fill(tile);
@@ -72,7 +69,7 @@ const MeldInput = ({
       meldTiles = Array(4).fill(tile);
     } else {
       setErrMsg("先にチー・ポン・カンのいずれかを選択してください");
-      return false;
+      return;
     }
 
     const newMeld: Meld = { meldType: meldType, meldTiles: meldTiles };

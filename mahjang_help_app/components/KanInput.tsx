@@ -24,16 +24,16 @@ const KanInput = ({
 }) => {
   const [msg, setMsg] = useState("");
 
-  const addKan = (tile: string) => {
+  const addKan = (tile: string): void => {
     const NumOfMeldsAndKans = melds?.length + kans?.length;
     if (NumOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setMsg("これ以上暗槓出来ません。");
-      return false;
+      return;
     }
     setKans([...kans, [tile, tile, tile, tile]]);
   };
 
-  const deleteKan = (index: number) => {
+  const deleteKan = (index: number): void => {
     setKans(kans.filter((_, i) => i !== index));
   };
 

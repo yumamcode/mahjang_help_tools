@@ -18,19 +18,19 @@ const HolaInput = ({
   holaType: string;
   setHolaType: Dispatch<SetStateAction<string>>;
 }) => {
-  const addTile = (t: string) => {
+  const addTile = (t: string): void => {
     setHolaTile(t);
   };
 
-  const deleteTile = () => {
+  const deleteTile = (): void => {
     setHolaTile("");
   };
 
-  const tumoButtonOnClick = () => {
+  const tsumoButtonOnClick = (): void => {
     setHolaType(HOLA_TYPE.TSUMO);
   };
 
-  const ronButtonOnClick = () => {
+  const rongButtonOnClick = (): void => {
     setHolaType(HOLA_TYPE.RONG);
   };
 
@@ -54,14 +54,14 @@ const HolaInput = ({
         <ButtonGroup>
           <Button
             bgColor={holaType === HOLA_TYPE.TSUMO ? "red" : "grey"}
-            onClick={tumoButtonOnClick}
+            onClick={tsumoButtonOnClick}
             _hover=""
           >
             {HOLA_TYPE.TSUMO}
           </Button>
           <Button
             bgColor={holaType === HOLA_TYPE.RONG ? "red" : "grey"}
-            onClick={ronButtonOnClick}
+            onClick={rongButtonOnClick}
             _hover=""
           >
             {HOLA_TYPE.RONG}

@@ -51,14 +51,14 @@ const ScoreDisplay = ({
   akaDoras: number;
   situational: string[];
 }) => {
-  const [result, setResult] = useState<ScoreResult | null>(null);
+  const [result, setResult] = useState<ScoreResult | undefined>(undefined);
   const [msg, setMsg] = useState("");
 
-  const calculateScore = () => {
+  const calculateScore = (): void => {
     try {
       let i = akaDoras;
       let handTiles = hand.join("");
-      if (holaType === "ツモ") {
+      if (holaType === HOLA_TYPE.TSUMO) {
         handTiles += holaTile;
       }
 
@@ -133,8 +133,6 @@ const ScoreDisplay = ({
       const haitei = situational.includes(SITUATIONALS.HAITEI);
       const houtei = situational.includes(SITUATIONALS.HOTEI);
 
-      console.log(i);
-
       const result = Majiang.Util.hule(
         Majiang.Shoupai.fromString(allTiles),
         holaType === HOLA_TYPE.TSUMO
@@ -177,10 +175,10 @@ const ScoreDisplay = ({
         }
       );
 
-      if (result == undefined) {
+      if (!result) {
         setMsg("点数を計算するためのデータが不足しています。");
-        setResult(null);
-        return null;
+        setResult(undefined);
+        return;
       }
 
       setMsg("");
@@ -189,12 +187,12 @@ const ScoreDisplay = ({
       return result;
     } catch (error) {
       setMsg("点数を計算するためのデータが不足しています。");
-      setResult(null);
-      return null;
+      setResult(undefined);
+      return;
     }
   };
 
-  const copyInputTiles = () => {
+  const copyInputTiles = (): void => {
     localStorage.setItem("handInput", JSON.stringify(hand));
     localStorage.setItem("meldsInput", JSON.stringify(melds));
     localStorage.setItem("kansInput", JSON.stringify(kans));
@@ -202,7 +200,7 @@ const ScoreDisplay = ({
     alert("牌情報をコピーしました。");
   };
 
-  const pasteInputTiles = () => {
+  const pasteInputTiles = (): void => {
     const handInputOnLocalStorage = localStorage.getItem("handInput");
     const meldsInputOnLocalStorage = localStorage.getItem("meldsInput");
     const kansInputOnLocalStorage = localStorage.getItem("kansInput");

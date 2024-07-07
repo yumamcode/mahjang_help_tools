@@ -5,6 +5,10 @@ import { SubmitButton } from "./SubmitButton";
 import { ErrorMsg } from "./ErrorMsg";
 import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
+import {
+  ANKAN_TURNOVER_INDEX_ARRAY,
+  SHANTEN_DESCRIPTIONS,
+} from "@/src/Constant";
 const Majiang = require("@kobalab/majiang-core");
 type Recommend = {
   daopai: string;
@@ -71,7 +75,7 @@ const ShantenDisplay = ({
 
       const shanten = Majiang.Util.xiangting(shoupai);
 
-      if (shanten == -1) {
+      if (shanten == SHANTEN_DESCRIPTIONS.HOLA) {
         setRecommendResult(undefined);
       }
 
@@ -108,7 +112,7 @@ const ShantenDisplay = ({
   };
 
   const recommendDapai = (prevShanten: number) => {
-    if (prevShanten == -1) {
+    if (prevShanten == SHANTEN_DESCRIPTIONS.HOLA) {
       return;
     }
 
@@ -250,7 +254,7 @@ const ShantenDisplay = ({
               {kans.map((kan, index) => (
                 <HStack key={index} spacing="0px">
                   {kan.map((tile, idx) => {
-                    if (idx == 0 || idx == 3) {
+                    if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                       tile = "turnoverdTile";
                     }
                     return <Tile key={idx} tile={tile} onClick={() => {}} />;
@@ -267,9 +271,9 @@ const ShantenDisplay = ({
       <Box className="flex justify-center">
         <label>シャンテン数:</label>
         {shantenResult != undefined && shantenResult > 0 && shantenResult}
-        {shantenResult == -1
+        {shantenResult == SHANTEN_DESCRIPTIONS.HOLA
           ? "上がり形"
-          : shantenResult == 0
+          : shantenResult == SHANTEN_DESCRIPTIONS.TINGPAI
           ? "テンパイ"
           : ""}
       </Box>

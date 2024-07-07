@@ -14,13 +14,13 @@ const HandInput = ({
   hand: string[];
   setHand: Dispatch<SetStateAction<string[]>>;
 }) => {
-  const addTile = (tile: string) => {
+  const addTile = (tile: string): void => {
     if (hand.length < MAX_HANDS_LENGTH) {
       setHand([...hand, tile]);
     }
   };
 
-  const deleteTile = (index: number) => {
+  const deleteTile = (index: number): void => {
     setHand(hand.filter((_: string, i: number) => i !== index));
   };
 

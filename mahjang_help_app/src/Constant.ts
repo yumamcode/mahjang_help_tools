@@ -43,6 +43,23 @@ const CHI_ABLE_NUMBER_STRINGS = ["1", "2", "3", "4", "5", "6", "7"];
 
 const ANKAN_TURNOVER_INDEX_ARRAY = [0, 3];
 
+const CHINESE_COUNT_DESCRIPTIONS = {
+  1: "イー",
+  2: "リャン",
+  3: "サン",
+  4: "スー",
+  5: "ウー",
+  6: "ロー",
+  7: "チー",
+  8: "パー",
+  9: "キュウ",
+};
+
+const SHANTEN_DESCRIPTIONS = {
+  HOLA: -1,
+  TINGPAI: 0,
+};
+
 export {
   SITUATIONALS,
   WINDS,
@@ -54,4 +71,6 @@ export {
   MAX_HANDS_LENGTH,
   CHI_ABLE_NUMBER_STRINGS,
   ANKAN_TURNOVER_INDEX_ARRAY,
+  CHINESE_COUNT_DESCRIPTIONS,
+  SHANTEN_DESCRIPTIONS,
 };
