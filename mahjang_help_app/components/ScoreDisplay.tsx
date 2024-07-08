@@ -157,7 +157,7 @@ const ScoreDisplay = ({
             if (tiles.startsWith(SUITS.ZIHAI)) {
               return tiles;
             } else {
-              return tiles.replace(/{AKADORA_NUMBER_IN_FACT}/g, () => {
+              return tiles.replace(/5/g, () => {
                 if (numOfReplace <= 0) {
                   return String(AKADORA_NUMBER_IN_FACT);
                 }
@@ -211,10 +211,8 @@ const ScoreDisplay = ({
           : i > MIN_LENGTH_AKADORA &&
             holaTile &&
             NUMBER_5TH_TILES.includes(holaTile)
-          ? holaTile.replace(
-              /{AKADORA_NUMBER_IN_FACT}/,
-              String(AKADORA_NUMBER_FOR_CONVINIENCE)
-            ) + MELD_FROM_CODE.LEFT
+          ? holaTile.replace(/5/, String(AKADORA_NUMBER_FOR_CONVINIENCE)) +
+            MELD_FROM_CODE.LEFT
           : holaTile + MELD_FROM_CODE.LEFT,
         {
           rule: rule,
