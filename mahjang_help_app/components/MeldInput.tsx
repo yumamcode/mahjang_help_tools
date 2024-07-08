@@ -38,9 +38,9 @@ const MeldInput = ({
   const addMeld = (tile: string): void => {
     let meldTiles;
 
-    const NumOfmeldsAndKans = melds.length + kans.length;
+    const numOfMeldsAndKans = melds.length + kans.length;
 
-    if (NumOfmeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
+    if (numOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
       return;
     }

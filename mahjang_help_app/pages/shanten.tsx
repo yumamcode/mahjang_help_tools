@@ -55,7 +55,7 @@ export default function Home() {
         <ButtonGroup className="flex-wrap space-y-2 w-5/6">
           <Button style={{ display: "none" }}></Button>
           {TOGGLE_SHOW_BUTTONS.map((btn) => (
-            <>
+            <div key={btn.name}>
               {btn.boolean_show && (
                 <Button
                   colorScheme="red"
@@ -81,7 +81,7 @@ export default function Home() {
                   {btn.name}
                 </Button>
               )}
-            </>
+            </div>
           ))}
         </ButtonGroup>
       </Box>
