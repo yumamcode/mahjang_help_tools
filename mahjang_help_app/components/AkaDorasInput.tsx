@@ -1,3 +1,4 @@
+import { MAX_LENGTH_AKADORA, MIN_LENGTH_AKADORA } from "@/src/Constant";
 import {
   Box,
   NumberInput,
@@ -21,8 +22,8 @@ const AkaDorasInput = ({
       <NumberInput
         className="mx-auto w-20"
         value={akaDoras}
-        min={0}
-        max={3}
+        min={MIN_LENGTH_AKADORA}
+        max={MAX_LENGTH_AKADORA}
         onChange={(_: string, n: number) => setAkaDoras(n)}
         bgColor="white"
       >
