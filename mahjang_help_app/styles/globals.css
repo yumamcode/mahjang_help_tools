@@ -13,17 +13,17 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
-    }
-    }
-    
-    body {
-      color: rgb(var(--foreground-rgb));
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-        )
-        rgb(var(--background-start-rgb));
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
@@ -32,7 +32,7 @@
   }
 }
 
-body{
-  background-image:url("/contemporary_china_2.jpg");
-  background-size:cover;
+body {
+  background-image: url("/contemporary_china_2.jpg") !important;
+  background-size: cover !important;
 }
