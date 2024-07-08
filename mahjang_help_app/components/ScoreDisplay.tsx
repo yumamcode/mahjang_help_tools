@@ -120,7 +120,7 @@ const ScoreDisplay = ({
       return;
     }
     try {
-      let i = akaDoras;
+      let restOfAkadora = akaDoras;
       let handTiles = hand.join("");
       if (holaType === HOLA_TYPE.TSUMO) {
         handTiles += holaTile;
@@ -130,11 +130,11 @@ const ScoreDisplay = ({
         // "m5","p5","s5"が置換対象
         /([mps])5/g,
         (tile: string) => {
-          if (i <= 0) {
+          if (restOfAkadora <= 0) {
             return TileUtil.getSuit(tile) + String(AKADORA_NUMBER_IN_FACT);
           }
 
-          i--;
+          restOfAkadora--;
           return (
             TileUtil.getSuit(tile) + String(AKADORA_NUMBER_FOR_CONVINIENCE)
           );
@@ -162,6 +162,7 @@ const ScoreDisplay = ({
                   return String(AKADORA_NUMBER_IN_FACT);
                 }
                 numOfReplace--;
+                restOfAkadora = numOfReplace;
                 return String(AKADORA_NUMBER_FOR_CONVINIENCE);
               });
             }
@@ -169,7 +170,7 @@ const ScoreDisplay = ({
           .join(",");
       };
 
-      meldTiles = replaceToAkaDora(meldTiles, i);
+      meldTiles = replaceToAkaDora(meldTiles, restOfAkadora);
 
       let kanTiles = kans
         .flatMap(
@@ -178,7 +179,7 @@ const ScoreDisplay = ({
         )
         .join(",");
 
-      kanTiles = replaceToAkaDora(kanTiles, i);
+      kanTiles = replaceToAkaDora(kanTiles, restOfAkadora);
 
       let allTiles = handTiles;
       if (meldTiles != "") {
@@ -208,7 +209,7 @@ const ScoreDisplay = ({
         Majiang.Shoupai.fromString(allTiles),
         holaType === HOLA_TYPE.TSUMO
           ? null
-          : i > MIN_LENGTH_AKADORA &&
+          : restOfAkadora > MIN_LENGTH_AKADORA &&
             holaTile &&
             NUMBER_5TH_TILES.includes(holaTile)
           ? holaTile.replace(/5/, String(AKADORA_NUMBER_FOR_CONVINIENCE)) +
