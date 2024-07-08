@@ -38,7 +38,7 @@ const MeldInput = ({
   const addMeld = (tile: string): void => {
     let meldTiles;
 
-    const NumOfmeldsAndKans = melds?.length + kans?.length;
+    const NumOfmeldsAndKans = melds.length + kans.length;
 
     if (NumOfmeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
@@ -79,7 +79,7 @@ const MeldInput = ({
     if (situational) {
       setSituational &&
         setSituational(
-          situational?.filter(
+          situational.filter(
             (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
           )
         );
@@ -88,7 +88,7 @@ const MeldInput = ({
   };
 
   const deleteMeld = (index: number) => {
-    setMelds(melds?.filter((_, i) => i !== index));
+    setMelds(melds.filter((_, i) => i !== index));
   };
 
   return (
@@ -142,16 +142,18 @@ const MeldInput = ({
           {melds.map((meld, index) => (
             <div key={index}>
               <strong>{meld.meldType}:</strong>
-              <HStack>
+              <HStack spacing="0px">
                 {meld.meldTiles.map((tile, idx) => (
                   <Tile
-                    className={idx == 0 ? "rotate-90 " : ""}
+                    className={idx == 0 ? "mr-2 rotate-90" : ""}
                     key={idx}
                     tile={tile}
                     onClick={() => {}}
                   />
                 ))}
-                <button onClick={() => deleteMeld(index)}>削除</button>
+                <button className="mx-3" onClick={() => deleteMeld(index)}>
+                  削除
+                </button>
               </HStack>
             </div>
           ))}

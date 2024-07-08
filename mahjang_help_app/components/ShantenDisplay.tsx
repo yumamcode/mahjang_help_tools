@@ -221,7 +221,7 @@ const ShantenDisplay = ({
           ></SubmitButton>
         </ButtonGroup>
       </Box>
-      <Box className="bg-green-400">
+      <Box className="bg-green-300">
         <VStack>
           <Box>入力一覧</Box>
           <Box>

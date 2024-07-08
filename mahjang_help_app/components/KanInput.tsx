@@ -25,8 +25,8 @@ const KanInput = ({
   const [msg, setMsg] = useState("");
 
   const addKan = (tile: string): void => {
-    const NumOfMeldsAndKans = melds?.length + kans?.length;
-    if (NumOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
+    const numOfMeldsAndKans = melds.length + kans.length;
+    if (numOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
       setMsg("これ以上暗槓出来ません。");
       return;
     }
@@ -51,14 +51,16 @@ const KanInput = ({
       <Box className="flex justify-center py-5">
         <VStack>
           {kans.map((kan, index) => (
-            <HStack key={index}>
+            <HStack key={index} spacing="0px">
               {kan.map((tile, idx) => {
                 if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                   tile = "turnoverdTile";
                 }
                 return <Tile key={idx} tile={tile} onClick={() => {}} />;
               })}
-              <button onClick={() => deleteKan(index)}>削除</button>
+              <button className="px-3" onClick={() => deleteKan(index)}>
+                削除
+              </button>
             </HStack>
           ))}
         </VStack>

@@ -18,7 +18,7 @@ const SituationalInput = ({
   };
 
   const deleteSituational = (targetSituational: string) => {
-    setSituational(situational?.filter((sit) => sit != targetSituational));
+    setSituational(situational.filter((sit) => sit != targetSituational));
   };
 
   return (
@@ -31,7 +31,7 @@ const SituationalInput = ({
               <input
                 type="checkbox"
                 disabled={
-                  melds?.length > 0 &&
+                  melds.length > 0 &&
                   (role == SITUATIONALS.RICHI || role == SITUATIONALS.W_RICHI)
                 }
                 checked={situational.includes(role)}

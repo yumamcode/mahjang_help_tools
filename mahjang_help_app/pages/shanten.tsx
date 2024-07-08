@@ -8,6 +8,8 @@ import { KanInput } from "@/components/KanInput";
 import { ShantenDisplay } from "@/components/ShantenDisplay";
 import { useState } from "react";
 import type { Meld } from "@/components/MeldInput";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 export default function Home() {
   const [hand, setHand] = useState<string[]>([]);
@@ -53,18 +55,33 @@ export default function Home() {
         <ButtonGroup className="flex-wrap space-y-2 w-5/6">
           <Button style={{ display: "none" }}></Button>
           {TOGGLE_SHOW_BUTTONS.map((btn) => (
-            <Button
-              key={btn.name}
-              width="150px"
-              bgColor={btn.boolean_show ? "red" : "grey"}
-              _hover=""
-              onClick={() => {
-                hideAllInput();
-                btn.setter(!btn.boolean_show);
-              }}
-            >
-              {btn.name} {btn.boolean_show ? "▲" : "▼"}
-            </Button>
+            <>
+              {btn.boolean_show && (
+                <Button
+                  colorScheme="red"
+                  rightIcon={<ExpandLessIcon></ExpandLessIcon>}
+                  width="150px"
+                  onClick={() => {
+                    btn.setter(false);
+                  }}
+                >
+                  {btn.name}
+                </Button>
+              )}
+              {!btn.boolean_show && (
+                <Button
+                  colorScheme="blackAlpha"
+                  rightIcon={<ExpandMoreIcon></ExpandMoreIcon>}
+                  width="150px"
+                  onClick={() => {
+                    hideAllInput();
+                    btn.setter(true);
+                  }}
+                >
+                  {btn.name}
+                </Button>
+              )}
+            </>
           ))}
         </ButtonGroup>
       </Box>

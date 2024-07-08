@@ -24,6 +24,7 @@ const AkaDorasInput = ({
         min={0}
         max={3}
         onChange={(_: string, n: number) => setAkaDoras(n)}
+        bgColor="white"
       >
         <NumberInputField />
         <NumberInputStepper>

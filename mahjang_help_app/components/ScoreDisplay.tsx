@@ -1,6 +1,14 @@
 // components/ScoreDisplay.js
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Box, ButtonGroup, VStack, HStack, Center } from "@chakra-ui/react";
+import {
+  Box,
+  ButtonGroup,
+  VStack,
+  HStack,
+  Center,
+  FormLabel,
+  Icon,
+} from "@chakra-ui/react";
 import { SubmitButton } from "./SubmitButton";
 import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
@@ -213,7 +221,7 @@ const ScoreDisplay = ({
 
   return (
     <div>
-      <Box className="bg-green-400">
+      <Box className="bg-green-300">
         <VStack>
           <Box className="text-lg font-semibold">入力一覧</Box>
           <Box>
