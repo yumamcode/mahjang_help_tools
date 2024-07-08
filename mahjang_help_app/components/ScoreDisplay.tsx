@@ -14,6 +14,7 @@ import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
 import { HOLA_TYPE, SITUATIONALS, WINDS } from "../src/Constant";
 import { Meld } from "./MeldInput";
+import { RequiredIcon } from "./RequiredIcon";
 type ScoreResult = {
   fu: number;
   fanshu: number;
@@ -229,13 +230,18 @@ const ScoreDisplay = ({
           </Box>
           <Box>
             <Center>
-              上がり牌:
+              <RequiredIcon innerText="上がり牌"></RequiredIcon>
               {holaTile && <Tile tile={holaTile} onClick={() => {}} />}
             </Center>
-            上がり方:{holaType}
+            <Center>
+              <RequiredIcon innerText="上がり方:"></RequiredIcon>
+              {holaType}
+            </Center>
           </Box>
           <Box>
-            <Center>牌姿</Center>
+            <Center>
+              <RequiredIcon innerText="牌姿"></RequiredIcon>
+            </Center>
             <HStack className="py-2">
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">

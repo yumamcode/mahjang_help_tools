@@ -1,0 +1,13 @@
+.requiredLabel {
+  display: block;
+}
+
+.requiredLabel:before {
+  margin-right: 2px;
+  padding: 0px 3px 0px 3px;
+  border-radius: 4px;
+  font-size: 0.6em;
+  color: white;
+  background-color: #c44;
+  content: "※";
+}

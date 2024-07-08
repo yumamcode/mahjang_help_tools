@@ -6,6 +6,7 @@ import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
 import {
   MAX_MELDS_AND_KANS_LENGTH,
+  MELD_LENGTH,
   SITUATIONALS,
   SUITS,
 } from "../src/Constant";
@@ -32,18 +33,21 @@ const MeldInput = ({
   situational?: string[];
   setSituational?: Dispatch<SetStateAction<string[]>>;
 }) => {
-  const [meldType, setMeldType] = useState<string>("");
+  const [meldType, setMeldType] = useState<string | undefined>(undefined);
   const [errMsg, setErrMsg] = useState<string>("");
 
   const addMeld = (tile: string): void => {
-    let meldTiles;
-
-    const numOfMeldsAndKans = melds.length + kans.length;
-
-    if (numOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
+    if (melds.length + kans.length >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
       return;
     }
+
+    if (meldType === undefined) {
+      setErrMsg("先にチー・ポン・カンのいずれかを選択してください。");
+      return;
+    }
+
+    let meldTiles: string[] = [];
 
     if (meldType === MELD_TYPE.CHI) {
       if (tile.charAt(0) == SUITS.ZIHAI) {
@@ -51,25 +55,24 @@ const MeldInput = ({
         return;
       }
 
-      if (isChiable(tile.charAt(1)) && tile.charAt(0) !== SUITS.ZIHAI) {
-        const base = parseInt(tile.charAt(1));
-        const suit = tile.charAt(0);
-        meldTiles = [
-          `${suit}${base}`,
-          `${suit}${base + 1}`,
-          `${suit}${base + 2}`,
-        ];
-      } else {
+      if (!isChiable(tile.charAt(1))) {
         setErrMsg("チーは順子の中で最小のものを選択してください。");
         return;
       }
+
+      const suit = tile.charAt(0);
+      const base = parseInt(tile.charAt(1));
+      for (let i = 0; i < MELD_LENGTH.CHI; i++) {
+        meldTiles.push(`${suit}${base + i}`);
+      }
     } else if (meldType === MELD_TYPE.PON) {
-      meldTiles = Array(3).fill(tile);
+      for (let i = 0; i < MELD_LENGTH.PON; i++) {
+        meldTiles.push(tile);
+      }
     } else if (meldType === MELD_TYPE.KAN) {
-      meldTiles = Array(4).fill(tile);
-    } else {
-      setErrMsg("先にチー・ポン・カンのいずれかを選択してください");
-      return;
+      for (let i = 0; i < MELD_LENGTH.KAN; i++) {
+        meldTiles.push(tile);
+      }
     }
 
     const newMeld: Meld = { meldType: meldType, meldTiles: meldTiles };

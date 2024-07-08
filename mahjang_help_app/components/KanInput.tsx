@@ -25,8 +25,7 @@ const KanInput = ({
   const [msg, setMsg] = useState("");
 
   const addKan = (tile: string): void => {
-    const numOfMeldsAndKans = melds.length + kans.length;
-    if (numOfMeldsAndKans >= MAX_MELDS_AND_KANS_LENGTH) {
+    if (melds.length + kans.length >= MAX_MELDS_AND_KANS_LENGTH) {
       setMsg("これ以上暗槓出来ません。");
       return;
     }

@@ -21,6 +21,12 @@ const MELD_TYPE = {
   KAN: "カン",
 };
 
+const MELD_LENGTH = {
+  CHI: 3,
+  PON: 3,
+  KAN: 4,
+};
+
 const HOLA_TYPE = {
   TSUMO: "ツモ",
   RONG: "ロン",
@@ -72,6 +78,7 @@ export {
   SITUATIONALS,
   WINDS,
   MELD_TYPE,
+  MELD_LENGTH,
   HOLA_TYPE,
   SUITS,
   MAX_DISP_DORAS_LENGTH,
