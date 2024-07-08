@@ -8,8 +8,10 @@ import type { Meld } from "./MeldInput";
 import {
   ANKAN_TURNOVER_INDEX_ARRAY,
   MAX_HAND_LENGTH_WITH_MELDS_AND_KANS,
+  MELD_FROM_CODE,
   SHANTEN_DESCRIPTIONS,
 } from "@/src/Constant";
+import { TileUtil } from "@/src/TileUtil";
 const Majiang = require("@kobalab/majiang-core");
 type Recommend = {
   daopai: string;
@@ -53,13 +55,15 @@ const ShantenDisplay = ({
       const meldTiles = melds
         .flatMap(
           (meld) =>
-            meld.meldTiles[0][0] +
-            meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
-            "-"
+            TileUtil.getSuit(meld.meldTiles[0]) +
+            meld.meldTiles.join("").replace(/[a-z]/g, "") +
+            MELD_FROM_CODE.LEFT
         )
         .join(",");
       const kanTiles = kans
-        .flatMap((kan) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, ""))
+        .flatMap(
+          (kan) => TileUtil.getSuit(kan[0]) + kan.join("").replace(/[a-z]/g, "")
+        )
         .join(",");
 
       let allTiles = handTiles;
@@ -230,7 +234,7 @@ const ShantenDisplay = ({
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
                   {hand.map((tile, index) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
+                    <Tile key={index} tile={tile} />
                   ))}
                 </HStack>
                 {melds.map((meld, index) => (
@@ -240,7 +244,6 @@ const ShantenDisplay = ({
                         className={idx == 0 ? "rotate-90 mr-2" : ""}
                         key={idx}
                         tile={tile}
-                        onClick={() => {}}
                       />
                     ))}
                   </HStack>
@@ -255,7 +258,7 @@ const ShantenDisplay = ({
                     if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
+                    return <Tile key={idx} tile={tile} />;
                   })}
                 </HStack>
               ))}
@@ -280,17 +283,13 @@ const ShantenDisplay = ({
       </Box>
       <Box className="flex flex-wrap justify-center">
         {usefulTileResult &&
-          usefulTileResult.map((tile) => (
-            <Tile key={tile} tile={tile} onClick={() => {}}></Tile>
-          ))}
+          usefulTileResult.map((tile) => <Tile key={tile} tile={tile}></Tile>)}
       </Box>
       <Box className="flex justify-center">
         <label>おすすめ打牌</label>
       </Box>
       <Box className="flex justify-center">
-        {recommendResult && (
-          <Tile tile={recommendResult} onClick={() => {}}></Tile>
-        )}
+        {recommendResult && <Tile tile={recommendResult}></Tile>}
       </Box>
     </div>
   );

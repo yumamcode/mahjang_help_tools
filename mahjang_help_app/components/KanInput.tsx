@@ -55,7 +55,7 @@ const KanInput = ({
                 if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                   tile = "turnoverdTile";
                 }
-                return <Tile key={idx} tile={tile} onClick={() => {}} />;
+                return <Tile key={idx} tile={tile} />;
               })}
               <button className="px-3" onClick={() => deleteKan(index)}>
                 削除

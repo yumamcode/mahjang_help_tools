@@ -1,5 +1,5 @@
 // components/ScoreDisplay.js
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   Box,
   ButtonGroup,
@@ -12,9 +12,22 @@ import {
 import { SubmitButton } from "./SubmitButton";
 import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
-import { HOLA_TYPE, SITUATIONALS, WINDS } from "../src/Constant";
+import {
+  AKADORA_NUMBER_FOR_CONVINIENCE,
+  AKADORA_NUMBER_IN_FACT,
+  ANKAN_TURNOVER_INDEX_ARRAY,
+  HOLA_TYPE,
+  MELD_FROM_CODE,
+  MIN_LENGTH_AKADORA,
+  NUMBER_5TH_TILES,
+  SITUATIONALS,
+  SUITS,
+  WINDS,
+} from "../src/Constant";
 import { Meld } from "./MeldInput";
 import { RequiredIcon } from "./RequiredIcon";
+import { TileUtil } from "@/src/TileUtil";
+import { getMaxHandLength } from "@/src/getMaxHandLength";
 type ScoreResult = {
   fu: number;
   fanshu: number;
@@ -45,10 +58,10 @@ const ScoreDisplay = ({
   akaDoras,
   situational,
 }: {
-  roundWind: string;
-  seatWind: string;
-  holaTile: string;
-  holaType: string;
+  roundWind: string | undefined;
+  seatWind: string | undefined;
+  holaTile: string | undefined;
+  holaType: string | undefined;
   hand: string[];
   setHand: Dispatch<SetStateAction<string[]>>;
   melds: Meld[];
@@ -63,7 +76,49 @@ const ScoreDisplay = ({
   const [result, setResult] = useState<ScoreResult | undefined>(undefined);
   const [msg, setMsg] = useState("");
 
+  useEffect(() => {
+    setResult(undefined);
+  }, [
+    roundWind,
+    seatWind,
+    holaTile,
+    holaType,
+    hand,
+    melds,
+    kans,
+    dispDoras,
+    dispUraDoras,
+    akaDoras,
+    situational,
+  ]);
+
+  useEffect(() => {
+    setMsg("");
+  }, [holaTile, holaType, hand]);
+
   const calculateScore = (): void => {
+    if (!holaTile) {
+      setMsg("上がり牌を選択してください。");
+      return;
+    }
+
+    if (!holaType) {
+      setMsg("上がり方を選択してください。");
+      return;
+    }
+
+    let sumOfHandAndHolaTile = 0;
+
+    sumOfHandAndHolaTile = hand.length;
+
+    if (holaTile) {
+      sumOfHandAndHolaTile++;
+    }
+
+    if (sumOfHandAndHolaTile < getMaxHandLength(melds.length + kans.length)) {
+      setMsg("手牌の枚数が不足しています。");
+      return;
+    }
     try {
       let i = akaDoras;
       let handTiles = hand.join("");
@@ -71,21 +126,27 @@ const ScoreDisplay = ({
         handTiles += holaTile;
       }
 
-      handTiles = handTiles.replace(/([msp])5/g, (tile: string) => {
-        if (i <= 0) {
-          return tile.charAt(0) + "5";
-        }
+      handTiles = handTiles.replace(
+        // "m5","p5","s5"が置換対象
+        /([mps])5/g,
+        (tile: string) => {
+          if (i <= 0) {
+            return TileUtil.getSuit(tile) + String(AKADORA_NUMBER_IN_FACT);
+          }
 
-        i--;
-        return tile.charAt(0) + "0";
-      });
+          i--;
+          return (
+            TileUtil.getSuit(tile) + String(AKADORA_NUMBER_FOR_CONVINIENCE)
+          );
+        }
+      );
 
       let meldTiles = melds
         .flatMap(
           (meld: Meld) =>
-            meld.meldTiles[0][0] +
-            meld.meldTiles.join("").replace(/[a-zA-Z]/g, "") +
-            "-"
+            TileUtil.getSuit(meld.meldTiles[0]) +
+            meld.meldTiles.join("").replace(/[a-z]/g, "") +
+            MELD_FROM_CODE.LEFT
         )
         .join(",");
 
@@ -93,15 +154,15 @@ const ScoreDisplay = ({
         return tilesStr
           .split(",")
           .map((tiles: string) => {
-            if (tiles.startsWith("z")) {
+            if (tiles.startsWith(SUITS.ZIHAI)) {
               return tiles;
             } else {
-              return tiles.replace(/5/g, () => {
+              return tiles.replace(/{AKADORA_NUMBER_IN_FACT}/g, () => {
                 if (numOfReplace <= 0) {
-                  return "5";
+                  return String(AKADORA_NUMBER_IN_FACT);
                 }
                 numOfReplace--;
-                return "0";
+                return String(AKADORA_NUMBER_FOR_CONVINIENCE);
               });
             }
           })
@@ -112,7 +173,8 @@ const ScoreDisplay = ({
 
       let kanTiles = kans
         .flatMap(
-          (kan: string[]) => kan[0][0] + kan.join("").replace(/[a-zA-Z]/g, "")
+          (kan: string[]) =>
+            TileUtil.getSuit(kan[0]) + kan.join("").replace(/[a-z]/g, "")
         )
         .join(",");
 
@@ -146,9 +208,14 @@ const ScoreDisplay = ({
         Majiang.Shoupai.fromString(allTiles),
         holaType === HOLA_TYPE.TSUMO
           ? null
-          : ["s5", "m5", "p5"].includes(holaTile) && i > 0
-          ? holaTile.replace(/5/, "0") + "-"
-          : holaTile + "-",
+          : i > MIN_LENGTH_AKADORA &&
+            holaTile &&
+            NUMBER_5TH_TILES.includes(holaTile)
+          ? holaTile.replace(
+              /{AKADORA_NUMBER_IN_FACT}/,
+              String(AKADORA_NUMBER_FOR_CONVINIENCE)
+            ) + MELD_FROM_CODE.LEFT
+          : holaTile + MELD_FROM_CODE.LEFT,
         {
           rule: rule,
           zhuangfeng:
@@ -230,8 +297,8 @@ const ScoreDisplay = ({
           </Box>
           <Box>
             <Center>
-              <RequiredIcon innerText="上がり牌"></RequiredIcon>
-              {holaTile && <Tile tile={holaTile} onClick={() => {}} />}
+              <RequiredIcon innerText="上がり牌:"></RequiredIcon>
+              {holaTile && <Tile className="ml-2" tile={holaTile} size="s" />}
             </Center>
             <Center>
               <RequiredIcon innerText="上がり方:"></RequiredIcon>
@@ -246,7 +313,7 @@ const ScoreDisplay = ({
               <HStack className="flex-wrap justify-center space-x-3">
                 <HStack spacing="0px">
                   {hand.map((tile: string, index: number) => (
-                    <Tile key={index} tile={tile} onClick={() => {}} />
+                    <Tile key={index} tile={tile} />
                   ))}
                 </HStack>
                 {melds.map((meld: Meld, index: number) => (
@@ -256,7 +323,6 @@ const ScoreDisplay = ({
                         className={idx == 0 ? "rotate-90 mr-2" : ""}
                         key={idx}
                         tile={tile}
-                        onClick={() => {}}
                       />
                     ))}
                   </HStack>
@@ -268,10 +334,10 @@ const ScoreDisplay = ({
               {kans.map((kan: string[], index: number) => (
                 <HStack key={index} spacing="0px">
                   {kan.map((tile: string, idx: number) => {
-                    if (idx == 0 || idx == 3) {
+                    if (ANKAN_TURNOVER_INDEX_ARRAY.includes(idx)) {
                       tile = "turnoverdTile";
                     }
-                    return <Tile key={idx} tile={tile} onClick={() => {}} />;
+                    return <Tile key={idx} tile={tile} />;
                   })}
                 </HStack>
               ))}
@@ -281,7 +347,7 @@ const ScoreDisplay = ({
             ドラ表示牌
             <HStack spacing="0px" py="3px">
               {dispDoras.map((dora: string, idx: number) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} />
+                <Tile tile={dora} key={idx} />
               ))}
             </HStack>
           </Box>
@@ -289,7 +355,7 @@ const ScoreDisplay = ({
             裏ドラ表示牌
             <HStack spacing="0px" py="3px">
               {dispUraDoras.map((dora: string, idx: number) => (
-                <Tile tile={dora} key={idx} onClick={() => {}} />
+                <Tile tile={dora} key={idx} />
               ))}
             </HStack>
           </Box>

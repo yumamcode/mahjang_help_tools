@@ -13,10 +13,10 @@ const HolaInput = ({
   holaType,
   setHolaType,
 }: {
-  holaTile: string;
-  setHolaTile: Dispatch<SetStateAction<string>>;
-  holaType: string;
-  setHolaType: Dispatch<SetStateAction<string>>;
+  holaTile: string | undefined;
+  setHolaTile: Dispatch<SetStateAction<string | undefined>>;
+  holaType: string | undefined;
+  setHolaType: Dispatch<SetStateAction<string | undefined>>;
 }) => {
   const addTile = (t: string): void => {
     setHolaTile(t);

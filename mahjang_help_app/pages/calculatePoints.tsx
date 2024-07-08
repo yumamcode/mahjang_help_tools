@@ -24,19 +24,20 @@ import { AkaDorasInput } from "../components/AkaDorasInput";
 import type { Meld } from "../components/MeldInput";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { MIN_LENGTH_AKADORA, WINDS } from "@/src/Constant";
 
 const Index = () => {
-  const [roundWind, setRoundWind] = useState("東");
-  const [seatWind, setSeatWind] = useState("北");
-  const [holaTile, setHolaTile] = useState("");
-  const [holaType, setHolaType] = useState("");
+  const [roundWind, setRoundWind] = useState(WINDS.TON);
+  const [seatWind, setSeatWind] = useState(WINDS.PE);
+  const [holaTile, setHolaTile] = useState<string | undefined>(undefined);
+  const [holaType, setHolaType] = useState<string | undefined>(undefined);
   const [hand, setHand] = useState<string[]>([]);
   const [melds, setMelds] = useState<Meld[]>([]);
   const [kans, setKans] = useState<string[][]>([]);
   const [dispDoras, setDispDoras] = useState<string[]>([]);
   const [dispUraDoras, setDispUraDoras] = useState<string[]>([]);
   const [situational, setSituational] = useState<string[]>([]);
-  const [akaDoras, setAkaDoras] = useState(0);
+  const [akaDoras, setAkaDoras] = useState(MIN_LENGTH_AKADORA);
   const [showWindInput, setShowWindInput] = useState(false);
   const [showHandInput, setShowHandInput] = useState(false);
   const [showMeldInput, setShowMeldInput] = useState(false);

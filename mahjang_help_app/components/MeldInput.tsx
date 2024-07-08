@@ -13,6 +13,7 @@ import {
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { MELD_TYPE } from "../src/Constant";
 import { isChiable } from "@/src/isChiable";
+import { TileUtil } from "@/src/TileUtil";
 
 type Meld = {
   meldType: string;
@@ -50,18 +51,18 @@ const MeldInput = ({
     let meldTiles: string[] = [];
 
     if (meldType === MELD_TYPE.CHI) {
-      if (tile.charAt(0) == SUITS.ZIHAI) {
+      if (TileUtil.getSuit(tile) == SUITS.ZIHAI) {
         setErrMsg("字牌はチー出来ません。");
         return;
       }
 
-      if (!isChiable(tile.charAt(1))) {
+      if (!isChiable(TileUtil.getNumberString(tile))) {
         setErrMsg("チーは順子の中で最小のものを選択してください。");
         return;
       }
 
-      const suit = tile.charAt(0);
-      const base = parseInt(tile.charAt(1));
+      const suit = TileUtil.getSuit(tile);
+      const base = parseInt(TileUtil.getNumberString(tile));
       for (let i = 0; i < MELD_LENGTH.CHI; i++) {
         meldTiles.push(`${suit}${base + i}`);
       }
@@ -151,7 +152,6 @@ const MeldInput = ({
                     className={idx == 0 ? "mr-2 rotate-90" : ""}
                     key={idx}
                     tile={tile}
-                    onClick={() => {}}
                   />
                 ))}
                 <button className="mx-3" onClick={() => deleteMeld(index)}>
