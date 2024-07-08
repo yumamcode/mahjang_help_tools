@@ -9,7 +9,7 @@ export default function MahjangHeader() {
         <Image src="/haiImg/s1.jpg" boxSize="30px " alt="header_icon"></Image>
         <Header
           title="麻雀支援ツール"
-          className="text-center text-4xl py-7"
+          className="text-center text-4xl py-5"
         ></Header>
         <Image src="/haiImg/s1.jpg" boxSize="30px" alt="header_icon"></Image>
       </Link>
