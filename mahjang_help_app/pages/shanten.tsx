@@ -91,6 +91,7 @@ export default function Home() {
           setHand={setHand}
           melds={melds}
           kans={kans}
+          isSeparetedLastTile={false}
         ></HandInput>
       )}
       {showMeldInput && (

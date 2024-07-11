@@ -166,7 +166,13 @@ const Index = () => {
       )}
 
       {showHandInput && (
-        <HandInput hand={hand} setHand={setHand} melds={melds} kans={kans} />
+        <HandInput
+          hand={hand}
+          setHand={setHand}
+          melds={melds}
+          kans={kans}
+          isSeparetedLastTile={true}
+        />
       )}
 
       {showMeldInput && (

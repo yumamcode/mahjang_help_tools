@@ -14,11 +14,13 @@ const HandInput = ({
   setHand,
   melds,
   kans,
+  isSeparetedLastTile,
 }: {
   hand: string[];
   setHand: Dispatch<SetStateAction<string[]>>;
   melds: Meld[];
   kans: string[][];
+  isSeparetedLastTile: boolean;
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -27,7 +29,12 @@ const HandInput = ({
   }, [hand, melds, kans]);
   const addTile = (tile: string): void => {
     const meldsAndKansLength = melds.length + kans.length;
-    if (hand.length >= getMaxHandLength(meldsAndKansLength)) {
+    if (
+      hand.length >=
+      (isSeparetedLastTile
+        ? getMaxHandLength(meldsAndKansLength) - 1
+        : getMaxHandLength(meldsAndKansLength))
+    ) {
       setErrorMsg("純手牌は既に最大枚数です。");
       return;
     }
