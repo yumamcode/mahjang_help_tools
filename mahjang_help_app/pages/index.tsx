@@ -1,4 +1,4 @@
-import MahjangHeader from "../components/MahjangHeader";
+import { MahjangHeader } from "../components/MahjangHeader";
 import { Seo } from "../components/MahjangHead";
 import { Provider } from "@/providers/Provider";
 import { VStack, Link } from "@chakra-ui/react";

@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
 import { Provider } from "@/providers/Provider";
 import { Box, ButtonGroup, Link, Button } from "@chakra-ui/react";
-import MahjangHeader from "@/components/MahjangHeader";
+import { MahjangHeader } from "@/components/MahjangHeader";
 import { HandInput } from "@/components/HandInput";
 import { MeldInput } from "@/components/MeldInput";
 import { KanInput } from "@/components/KanInput";

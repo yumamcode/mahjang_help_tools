@@ -14,7 +14,7 @@ import {
   Button,
   Link,
 } from "@chakra-ui/react";
-import MahjangHeader from "../components/MahjangHeader";
+import { MahjangHeader } from "../components/MahjangHeader";
 import { Header } from "../components/Header";
 import { HolaInput } from "../components/HolaInput";
 import { WindInput } from "../components/WindInput";

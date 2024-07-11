@@ -1,12 +1,12 @@
 import { MouseEventHandler } from "react";
 
-const SubmitButton = function SubmitButton({
+const SubmitButton = ({
   name,
   onClick,
 }: {
   name: string;
   onClick: MouseEventHandler<HTMLElement>;
-}) {
+}) => {
   return (
     <div className="text-center py-3">
       <button

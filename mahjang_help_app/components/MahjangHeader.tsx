@@ -2,7 +2,7 @@ import { Provider } from "../providers/Provider";
 import { Header } from "./Header";
 import { Image, Box, Link } from "@chakra-ui/react";
 
-export default function MahjangHeader() {
+const MahjangHeader = () => {
   return (
     <Provider>
       <Link href="/" className="flex justify-center items-center">
@@ -15,4 +15,6 @@ export default function MahjangHeader() {
       </Link>
     </Provider>
   );
-}
+};
+
+export { MahjangHeader };
