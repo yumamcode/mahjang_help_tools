@@ -3,7 +3,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import { Tile } from "./Tile";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { Dispatch, SetStateAction } from "react";
-import { MAX_DISP_DORAS_LENGTH } from "@/src/Constant";
+import { useDispUraDora } from "@/hooks/useDispUraDora";
 
 const tiles = HAI_ARRAY;
 
@@ -14,15 +14,10 @@ const DispUraDorasInput = ({
   dispUraDoras: string[];
   setDispUraDoras: Dispatch<SetStateAction<string[]>>;
 }) => {
-  const addTile = (tile: string): void => {
-    if (dispUraDoras.length < MAX_DISP_DORAS_LENGTH) {
-      setDispUraDoras([...dispUraDoras, tile]);
-    }
-  };
-
-  const deleteTile = (index: number): void => {
-    setDispUraDoras(dispUraDoras.filter((_, i) => i !== index));
-  };
+  const { addTile, deleteTile } = useDispUraDora({
+    dispUraDoras,
+    setDispUraDoras,
+  });
 
   return (
     <div>

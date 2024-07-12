@@ -4,6 +4,7 @@ import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { HOLA_TYPE } from "@/src/Constant";
+import { useHola } from "@/hooks/useHola";
 
 const tiles = HAI_ARRAY;
 
@@ -18,21 +19,11 @@ const HolaInput = ({
   holaType: string | undefined;
   setHolaType: Dispatch<SetStateAction<string | undefined>>;
 }) => {
-  const addTile = (t: string): void => {
-    setHolaTile(t);
-  };
-
-  const deleteTile = (): void => {
-    setHolaTile("");
-  };
-
-  const tsumoButtonOnClick = (): void => {
-    setHolaType(HOLA_TYPE.TSUMO);
-  };
-
-  const rongButtonOnClick = (): void => {
-    setHolaType(HOLA_TYPE.RONG);
-  };
+  const { addTile, deleteTile, tsumoButtonOnClick, rongButtonOnClick } =
+    useHola({
+      setHolaTile,
+      setHolaType,
+    });
 
   return (
     <div>

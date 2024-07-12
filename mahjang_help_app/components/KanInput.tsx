@@ -10,6 +10,7 @@ import {
   ANKAN_TURNOVER_INDEX_ARRAY,
   MAX_MELDS_AND_KANS_LENGTH,
 } from "@/src/Constant";
+import { useKan } from "@/hooks/useKan";
 
 const tiles = HAI_ARRAY;
 
@@ -22,19 +23,11 @@ const KanInput = ({
   setKans: Dispatch<SetStateAction<string[][]>>;
   melds: Meld[];
 }) => {
-  const [msg, setMsg] = useState("");
-
-  const addKan = (tile: string): void => {
-    if (melds.length + kans.length >= MAX_MELDS_AND_KANS_LENGTH) {
-      setMsg("これ以上暗槓出来ません。");
-      return;
-    }
-    setKans([...kans, [tile, tile, tile, tile]]);
-  };
-
-  const deleteKan = (index: number): void => {
-    setKans(kans.filter((_, i) => i !== index));
-  };
+  const { msg, addKan, deleteKan } = useKan({
+    kans,
+    setKans,
+    melds,
+  });
 
   return (
     <div>
