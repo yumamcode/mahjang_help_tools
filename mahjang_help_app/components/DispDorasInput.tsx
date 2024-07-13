@@ -3,8 +3,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import { Tile } from "./Tile";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { Dispatch, SetStateAction } from "react";
-import { MAX_DISP_DORAS_LENGTH } from "@/src/Constant";
-import { useDispDora } from "@/hooks/useDispDora";
+import { useDispDora } from "@/hooks/components/useDispDora";
 
 const tiles = HAI_ARRAY;
 

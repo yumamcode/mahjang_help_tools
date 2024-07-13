@@ -4,17 +4,9 @@ import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
 import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
-import {
-  MAX_MELDS_AND_KANS_LENGTH,
-  MELD_LENGTH,
-  SITUATIONALS,
-  SUITS,
-} from "../src/Constant";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { MELD_TYPE } from "../src/Constant";
-import { isChiable } from "@/src/isChiable";
-import { TileUtil } from "@/src/TileUtil";
-import { useMeld } from "@/hooks/useMeld";
+import { useMeld } from "@/hooks/components/useMeld";
 
 type Meld = {
   meldType: string;

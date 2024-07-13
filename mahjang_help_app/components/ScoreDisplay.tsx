@@ -7,7 +7,7 @@ import { ErrorMsg } from "./ErrorMsg";
 import { ANKAN_TURNOVER_INDEX_ARRAY } from "../src/Constant";
 import { Meld } from "./MeldInput";
 import { RequiredIcon } from "./RequiredIcon";
-import { useScoreDisplay } from "@/hooks/useScoreDisplay";
+import { useScoreDisplay } from "@/hooks/components/useScoreDisplay";
 
 const ScoreDisplay = ({
   roundWind,

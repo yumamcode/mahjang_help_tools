@@ -6,43 +6,24 @@ import { HandInput } from "@/components/HandInput";
 import { MeldInput } from "@/components/MeldInput";
 import { KanInput } from "@/components/KanInput";
 import { ShantenDisplay } from "@/components/ShantenDisplay";
-import { useState } from "react";
-import type { Meld } from "@/components/MeldInput";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useShanten } from "@/hooks/pages/useShanten";
 
 export default function Home() {
-  const [hand, setHand] = useState<string[]>([]);
-  const [melds, setMelds] = useState<Meld[]>([]);
-  const [kans, setKans] = useState<string[][]>([]);
-
-  const [showHandInput, setShowHandInput] = useState(false);
-  const [showMeldInput, setShowMeldInput] = useState(false);
-  const [showKanInput, setShowKanInput] = useState(false);
-
-  const hideAllInput = () => {
-    setShowHandInput(false);
-    setShowMeldInput(false);
-    setShowKanInput(false);
-  };
-
-  const TOGGLE_SHOW_BUTTONS = [
-    {
-      boolean_show: showHandInput,
-      setter: setShowHandInput,
-      name: "純手牌",
-    },
-    {
-      boolean_show: showMeldInput,
-      setter: setShowMeldInput,
-      name: "副露",
-    },
-    {
-      boolean_show: showKanInput,
-      setter: setShowKanInput,
-      name: "暗槓",
-    },
-  ];
+  const {
+    TOGGLE_SHOW_BUTTONS,
+    hideAllInput,
+    hand,
+    melds,
+    kans,
+    showHandInput,
+    showMeldInput,
+    showKanInput,
+    setHand,
+    setMelds,
+    setKans,
+  } = useShanten();
 
   return (
     <Provider>

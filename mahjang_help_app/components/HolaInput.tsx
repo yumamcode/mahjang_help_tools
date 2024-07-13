@@ -4,7 +4,7 @@ import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { HOLA_TYPE } from "@/src/Constant";
-import { useHola } from "@/hooks/useHola";
+import { useHola } from "@/hooks/components/useHola";
 
 const tiles = HAI_ARRAY;
 

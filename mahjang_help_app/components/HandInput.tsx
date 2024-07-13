@@ -1,12 +1,11 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Tile } from "./Tile";
 import { Header } from "./Header";
-import { HStack, Box, Button } from "@chakra-ui/react";
+import { HStack, Box } from "@chakra-ui/react";
 import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
 import { Meld } from "./MeldInput";
-import { getMaxHandLength } from "@/src/getMaxHandLength";
 import { ErrorMsg } from "./ErrorMsg";
-import { useHand } from "@/hooks/useHand";
+import { useHand } from "@/hooks/components/useHand";
 
 const tiles = HAI_ARRAY;
 

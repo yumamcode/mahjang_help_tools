@@ -3,6 +3,7 @@ import { HStack } from "@chakra-ui/react";
 import { Header } from "./Header";
 import { SITUATIONALS } from "../src/Constant";
 import type { Meld } from "./MeldInput";
+import { useSituational } from "@/hooks/components/useSituational";
 
 const SituationalInput = ({
   melds,
@@ -13,13 +14,11 @@ const SituationalInput = ({
   situational: string[];
   setSituational: Dispatch<SetStateAction<string[]>>;
 }) => {
-  const addSituational = (newSituational: string) => {
-    setSituational([...situational, newSituational]);
-  };
-
-  const deleteSituational = (targetSituational: string) => {
-    setSituational(situational.filter((sit) => sit != targetSituational));
-  };
+  const { addSituational, deleteSituational } = useSituational({
+    melds,
+    situational,
+    setSituational,
+  });
 
   return (
     <div>
