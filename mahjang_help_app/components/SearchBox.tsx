@@ -5,6 +5,8 @@
  */
 
 import { Input } from "@chakra-ui/react";
+import { useState } from "react";
+import { SubmitButton } from "./SubmitButton";
 
 type SearchWord = {
   word: string;
@@ -12,30 +14,42 @@ type SearchWord = {
 };
 
 const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
+  const [searchInput, setSearchInput] = useState<string>("");
+  const filterWithSearchWord = () => {};
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md mx-auto">
       <div className="p-4 border-b">
-        <Input placeholder="Search..." className="bg-muted rounded-md w-full" />
+        <Input
+          as="input"
+          placeholder="Search..."
+          value={searchInput}
+          className="bg-muted rounded-md w-full"
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+          }}
+        ></Input>
       </div>
       <div className="max-h-[300px] overflow-y-auto">
         <ul className="divide-y dark:divide-gray-800">
-          {searchWords.map((w) => {
-            return (
-              <li
-                key={w.description}
-                className="px-4 py-3 hover:bg-muted/50 cursor-pointer"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-medium">{w.word}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {w.description}
-                    </p>
+          {searchWords
+            .filter((sw) => sw.word.includes(searchInput))
+            .map((sw) => {
+              return (
+                <li
+                  key={sw.description}
+                  className="px-4 py-3 hover:bg-muted/50 cursor-pointer"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-medium">{sw.word}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {sw.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>
