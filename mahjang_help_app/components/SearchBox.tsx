@@ -4,9 +4,9 @@
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
 
+import { hiraToKana, isFullHiragana } from "@/src/JapaneseUtil";
 import { Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { SubmitButton } from "./SubmitButton";
 
 type SearchWord = {
   word: string;
@@ -15,6 +15,25 @@ type SearchWord = {
 
 const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
   const [searchInput, setSearchInput] = useState<string>("");
+
+  //辞書の単語を単語の五十音順で並べる。
+  const searchWordComparetor = (a: SearchWord, b: SearchWord) => {
+    const minLength = Math.min(a.word.length, b.word.length);
+    for (let i = 0; i < minLength; i++) {
+      if (a.word.charCodeAt(i) > b.word.charCodeAt(i)) {
+        return 1;
+      }
+
+      if (a.word.charCodeAt(i) < b.word.charCodeAt(i)) {
+        return -1;
+      }
+    }
+
+    return 0;
+  };
+  searchWords = searchWords.sort((before, after) =>
+    searchWordComparetor(before, after)
+  );
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md mx-auto">
       <div className="p-4 border-b">
@@ -31,7 +50,13 @@ const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
       <div className="max-h-[500px] overflow-y-auto">
         <ul className="divide-y">
           {searchWords
-            .filter((sw) => sw.word.includes(searchInput))
+            .filter((sw) => {
+              if (isFullHiragana(searchInput)) {
+                return sw.word.includes(hiraToKana(searchInput));
+              } else {
+                return sw.word.includes(searchInput);
+              }
+            })
             .map((sw) => {
               return (
                 <li
