@@ -7,12 +7,10 @@ import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
 import {
   ANKAN_TURNOVER_INDEX_ARRAY,
-  MAX_HAND_LENGTH_WITH_MELDS_AND_KANS,
-  MELD_FROM_CODE,
   SHANTEN_DESCRIPTIONS,
 } from "@/src/Constant";
-import { TileUtil } from "@/src/TileUtil";
 import { useShantenDisplay } from "@/hooks/components/useShantenDisplay";
+import { getShantenDescription } from "@/src/getShantenDescription";
 
 const ShantenDisplay = ({
   hand,
@@ -115,11 +113,9 @@ const ShantenDisplay = ({
       <Box className="flex justify-center">
         <label>シャンテン数:</label>
         {shantenResult != undefined && shantenResult > 0 && shantenResult}
-        {shantenResult == SHANTEN_DESCRIPTIONS.HOLA
-          ? "上がり形"
-          : shantenResult == SHANTEN_DESCRIPTIONS.TINGPAI
-          ? "テンパイ"
-          : ""}
+        {shantenResult != undefined &&
+          shantenResult <= 0 &&
+          getShantenDescription(shantenResult)}
       </Box>
       <Box className="flex justify-center py-3">
         <label>待ち・有効牌</label>

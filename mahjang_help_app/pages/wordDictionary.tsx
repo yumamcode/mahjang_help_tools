@@ -5,7 +5,6 @@ import {
   Dictionary,
   selectAll,
 } from "@/supaBaseFunctions/MahjangWordDectionary/selectAll";
-import { Box, Center } from "@chakra-ui/react";
 import { PostgrestSingleResponse } from "@supabase/supabase-js";
 import { useEffect, useState } from "react";
 import { SearchWord } from "@/components/SearchBox";
@@ -33,6 +32,7 @@ export default function Home() {
 
     for (let dictionary of dictionaryResult.data) {
       const searchWord: SearchWord = {
+        chineseWord: dictionary.chinese_word,
         word: dictionary.word,
         description: dictionary.description,
       };

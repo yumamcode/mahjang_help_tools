@@ -47,30 +47,30 @@ const CHI_ABLE_NUMBER_STRINGS = ["1", "2", "3", "4", "5", "6", "7"];
 
 const ANKAN_TURNOVER_INDEX_ARRAY = [0, 3];
 
-const CHINESE_COUNT_DESCRIPTIONS = {
-  1: "イー",
-  2: "リャン",
-  3: "サン",
-  4: "スー",
-  5: "ウー",
-  6: "ロー",
-  7: "チー",
-  8: "パー",
-  9: "キュウ",
-};
+const CHINESE_COUNT_DESCRIPTIONS = new Map([
+  [1, "イー"],
+  [2, "リャン"],
+  [3, "サン"],
+  [4, "スー"],
+  [5, "ウー"],
+  [6, "ロー"],
+  [7, "チー"],
+  [8, "パー"],
+  [9, "キュウ"],
+]);
 
 const SHANTEN_DESCRIPTIONS = {
   HOLA: -1,
   TINGPAI: 0,
 };
 
-const MAX_HAND_LENGTH_WITH_MELDS_AND_KANS = {
-  0: 14,
-  1: 11,
-  2: 8,
-  3: 5,
-  4: 2,
-};
+const MAX_HAND_LENGTH_WITH_MELDS_AND_KANS = new Map([
+  [0, 14],
+  [1, 11],
+  [2, 8],
+  [3, 5],
+  [4, 2],
+]);
 
 const NUMBER_5TH_TILES = ["m5", "p5", "s5"];
 

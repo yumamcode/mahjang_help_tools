@@ -5,10 +5,11 @@
  */
 
 import { hiraToKana, isFullHiragana } from "@/src/JapaneseUtil";
-import { Input } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import { useState } from "react";
 
 type SearchWord = {
+  chineseWord: string;
   word: string;
   description: string;
 };
@@ -65,7 +66,12 @@ const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium">{sw.word}</h4>
+                      <Box className="flex">
+                        <ruby className="font-medium">
+                          {sw.chineseWord}
+                          <rt>{sw.word}</rt>
+                        </ruby>
+                      </Box>
                       <p className="text-sm text-muted-foreground">
                         {sw.description}
                       </p>

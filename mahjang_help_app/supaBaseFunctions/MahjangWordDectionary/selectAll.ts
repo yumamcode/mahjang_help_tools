@@ -5,6 +5,7 @@ import { DateTime } from "next-auth/providers/kakao";
 type Dictionary = {
   id: number;
   created_at: DateTime;
+  chinese_word: string;
   word: string;
   description: string;
   relative_word_id: number;
