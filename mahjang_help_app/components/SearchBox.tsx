@@ -15,7 +15,6 @@ type SearchWord = {
 
 const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
   const [searchInput, setSearchInput] = useState<string>("");
-  const filterWithSearchWord = () => {};
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md mx-auto">
       <div className="p-4 border-b">
@@ -29,8 +28,8 @@ const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
           }}
         ></Input>
       </div>
-      <div className="max-h-[300px] overflow-y-auto">
-        <ul className="divide-y dark:divide-gray-800">
+      <div className="max-h-[500px] overflow-y-auto">
+        <ul className="divide-y">
           {searchWords
             .filter((sw) => sw.word.includes(searchInput))
             .map((sw) => {
