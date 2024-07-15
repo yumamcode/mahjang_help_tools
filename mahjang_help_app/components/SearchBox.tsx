@@ -13,12 +13,9 @@ type SearchWord = {
 
 const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
   return (
-    <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg overflow-hidden w-full max-w-md mx-auto">
-      <div className="p-4 border-b dark:border-gray-800">
-        <Input
-          placeholder="Search..."
-          className="bg-muted dark:bg-gray-900 rounded-md w-full"
-        />
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md mx-auto">
+      <div className="p-4 border-b">
+        <Input placeholder="Search..." className="bg-muted rounded-md w-full" />
       </div>
       <div className="max-h-[300px] overflow-y-auto">
         <ul className="divide-y dark:divide-gray-800">
@@ -26,7 +23,7 @@ const SearchBox = ({ searchWords }: { searchWords: SearchWord[] }) => {
             return (
               <li
                 key={w.description}
-                className="px-4 py-3 hover:bg-muted/50 dark:hover:bg-gray-900 cursor-pointer"
+                className="px-4 py-3 hover:bg-muted/50 cursor-pointer"
               >
                 <div className="flex items-center justify-between">
                   <div>
