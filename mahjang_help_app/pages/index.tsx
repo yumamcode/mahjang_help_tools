@@ -16,6 +16,7 @@ export default function Home() {
         <Link href="/pointsTable">点数表</Link>
         <Link href="/shanten">シャンテン数計算</Link>
         <Link href="/calculatePoints">点数計算</Link>
+        <Link href="/wordDictionary">用語集</Link>
       </VStack>
     </Provider>
   );
