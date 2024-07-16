@@ -14,7 +14,7 @@ function hiraToKana(str: string) {
 
 function isFullHiragana(str: string) {
   str = str == null ? "" : str;
-  if (str.match(/^[\u3040-\u309F]+$/)) {
+  if (str.match(/^[\u3040-\u309f\u30fc]+$/)) {
     return true;
   } else {
     return false;
@@ -23,7 +23,7 @@ function isFullHiragana(str: string) {
 
 function isFullKatakana(str: string) {
   str = str == null ? "" : str;
-  if (str.match(/^[\u30A0-\u30FF]+$/)) {
+  if (str.match(/^[\u30A0-\u30ff\u30fc]+$/)) {
     return true;
   } else {
     return false;
