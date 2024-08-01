@@ -115,9 +115,11 @@ const useShantenDisplay = ({
       return;
     }
 
-    if (
-      !Object.values(MAX_HAND_LENGTH_WITH_MELDS_AND_KANS).includes(hand.length)
-    ) {
+    const maxHandLengthArray = Array.from(
+      MAX_HAND_LENGTH_WITH_MELDS_AND_KANS.values()
+    );
+
+    if (!maxHandLengthArray.includes(hand.length)) {
       //純手牌が最大枚数でないならreturnして終了
       return;
     }
@@ -143,7 +145,9 @@ const useShantenDisplay = ({
         continue;
       }
 
-      const afterDaopai = hand.filter((h) => h != daopai);
+      const firstIndexOfDaopai = hand.indexOf(daopai);
+
+      const afterDaopai = hand.toSpliced(firstIndexOfDaopai, 1);
 
       let allTiles = afterDaopai.join("");
 

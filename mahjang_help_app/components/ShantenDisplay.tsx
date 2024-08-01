@@ -45,6 +45,8 @@ const ShantenDisplay = ({
     setKans,
   });
 
+  // console.log(recommendResult);
+
   return (
     <div>
       <Box className="text-center">
