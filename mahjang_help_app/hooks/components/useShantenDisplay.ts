@@ -14,14 +14,14 @@ const useShantenDisplay = ({
   kans: string[][];
 }) => {
   const [shantenResult, setShantenResult] = useState<number | undefined>(
-    undefined
+    undefined,
   );
   const [usefulTileResult, setUsefulTileResult] = useState<
     string[] | undefined
   >(undefined);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [recommendResult, setRecommendResult] = useState<string | undefined>(
-    undefined
+    undefined,
   );
 
   // 手牌構成が変わったら、前回のおすすめ打牌をリセットする

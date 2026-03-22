@@ -35,7 +35,7 @@ const calculateShanten = ({
 }: ShantenCalculationInput): ShantenCalculationResult => {
   const Majiang = require("@kobalab/majiang-core");
   const shoupai = Majiang.Shoupai.fromString(
-    serializeTiles({ hand, melds, kans })
+    serializeTiles({ hand, melds, kans }),
   );
 
   return {
@@ -61,7 +61,7 @@ const recommendDiscard = ({
   }
 
   const maxHandLengthArray = Array.from(
-    MAX_HAND_LENGTH_WITH_MELDS_AND_KANS.values()
+    MAX_HAND_LENGTH_WITH_MELDS_AND_KANS.values(),
   );
 
   if (!maxHandLengthArray.includes(hand.length)) {
@@ -81,7 +81,11 @@ const recommendDiscard = ({
 
     const firstIndexOfDaopai = hand.indexOf(daopai);
     const afterDaopai = hand.toSpliced(firstIndexOfDaopai, 1);
-    const allTiles = joinSerializedParts(afterDaopai.join(""), meldTiles, kanTiles);
+    const allTiles = joinSerializedParts(
+      afterDaopai.join(""),
+      meldTiles,
+      kanTiles,
+    );
     const shoupai = Majiang.Shoupai.fromString(allTiles);
 
     recommends.push({

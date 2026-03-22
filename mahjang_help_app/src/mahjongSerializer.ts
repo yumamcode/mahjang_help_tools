@@ -15,14 +15,14 @@ const serializeHand = (hand: string[]): string => {
 // 副露牌をスート記号付きの文字列へ変換する
 const serializeMelds = (
   melds: Meld[],
-  fromCode: string = MELD_FROM_CODE.LEFT
+  fromCode: string = MELD_FROM_CODE.LEFT,
 ): string => {
   return melds
     .map(
       (meld) =>
         TileUtil.getSuit(meld.meldTiles[0]) +
         meld.meldTiles.join("").replace(/[a-z]/gi, "") +
-        fromCode
+        fromCode,
     )
     .join(",");
 };
@@ -31,7 +31,7 @@ const serializeMelds = (
 const serializeKans = (kans: string[][]): string => {
   return kans
     .map(
-      (kan) => TileUtil.getSuit(kan[0]) + kan.join("").replace(/[a-z]/gi, "")
+      (kan) => TileUtil.getSuit(kan[0]) + kan.join("").replace(/[a-z]/gi, ""),
     )
     .join(",");
 };
@@ -49,8 +49,14 @@ const serializeTiles = ({
   return joinSerializedParts(
     serializeHand(hand),
     serializeMelds(melds),
-    serializeKans(kans)
+    serializeKans(kans),
   );
 };
 
-export { joinSerializedParts, serializeHand, serializeMelds, serializeKans, serializeTiles };
+export {
+  joinSerializedParts,
+  serializeHand,
+  serializeMelds,
+  serializeKans,
+  serializeTiles,
+};

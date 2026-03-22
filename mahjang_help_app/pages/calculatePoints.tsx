@@ -120,7 +120,10 @@ const Index = () => {
               <Text color="gray.500" fontSize="sm" mb={4}>
                 編集したい項目を選ぶと、該当フォームだけが表示されます。
               </Text>
-              <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={3}>
+              <SimpleGrid
+                columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
+                spacing={3}
+              >
                 {TOGGLE_SHOW_BUTTONS.map((btn) => (
                   <Button
                     key={btn.name}

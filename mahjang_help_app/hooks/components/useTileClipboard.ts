@@ -32,11 +32,15 @@ const useTileClipboard = ({
 
   // 保存済みの牌入力状態を localStorage から復元する
   const pasteInputTiles = (): void => {
-    const handInputOnLocalStorage = localStorage.getItem(HAND_INPUT_STORAGE_KEY);
-    const meldsInputOnLocalStorage = localStorage.getItem(
-      MELDS_INPUT_STORAGE_KEY
+    const handInputOnLocalStorage = localStorage.getItem(
+      HAND_INPUT_STORAGE_KEY,
     );
-    const kansInputOnLocalStorage = localStorage.getItem(KANS_INPUT_STORAGE_KEY);
+    const meldsInputOnLocalStorage = localStorage.getItem(
+      MELDS_INPUT_STORAGE_KEY,
+    );
+    const kansInputOnLocalStorage = localStorage.getItem(
+      KANS_INPUT_STORAGE_KEY,
+    );
 
     handInputOnLocalStorage && setHand(JSON.parse(handInputOnLocalStorage));
     meldsInputOnLocalStorage && setMelds(JSON.parse(meldsInputOnLocalStorage));

@@ -124,9 +124,9 @@ const calculatePointsReducer = (state: State, action: Action): State => {
 };
 
 // SetStateAction の「値」または「更新関数」を実際の次の値に解決する
-const resolveNextValue = <T,>(
+const resolveNextValue = <T>(
   valueOrUpdater: SetStateAction<T>,
-  currentValue: T
+  currentValue: T,
 ): T => {
   return typeof valueOrUpdater === "function"
     ? (valueOrUpdater as (prevState: T) => T)(currentValue)
@@ -137,7 +137,7 @@ const resolveNextValue = <T,>(
 const createInputSetter = <T extends InputStateKey>(
   dispatch: Dispatch<Action>,
   key: T,
-  currentValue: InputState[T]
+  currentValue: InputState[T],
 ): Dispatch<SetStateAction<InputState[T]>> => {
   return (valueOrUpdater) => {
     dispatch({
@@ -152,7 +152,7 @@ const createInputSetter = <T extends InputStateKey>(
 const createVisibleInputSetter = (
   dispatch: Dispatch<Action>,
   key: VisibleInputKey,
-  currentValue: boolean
+  currentValue: boolean,
 ): Dispatch<SetStateAction<boolean>> => {
   return (valueOrUpdater) => {
     dispatch({
@@ -177,76 +177,92 @@ const useCalculatePoints = () => {
   const setRoundWind = createInputSetter(
     dispatch,
     "roundWind",
-    inputState.roundWind
+    inputState.roundWind,
   );
-  const setSeatWind = createInputSetter(dispatch, "seatWind", inputState.seatWind);
-  const setHolaTile = createInputSetter(dispatch, "holaTile", inputState.holaTile);
-  const setHolaType = createInputSetter(dispatch, "holaType", inputState.holaType);
+  const setSeatWind = createInputSetter(
+    dispatch,
+    "seatWind",
+    inputState.seatWind,
+  );
+  const setHolaTile = createInputSetter(
+    dispatch,
+    "holaTile",
+    inputState.holaTile,
+  );
+  const setHolaType = createInputSetter(
+    dispatch,
+    "holaType",
+    inputState.holaType,
+  );
   const setHand = createInputSetter(dispatch, "hand", inputState.hand);
   const setMelds = createInputSetter(dispatch, "melds", inputState.melds);
   const setKans = createInputSetter(dispatch, "kans", inputState.kans);
   const setDispDoras = createInputSetter(
     dispatch,
     "dispDoras",
-    inputState.dispDoras
+    inputState.dispDoras,
   );
   const setDispUraDoras = createInputSetter(
     dispatch,
     "dispUraDoras",
-    inputState.dispUraDoras
+    inputState.dispUraDoras,
   );
   const setSituational = createInputSetter(
     dispatch,
     "situational",
-    inputState.situational
+    inputState.situational,
   );
-  const setAkaDoras = createInputSetter(dispatch, "akaDoras", inputState.akaDoras);
+  const setAkaDoras = createInputSetter(
+    dispatch,
+    "akaDoras",
+    inputState.akaDoras,
+  );
 
   // 各入力フォームの表示状態を更新する setter 群
   const setShowWindInput = createVisibleInputSetter(
     dispatch,
     "showWindInput",
-    visibleInputs.showWindInput
+    visibleInputs.showWindInput,
   );
   const setShowHandInput = createVisibleInputSetter(
     dispatch,
     "showHandInput",
-    visibleInputs.showHandInput
+    visibleInputs.showHandInput,
   );
   const setShowMeldInput = createVisibleInputSetter(
     dispatch,
     "showMeldInput",
-    visibleInputs.showMeldInput
+    visibleInputs.showMeldInput,
   );
   const setShowKanInput = createVisibleInputSetter(
     dispatch,
     "showKanInput",
-    visibleInputs.showKanInput
+    visibleInputs.showKanInput,
   );
   const setShowDispDorasInput = createVisibleInputSetter(
     dispatch,
     "showDispDorasInput",
-    visibleInputs.showDispDorasInput
+    visibleInputs.showDispDorasInput,
   );
   const setShowDispUraDorasInput = createVisibleInputSetter(
     dispatch,
     "showDispUraDorasInput",
-    visibleInputs.showDispUraDorasInput
+    visibleInputs.showDispUraDorasInput,
   );
   const setShowAkaDorasInput = createVisibleInputSetter(
     dispatch,
     "showAkaDorasInput",
-    visibleInputs.showAkaDorasInput
+    visibleInputs.showAkaDorasInput,
   );
   const setShowSituationalInput = createVisibleInputSetter(
     dispatch,
     "showSituationalInput",
-    visibleInputs.showSituationalInput
+    visibleInputs.showSituationalInput,
   );
   const setShowHolaInput = createVisibleInputSetter(
     dispatch,
     "showHolaInput",
-    visibleInputs.showHolaInput
+    visibleInputs.showHolaInput,
   );
 
   // トグル表示ボタン用の設定一覧

@@ -1,7 +1,7 @@
 import { MAX_HAND_LENGTH_WITH_MELDS_AND_KANS } from "./Constant";
 
 const getMaxHandLengthProcesser = (
-  meldsAndKansLength: number
+  meldsAndKansLength: number,
 ): number | undefined => {
   return MAX_HAND_LENGTH_WITH_MELDS_AND_KANS.get(meldsAndKansLength);
 };

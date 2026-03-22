@@ -72,7 +72,11 @@ export default function Home() {
                 純手牌・副露・暗槓を入力して、シャンテン数と有効牌をすばやく確認できます。
               </Text>
               <HStack spacing={4} flexWrap="wrap">
-                <Link color="teal.600" fontWeight="bold" href="/calculatePoints">
+                <Link
+                  color="teal.600"
+                  fontWeight="bold"
+                  href="/calculatePoints"
+                >
                   点数計算へ →
                 </Link>
                 <Link color="gray.600" fontWeight="semibold" href="/">

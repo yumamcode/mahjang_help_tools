@@ -75,8 +75,8 @@ const useMeld = ({
       setSituational &&
         setSituational(
           situational.filter(
-            (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI
-          )
+            (sit) => sit != SITUATIONALS.RICHI && sit != SITUATIONALS.W_RICHI,
+          ),
         );
     }
     setErrMsg("");

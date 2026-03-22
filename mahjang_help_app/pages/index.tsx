@@ -88,7 +88,11 @@ export default function Home() {
               </Text>
             </VStack>
 
-            <SimpleGrid columns={{ base: 1, sm: 2, lg: 3 }} spacing={5} w="full">
+            <SimpleGrid
+              columns={{ base: 1, sm: 2, lg: 3 }}
+              spacing={5}
+              w="full"
+            >
               {FEATURE_LINKS.map((feature, index) => (
                 <Link
                   key={feature.href}
