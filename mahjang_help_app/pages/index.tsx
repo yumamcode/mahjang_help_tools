@@ -34,11 +34,6 @@ const FEATURE_LINKS = [
     description: "状況を入力して和了時の点数を計算できます。",
     href: "/calculatePoints",
   },
-  {
-    title: "用語集",
-    description: "麻雀で使う言葉を検索して学べます。",
-    href: "/wordDictionary",
-  },
 ];
 
 export default function Home() {
@@ -46,7 +41,7 @@ export default function Home() {
     <Provider>
       <Seo
         pageTitle="麻雀支援ツール"
-        pageDescription="麻雀の難しいところをサポートします。シャンテン数・和了点計算 待ち牌の検索ができます。"
+        pageDescription="麻雀の難しいところをサポートします。シャンテン数計算と和了点計算を素早く行えます。"
       ></Seo>
       <Box
         minH="100vh"

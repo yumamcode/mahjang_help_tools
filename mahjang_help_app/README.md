@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 麻雀支援ツール
 
-## Getting Started
+麻雀の学習と実戦時の確認をサポートする Web アプリです。  
+役表・点数表の参照に加えて、シャンテン数計算、和了点計算を 1 つのアプリにまとめています。
 
-First, run the development server:
+就職活動用ポートフォリオとして、単に画面を作るだけでなく、
+
+- 複数機能を 1 つのサービスとして整理する設計
+- 外部ライブラリを活用した計算処理の実装
+- UI ライブラリと計算ロジックを組み合わせたフロントエンド開発
+
+を伝えることを意識して制作しました。
+
+## アプリの作成理由
+
+麻雀は役・点数・シャンテン数など、覚える情報量が多く、初心者がつまずきやすい題材です。  
+特に「役は分かっても点数計算で止まる」「手牌の形を見ても次に何を切るべきか分からない」といった課題があり、学習導線が分断されやすいと感じていました。
+
+そこで本アプリでは、以下を 1 つの UI に集約しました。
+
+- 役表・点数表をすぐ参照できる
+- 手牌を入力してシャンテン数と有効牌を確認できる
+- 場況やドラ情報を含めた和了点を計算できる
+
+「調べる」「入力する」「結果を確認する」を往復しやすい構成にすることで、麻雀学習のハードルを下げることを目的にしています。
+
+## 主な機能
+
+### 1. シャンテン数計算
+
+- 純手牌・副露・暗槓を入力可能
+- シャンテン数、有効牌、おすすめ打牌を表示
+- 入力した牌情報を `localStorage` に保存して再利用可能
+
+### 2. 点数計算
+
+- 場風、自風、和了牌、和了方法、副露、暗槓、ドラ、裏ドラ、赤ドラ、状況役を入力可能
+- 符、翻、点数、成立役を表示
+- シャンテン数計算と同様に入力情報のコピー・貼り付けに対応
+
+### 3. 役表 / 点数表
+
+- 画像ベースで素早く確認できる一覧ページを用意
+- 計算前の確認用リファレンスとして利用可能
+
+## 使用技術
+
+| 分類 | 技術 | バージョン | 用途 |
+| --- | --- | --- | --- |
+| フロントエンド基盤 | Next.js | 14.2.14 | 画面ルーティング、React ベースのアプリ構築 |
+| UI | React | 18.3.1 | コンポーネントベースの画面開発 |
+| 言語 | TypeScript | 5.x | 型安全性の確保 |
+| UI ライブラリ | Chakra UI | 2.8.2 | レイアウト、フォーム、レスポンシブ UI |
+| UI スタイル | Tailwind CSS | 3.4.4 | 細かな見た目調整、ユーティリティクラス活用 |
+| アイコン / 補助 UI | MUI Material / Icons | 5.16.0 | 一部 UI パーツ、アイコン表示 |
+| アニメーション | Framer Motion | 11.2.10 | Chakra UI 周辺のアニメーション対応 |
+| 麻雀計算ロジック | `@kobalab/majiang-core` | 1.2.1 | シャンテン数計算、和了点計算 |
+| 品質管理 | ESLint | 8.x | コード品質の維持 |
+| スタイル変換 | PostCSS / Autoprefixer | 8.4.38 / 10.4.19 | CSS ビルド補助 |
+
+## 技術選定理由
+
+### Next.js
+
+React 単体よりも、ページ単位の構成やアプリ全体の整理がしやすいため採用しました。  
+複数ページを持つツール系アプリだったため、役表・点数表・計算画面をルーティングで明確に分けられる点が相性良いと判断しました。
+
+### TypeScript
+
+入力項目が多く、手牌・副露・槓・状況役など扱うデータ構造が複雑になるため、型で状態を管理したいと考え採用しました。  
+特にフォーム入力の受け渡しや結果表示のミスを減らしやすい点にメリットがあります。
+
+### Chakra UI
+
+フォーム、ボタン、レイアウトなどを素早く統一感ある見た目で構築できるため採用しました。  
+今回のアプリは「計算ロジック」と「入力しやすさ」が重要だったため、デザインをゼロから組むより、実装速度と保守性を優先しています。
+
+### Tailwind CSS
+
+コンポーネント単位では Chakra UI を使いながら、細かい余白や配置調整を素早く行うために併用しました。  
+短いクラス指定で微調整しやすく、試行錯誤のコストを抑えられる点が有効でした。
+
+### `@kobalab/majiang-core`
+
+麻雀のシャンテン数計算や和了判定はルールと分岐が多く、独自実装では検証コストが大きくなります。  
+そのため、信頼できる計算ライブラリを利用し、アプリ側では
+
+- ユーザーが入力しやすい UI を作ること
+- 手牌データをライブラリが扱える形式へ変換すること
+- 計算結果を分かりやすく表示すること
+
+に注力しました。  
+ライブラリに丸投げするのではなく、赤ドラや副露・暗槓の入力を整形して橋渡しする部分を実装しています。
+
+## 実装上の工夫
+
+### 1. 計算ライブラリへ渡す前のデータ整形
+
+ユーザーは牌画像ベースで直感的に入力できますが、計算ライブラリは専用フォーマットを前提としています。  
+そのため、手牌・副露・暗槓・赤ドラ情報を文字列形式へ変換する処理をフック内で実装し、UI とロジックを分離しました。
+
+### 2. 入力 UI の分割
+
+点数計算は入力項目が多いため、場風、自風、和了牌、ドラ表示牌などをトグル式で分割しています。  
+必要な入力だけを開けるようにし、1 画面に情報を詰め込みすぎない設計にしました。
+
+### 3. 状態管理の見通しを重視
+
+ページごとの状態はカスタムフックにまとめ、画面コンポーネント側は表示に集中できる構成にしています。  
+`useShanten`, `useCalculatePoints`, `useScoreDisplay`, `useShantenDisplay` など、責務ごとに分割して保守しやすくしています。
+
+### 4. 学習用途を意識した設計
+
+結果だけでなく、有効牌・おすすめ打牌・成立役まで確認できるようにし、学習の補助ツールとして使えるようにしました。
+
+## 想定ユーザー
+
+- 麻雀を覚え始めた初心者
+- 点数計算やシャンテン数確認を素早く行いたい人
+
+## セットアップ
+
+### 1. 依存関係のインストール
+
+```bash
+npm install
+```
+
+### 2. 開発サーバー起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ブラウザで `http://localhost:3000` を開くと確認できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 今後の改善案
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- テストコードを追加し、入力変換処理や計算結果表示の品質を高める
+- ルール差分への対応を増やし、より多くの麻雀ルールで使えるようにする
+- UI をさらにモバイル最適化し、実戦中でも使いやすい操作性にする
 
-## Learn More
+## ポートフォリオとして見てほしい点
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- 学習支援というテーマに対して、複数機能を 1 つのサービスへ整理していること
+- 外部ライブラリを適切に活用しつつ、UI と入力変換ロジックを自分で設計していること
+- フロントエンド実装だけでなく、複数機能を保守しやすく整理していること
