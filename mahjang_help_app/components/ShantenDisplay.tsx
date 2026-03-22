@@ -68,8 +68,8 @@ const ShantenDisplay = ({
           ></SubmitButton>
         </ButtonGroup>
       </Box>
-      <Box className="bg-green-300">
-        <VStack>
+      <Box className="mahjong-surface px-5 py-6 text-white md:px-8">
+        <VStack spacing={4}>
           <Box>入力一覧</Box>
           <Box>
             <Center>牌姿</Center>

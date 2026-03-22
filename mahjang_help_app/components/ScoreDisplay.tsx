@@ -60,8 +60,8 @@ const ScoreDisplay = ({
 
   return (
     <div>
-      <Box className="bg-green-300">
-        <VStack>
+      <Box className="mahjong-surface px-5 py-6 text-white md:px-8">
+        <VStack spacing={4}>
           <Box className="text-lg font-semibold">入力一覧</Box>
           <Box>
             {roundWind}場 {seatWind}家
@@ -134,7 +134,7 @@ const ScoreDisplay = ({
           <Box>状況役:{situational.join(",")}</Box>
         </VStack>
       </Box>
-      <Box className="flex justify-center">
+      <Box className="flex justify-center pt-4">
         <ButtonGroup>
           <SubmitButton name="点数表示" onClick={calculateScore}></SubmitButton>
           <SubmitButton
