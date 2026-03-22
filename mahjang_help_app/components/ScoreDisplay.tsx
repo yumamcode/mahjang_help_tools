@@ -7,6 +7,7 @@ import { ErrorMsg } from "./ErrorMsg";
 import { ANKAN_TURNOVER_INDEX_ARRAY } from "../src/Constant";
 import { Meld } from "./MeldInput";
 import { RequiredIcon } from "./RequiredIcon";
+import { useTileClipboard } from "@/hooks/components/useTileClipboard";
 import { useScoreDisplay } from "@/hooks/components/useScoreDisplay";
 
 const ScoreDisplay = ({
@@ -40,23 +41,27 @@ const ScoreDisplay = ({
   akaDoras: number;
   situational: string[];
 }) => {
-  const { result, msg, copyInputTiles, pasteInputTiles, calculateScore } =
-    useScoreDisplay({
-      roundWind,
-      seatWind,
-      holaTile,
-      holaType,
-      hand,
-      setHand,
-      melds,
-      setMelds,
-      kans,
-      setKans,
-      dispDoras,
-      dispUraDoras,
-      akaDoras,
-      situational,
-    });
+  const { result, msg, calculateScore } = useScoreDisplay({
+    roundWind,
+    seatWind,
+    holaTile,
+    holaType,
+    hand,
+    melds,
+    kans,
+    dispDoras,
+    dispUraDoras,
+    akaDoras,
+    situational,
+  });
+  const { copyInputTiles, pasteInputTiles } = useTileClipboard({
+    hand,
+    setHand,
+    melds,
+    setMelds,
+    kans,
+    setKans,
+  });
 
   return (
     <div>

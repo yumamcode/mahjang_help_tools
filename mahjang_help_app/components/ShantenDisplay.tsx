@@ -1,14 +1,11 @@
-// components/ScoreDisplay.js
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { Box, ButtonGroup, HStack, VStack, Center } from "@chakra-ui/react";
 import { SubmitButton } from "./SubmitButton";
 import { ErrorMsg } from "./ErrorMsg";
 import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
-import {
-  ANKAN_TURNOVER_INDEX_ARRAY,
-  SHANTEN_DESCRIPTIONS,
-} from "@/src/Constant";
+import { ANKAN_TURNOVER_INDEX_ARRAY } from "@/src/Constant";
+import { useTileClipboard } from "@/hooks/components/useTileClipboard";
 import { useShantenDisplay } from "@/hooks/components/useShantenDisplay";
 import { getShantenDescription } from "@/src/getShantenDescription";
 
@@ -34,9 +31,12 @@ const ShantenDisplay = ({
     recommendResult,
     calcShanten,
     recommendDapai,
-    copyInputTiles,
-    pasteInputTiles,
   } = useShantenDisplay({
+    hand,
+    melds,
+    kans,
+  });
+  const { copyInputTiles, pasteInputTiles } = useTileClipboard({
     hand,
     setHand,
     melds,
@@ -45,8 +45,6 @@ const ShantenDisplay = ({
     setKans,
   });
 
-  // console.log(recommendResult);
-
   return (
     <div>
       <Box className="text-center">
@@ -54,7 +52,10 @@ const ShantenDisplay = ({
           <SubmitButton
             name="計算"
             onClick={() => {
-              const shanten: number = calcShanten();
+              const shanten = calcShanten();
+              if (shanten === undefined) {
+                return;
+              }
               recommendDapai(shanten);
             }}
           ></SubmitButton>

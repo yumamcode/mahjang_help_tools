@@ -2,6 +2,7 @@ import { Meld } from "@/components/MeldInput";
 import { getMaxHandLength } from "@/src/getMaxHandLength";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
+// 純手牌の入力と枚数上限チェックを管理する
 const useHand = ({
   hand,
   setHand,
@@ -17,10 +18,12 @@ const useHand = ({
 }) => {
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  // 入力内容が変わったらエラーメッセージをクリアする
   useEffect(() => {
     setErrorMsg("");
   }, [hand, melds, kans]);
 
+  // 副露・暗槓数に応じた最大枚数を超えない範囲で牌を追加する
   const addTile = (tile: string): void => {
     const meldsAndKansLength = melds.length + kans.length;
     if (
@@ -35,6 +38,7 @@ const useHand = ({
     setHand([...hand, tile]);
   };
 
+  // 指定 index の牌を純手牌から削除する
   const deleteTile = (index: number): void => {
     setHand(hand.filter((_: string, i: number) => i !== index));
   };

@@ -10,6 +10,7 @@ import { isChiable } from "@/src/isChiable";
 import { TileUtil } from "@/src/TileUtil";
 import { Dispatch, SetStateAction, useState } from "react";
 
+// 副露の種類選択、追加、削除、関連する制約チェックを管理する
 const useMeld = ({
   melds,
   setMelds,
@@ -26,6 +27,7 @@ const useMeld = ({
   const [meldType, setMeldType] = useState<string | undefined>(undefined);
   const [errMsg, setErrMsg] = useState<string>("");
 
+  // 選択中の副露種別に応じて面子を組み立てて追加する
   const addMeld = (tile: string): void => {
     if (melds.length + kans.length >= MAX_MELDS_AND_KANS_LENGTH) {
       setErrMsg("これ以上副露出来ません。");
@@ -80,6 +82,7 @@ const useMeld = ({
     setErrMsg("");
   };
 
+  // 指定 index の副露を削除する
   const deleteMeld = (index: number) => {
     setMelds(melds.filter((_, i) => i !== index));
   };
