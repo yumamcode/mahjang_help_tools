@@ -6,7 +6,14 @@ export default function Home() {
   return (
     <Provider>
       <MahjangHeader></MahjangHeader>
-      <Image src="/majan_point_table.jpg" alt="majanPointTable"></Image>
+      <div className="flex justify-center px-4 py-6">
+        <Image
+          src="/majan_point_table.jpg"
+          alt="majanPointTable"
+          className="mx-auto"
+          maxW="100%"
+        ></Image>
+      </div>
     </Provider>
   );
 }
