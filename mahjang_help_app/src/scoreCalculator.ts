@@ -13,6 +13,7 @@ import {
 import { getMaxHandLength } from "@/src/getMaxHandLength";
 import {
   joinSerializedParts,
+  serializeHand,
   serializeKans,
   serializeMelds,
 } from "@/src/mahjongSerializer";
@@ -82,6 +83,22 @@ const replaceTileGroupWithAkadora = (
   return { convertedTiles, restOfAkadora };
 };
 
+// 手牌全体の文字列から、数牌の 5 だけを赤ドラ表現へ置き換える
+const replaceHandWithAkadora = (
+  handTiles: string,
+  initialAkadoraCount: number,
+) => {
+  let restOfAkadora = initialAkadoraCount;
+
+  const convertedTiles = handTiles.replace(/([mps])5/g, (tile: string) => {
+    const replacement = replaceOneFiveWithAkadora(restOfAkadora);
+    restOfAkadora = replacement.restOfAkadora;
+    return TileUtil.getSuit(tile) + replacement.replacedValue;
+  });
+
+  return { convertedTiles, restOfAkadora };
+};
+
 // 5 の牌を赤ドラ表現へ置き換えつつ、残りの赤ドラ枚数も返す
 const replaceWithAkadora = (tilesStr: string, initialAkadoraCount: number) => {
   let restOfAkadora = initialAkadoraCount;
@@ -143,26 +160,29 @@ const calculateScore = ({
 
   try {
     let restOfAkadora = akaDoras;
-    let handTiles = hand.join("");
+    let handTiles = serializeHand(hand);
 
+    // ツモ上がりなら手牌にツモ牌を加える。
     if (holaType === HOLA_TYPE.TSUMO) {
       handTiles += holaTile;
     }
 
-    handTiles = handTiles.replace(/([mps])5/g, (tile: string) => {
-      if (restOfAkadora <= 0) {
-        return TileUtil.getSuit(tile) + String(AKADORA_NUMBER_IN_FACT);
-      }
+    // 手牌中の数牌 5 を赤ドラ表現へ置き換える
+    const handConversion = replaceHandWithAkadora(handTiles, restOfAkadora);
+    handTiles = handConversion.convertedTiles;
+    restOfAkadora = handConversion.restOfAkadora;
 
-      restOfAkadora--;
-      return TileUtil.getSuit(tile) + String(AKADORA_NUMBER_FOR_CONVINIENCE);
-    });
+    //チー・ポンに5がある場合
+
+    console.log(melds);
 
     const meldConversion = replaceWithAkadora(
       serializeMelds(melds),
       restOfAkadora,
     );
     restOfAkadora = meldConversion.restOfAkadora;
+
+    //カンに5がある場合
 
     const kanConversion = replaceWithAkadora(
       serializeKans(kans),
@@ -179,6 +199,7 @@ const calculateScore = ({
     const Majiang = require("@kobalab/majiang-core");
     const rule = Majiang.rule();
 
+    //処理を簡略化するため、便宜的に各種3枚ずつの計9枚にしているが、最大値は3枚までにしている。
     rule.赤牌 = {
       m: 3,
       p: 3,
