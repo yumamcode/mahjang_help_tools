@@ -8,7 +8,7 @@ import {
   serializeKans,
   serializeMelds,
   serializeTiles,
-} from "@/src/mahjongSerializer";
+} from "@/lib/mahjongSerializer";
 
 type ShantenCalculationInput = {
   hand: string[];

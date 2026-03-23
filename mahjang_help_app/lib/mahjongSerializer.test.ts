@@ -6,7 +6,7 @@ import {
   serializeKans,
   serializeMelds,
   serializeTiles,
-} from "@/src/mahjongSerializer";
+} from "@/lib/mahjongSerializer";
 
 describe("mahjongSerializer", () => {
   it("joinSerializedParts は空文字を除外して結合する", () => {

@@ -14,7 +14,7 @@ import {
   serializeHand,
   serializeKans,
   serializeMelds,
-} from "@/src/mahjongSerializer";
+} from "@/lib/mahjongSerializer";
 
 type Role = {
   name: string;
