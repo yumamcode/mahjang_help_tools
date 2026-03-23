@@ -7,7 +7,7 @@ import {
   SUITS,
 } from "@/src/Constant";
 import { isChiable } from "@/src/isChiable";
-import { TileUtil } from "@/src/TileUtil";
+import { TileUtil } from "@/lib/TileUtil";
 import { Dispatch, SetStateAction, useState } from "react";
 
 // 副露の種類選択、追加、削除、関連する制約チェックを管理する
