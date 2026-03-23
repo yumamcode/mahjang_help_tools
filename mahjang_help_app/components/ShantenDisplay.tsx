@@ -7,7 +7,7 @@ import type { Meld } from "./MeldInput";
 import { ANKAN_TURNOVER_INDEX_ARRAY } from "@/src/Constant";
 import { useTileClipboard } from "@/hooks/components/useTileClipboard";
 import { useShantenDisplay } from "@/hooks/components/useShantenDisplay";
-import { getShantenDescription } from "@/src/getShantenDescription";
+import { getShantenDescription } from "@/lib/getShantenDescription";
 
 const ShantenDisplay = ({
   hand,
