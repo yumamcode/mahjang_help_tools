@@ -1,5 +1,5 @@
 import { Meld } from "@/components/MeldInput";
-import { getMaxHandLength } from "@/src/getMaxHandLength";
+import { getMaxHandLength } from "@/lib/getMaxHandLength";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 // 純手牌の入力と枚数上限チェックを管理する
