@@ -1,87 +1,68 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import * as React from "react";
+import { renderHook, act } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { MELD_TYPE } from "@/lib/constants/Constant";
 import { useHand } from "@/hooks/components/useHand";
 
-vi.mock("react", async () => {
-  // 本物のreactをインポート
-  const actual = await vi.importActual<typeof import("react")>("react");
-  // useStateとuseEffectだけモックに置き換え
-  return {
-    ...actual,
-    useState: vi.fn(),
-    useEffect: vi.fn(),
-  };
-});
+// これは TypeScript の組み込み utility type で、
+// 関数の引数型を配列（タプル）として取り出します。
+type UseHandProps = Parameters<typeof useHand>[0];
 
-// TypeScriptにモック化したことを伝える
-const mockedUseState = vi.mocked(React.useState);
-const mockedUseEffect = vi.mocked(React.useEffect);
-
-// テストごとに useHand の初期条件を変えつつ、内部 setter の呼ばれ方を確認できるようにする
-const renderUseHand = ({
-  hand = [],
-  melds = [],
-  kans = [],
-  isSeparetedLastTile = false,
-}: {
-  hand?: string[];
-  melds?: { meldType: string; meldTiles: string[] }[];
-  kans?: string[][];
-  isSeparetedLastTile?: boolean;
-} = {}) => {
+// テストごとに必要な props だけ上書きして、共通の初期値と setHand モックを作る
+const createProps = (
+  overrides: Partial<UseHandProps> = {},
+): {
+  props: UseHandProps;
+  setHand: ReturnType<typeof vi.fn>;
+} => {
   const setHand = vi.fn();
-  const setErrorMsg = vi.fn();
 
-  // useHand 内の errorMsg state は「空文字で開始し、更新はモックで受け取る」状態にする
-  mockedUseState.mockReturnValue(["", setErrorMsg] as never);
-
-  // useEffect は描画後を待たず、その場で即実行してテストしやすくする
-  mockedUseEffect.mockImplementation((effect) => {
-    effect();
-  });
-
-  let hook: ReturnType<typeof useHand> | undefined;
-
-  // Hooks ルールに従うため、テスト用コンポーネントの中で useHand を呼ぶ
-  const TestComponent = () => {
-    hook = useHand({
-      hand,
+  return {
+    setHand,
+    props: {
+      hand: [],
       setHand,
-      melds,
-      kans,
-      isSeparetedLastTile,
-    });
-
-    return null;
+      melds: [],
+      kans: [],
+      isSeparetedLastTile: false,
+      ...overrides,
+    },
   };
-
-  TestComponent();
-
-  return { hook: hook!, setHand, setErrorMsg };
 };
 
 describe("useHand", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it("初期化時にエラーメッセージをクリアする", () => {
-    const { setErrorMsg } = renderUseHand({
+  it("初期化時の errorMsg は空文字", () => {
+    const { props } = createProps({
       hand: ["m1", "m2"],
     });
 
-    expect(setErrorMsg).toHaveBeenCalledWith("");
+    // renderHook で useHand を実行し、result.current から現在の返り値を確認する
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    expect(result.current.errorMsg).toBe("");
   });
 
   it("isSeparetedLastTile が false で上限未満なら牌を追加できる", () => {
-    const { hook, setHand, setErrorMsg } = renderUseHand({
+    const { props, setHand } = createProps({
       hand: Array.from({ length: 13 }, (_, index) => `m${(index % 9) + 1}`),
       isSeparetedLastTile: false,
     });
 
-    setErrorMsg.mockClear();
-    hook.addTile("p1");
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    // state 更新を伴う操作は act で包んで React に反映させる
+    act(() => {
+      result.current.addTile("p1");
+    });
 
     expect(setHand).toHaveBeenCalledWith([
       "m1",
@@ -99,37 +80,53 @@ describe("useHand", () => {
       "m4",
       "p1",
     ]);
-    expect(setErrorMsg).not.toHaveBeenCalled();
+    expect(result.current.errorMsg).toBe("");
   });
 
   it("isSeparetedLastTile が false で最大枚数なら追加せずエラーにする", () => {
-    const { hook, setHand, setErrorMsg } = renderUseHand({
+    const { props, setHand } = createProps({
       hand: Array.from({ length: 14 }, (_, index) => `m${(index % 9) + 1}`),
       isSeparetedLastTile: false,
     });
 
-    setErrorMsg.mockClear();
-    hook.addTile("p1");
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.addTile("p1");
+    });
 
     expect(setHand).not.toHaveBeenCalled();
-    expect(setErrorMsg).toHaveBeenCalledWith("純手牌は既に最大枚数です。");
+    expect(result.current.errorMsg).toBe("純手牌は既に最大枚数です。");
   });
 
   it("isSeparetedLastTile が true なら 1 枚少ない時点で追加を止める", () => {
-    const { hook, setHand, setErrorMsg } = renderUseHand({
+    const { props, setHand } = createProps({
       hand: Array.from({ length: 13 }, (_, index) => `m${(index % 9) + 1}`),
       isSeparetedLastTile: true,
     });
 
-    setErrorMsg.mockClear();
-    hook.addTile("p1");
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.addTile("p1");
+    });
 
     expect(setHand).not.toHaveBeenCalled();
-    expect(setErrorMsg).toHaveBeenCalledWith("純手牌は既に最大枚数です。");
+    expect(result.current.errorMsg).toBe("純手牌は既に最大枚数です。");
   });
 
   it("melds と kans がある場合は調整後の上限未満なら追加できる", () => {
-    const { hook, setHand, setErrorMsg } = renderUseHand({
+    const { props, setHand } = createProps({
       hand: ["m1", "m2", "m3", "p1", "p2", "p3", "s1"],
       melds: [
         {
@@ -141,8 +138,16 @@ describe("useHand", () => {
       isSeparetedLastTile: false,
     });
 
-    setErrorMsg.mockClear();
-    hook.addTile("s2");
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.addTile("s2");
+    });
 
     expect(setHand).toHaveBeenCalledWith([
       "m1",
@@ -154,11 +159,11 @@ describe("useHand", () => {
       "s1",
       "s2",
     ]);
-    expect(setErrorMsg).not.toHaveBeenCalled();
+    expect(result.current.errorMsg).toBe("");
   });
 
   it("melds と kans があり isSeparetedLastTile が true なら調整後上限で追加を止める", () => {
-    const { hook, setHand, setErrorMsg } = renderUseHand({
+    const { props, setHand } = createProps({
       hand: ["m1", "m2", "m3", "p1", "p2", "p3", "s1"],
       melds: [
         {
@@ -170,19 +175,63 @@ describe("useHand", () => {
       isSeparetedLastTile: true,
     });
 
-    setErrorMsg.mockClear();
-    hook.addTile("s2");
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.addTile("s2");
+    });
 
     expect(setHand).not.toHaveBeenCalled();
-    expect(setErrorMsg).toHaveBeenCalledWith("純手牌は既に最大枚数です。");
+    expect(result.current.errorMsg).toBe("純手牌は既に最大枚数です。");
   });
 
-  it("deleteTile は指定 index の牌を削除する", () => {
-    const { hook, setHand } = renderUseHand({
+  it("hand が変わると errorMsg をクリアする", () => {
+    const { props } = createProps({
+      hand: Array.from({ length: 14 }, (_, index) => `m${(index % 9) + 1}`),
+    });
+
+    const { result, rerender } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.addTile("p1");
+    });
+
+    expect(result.current.errorMsg).toBe("純手牌は既に最大枚数です。");
+
+    // rerender で props を更新すると、useEffect による errorMsg クリアも確認できる
+    rerender({
+      ...props,
       hand: ["m1", "m2", "m3"],
     });
 
-    hook.deleteTile(1);
+    expect(result.current.errorMsg).toBe("");
+  });
+
+  it("deleteTile は指定 index の牌を削除する", () => {
+    const { props, setHand } = createProps({
+      hand: ["m1", "m2", "m3"],
+    });
+
+    const { result } = renderHook(
+      (hookProps: UseHandProps) => useHand(hookProps),
+      {
+        initialProps: props,
+      },
+    );
+
+    act(() => {
+      result.current.deleteTile(1);
+    });
 
     expect(setHand).toHaveBeenCalledWith(["m1", "m3"]);
   });
