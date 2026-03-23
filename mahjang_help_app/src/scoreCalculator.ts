@@ -1,23 +1,20 @@
 import type { Meld } from "@/components/MeldInput";
 import {
-  AKADORA_NUMBER_FOR_CONVINIENCE,
-  AKADORA_NUMBER_IN_FACT,
   HOLA_TYPE,
   MELD_FROM_CODE,
   MIN_LENGTH_AKADORA,
+  AKADORA_NUMBER_FOR_CONVINIENCE,
   NUMBER_5TH_TILES,
   SITUATIONALS,
-  SUITS,
-  WINDS,
 } from "@/src/Constant";
-import { getMaxHandLength } from "@/src/getMaxHandLength";
+import { replaceWithAkadora, toWindCode } from "@/lib/scoreCalculatorHelpers";
+import { getMaxHandLength } from "@/lib/getMaxHandLength";
 import {
   joinSerializedParts,
   serializeHand,
   serializeKans,
   serializeMelds,
 } from "@/src/mahjongSerializer";
-import { TileUtil } from "@/src/TileUtil";
 
 type Role = {
   name: string;
@@ -48,86 +45,6 @@ type ScoreCalculationInput = {
 type ScoreCalculationOutput = {
   result?: ScoreResult;
   msg: string;
-};
-//赤ドラに変換しないグループ
-const isHonorTileGroup = (tiles: string): boolean => {
-  return tiles === "" || tiles.startsWith(SUITS.ZIHAI);
-};
-//赤ドラを一個置き換える
-const replaceOneFiveWithAkadora = (restOfAkadora: number) => {
-  if (restOfAkadora <= 0) {
-    return {
-      replacedValue: String(AKADORA_NUMBER_IN_FACT),
-      restOfAkadora,
-    };
-  }
-
-  return {
-    replacedValue: String(AKADORA_NUMBER_FOR_CONVINIENCE),
-    restOfAkadora: restOfAkadora - 1,
-  };
-};
-//複数の5を置き換える
-const replaceTileGroupWithAkadora = (
-  tiles: string,
-  initialAkadoraCount: number,
-) => {
-  let restOfAkadora = initialAkadoraCount;
-
-  const convertedTiles = tiles.replace(/5/g, () => {
-    const replacement = replaceOneFiveWithAkadora(restOfAkadora);
-    restOfAkadora = replacement.restOfAkadora;
-    return replacement.replacedValue;
-  });
-
-  return { convertedTiles, restOfAkadora };
-};
-
-// 手牌全体の文字列から、数牌の 5 だけを赤ドラ表現へ置き換える
-const replaceHandWithAkadora = (
-  handTiles: string,
-  initialAkadoraCount: number,
-) => {
-  let restOfAkadora = initialAkadoraCount;
-
-  const convertedTiles = handTiles.replace(/([mps])5/g, (tile: string) => {
-    const replacement = replaceOneFiveWithAkadora(restOfAkadora);
-    restOfAkadora = replacement.restOfAkadora;
-    return TileUtil.getSuit(tile) + replacement.replacedValue;
-  });
-
-  return { convertedTiles, restOfAkadora };
-};
-
-// 5 の牌を赤ドラ表現へ置き換えつつ、残りの赤ドラ枚数も返す
-const replaceWithAkadora = (tilesStr: string, initialAkadoraCount: number) => {
-  let restOfAkadora = initialAkadoraCount;
-
-  const convertedTiles = tilesStr
-    .split(",")
-    .map((tiles) => {
-      if (isHonorTileGroup(tiles)) {
-        return tiles;
-      }
-
-      const replacement = replaceTileGroupWithAkadora(tiles, restOfAkadora);
-      restOfAkadora = replacement.restOfAkadora;
-      return replacement.convertedTiles;
-    })
-    .join(",");
-
-  return { convertedTiles, restOfAkadora };
-};
-
-// 風牌文字列を majiang-core 用の数値コードへ変換する
-const toWindCode = (wind: string | undefined): number => {
-  return wind === WINDS.TON
-    ? 0
-    : wind === WINDS.NAN
-      ? 1
-      : wind === WINDS.SHA
-        ? 2
-        : 3;
 };
 
 // UI の入力値を検証・整形して、点数計算結果を返す
@@ -168,22 +85,18 @@ const calculateScore = ({
     }
 
     // 手牌中の数牌 5 を赤ドラ表現へ置き換える
-    const handConversion = replaceHandWithAkadora(handTiles, restOfAkadora);
+    const handConversion = replaceWithAkadora(handTiles, restOfAkadora);
     handTiles = handConversion.convertedTiles;
     restOfAkadora = handConversion.restOfAkadora;
 
-    //チー・ポンに5がある場合
-
-    console.log(melds);
-
+    // チー・ポンに 5 がある場合
     const meldConversion = replaceWithAkadora(
       serializeMelds(melds),
       restOfAkadora,
     );
     restOfAkadora = meldConversion.restOfAkadora;
 
-    //カンに5がある場合
-
+    // カンに 5 がある場合
     const kanConversion = replaceWithAkadora(
       serializeKans(kans),
       restOfAkadora,
