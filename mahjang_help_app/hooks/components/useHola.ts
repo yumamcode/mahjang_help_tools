@@ -1,4 +1,4 @@
-import { HOLA_TYPE } from "@/src/Constant";
+import { HOLA_TYPE } from "@/lib/constants/Constant";
 import { Dispatch, SetStateAction } from "react";
 
 // 上がり牌と上がり方の入力を管理する

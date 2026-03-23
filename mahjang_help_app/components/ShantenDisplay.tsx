@@ -4,7 +4,7 @@ import { SubmitButton } from "./SubmitButton";
 import { ErrorMsg } from "./ErrorMsg";
 import { Tile } from "./Tile";
 import type { Meld } from "./MeldInput";
-import { ANKAN_TURNOVER_INDEX_ARRAY } from "@/src/Constant";
+import { ANKAN_TURNOVER_INDEX_ARRAY } from "@/lib/constants/Constant";
 import { useTileClipboard } from "@/hooks/components/useTileClipboard";
 import { useShantenDisplay } from "@/hooks/components/useShantenDisplay";
 import { getShantenDescription } from "@/lib/getShantenDescription";

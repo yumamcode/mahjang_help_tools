@@ -1,4 +1,4 @@
-import { CHINESE_COUNT_DESCRIPTIONS } from "@/src/Constant";
+import { CHINESE_COUNT_DESCRIPTIONS } from "@/lib/constants/Constant";
 
 const getShantenDescription = (n: number): string | undefined => {
   if (n === -1) {

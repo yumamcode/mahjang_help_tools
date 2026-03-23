@@ -1,4 +1,4 @@
-import { MAX_DISP_DORAS_LENGTH } from "@/src/Constant";
+import { MAX_DISP_DORAS_LENGTH } from "@/lib/constants/Constant";
 import { Dispatch, SetStateAction } from "react";
 
 // 裏ドラ表示牌の追加・削除を管理する

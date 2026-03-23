@@ -4,7 +4,7 @@ import { Box, ButtonGroup, VStack, HStack, Center } from "@chakra-ui/react";
 import { SubmitButton } from "./SubmitButton";
 import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
-import { ANKAN_TURNOVER_INDEX_ARRAY } from "../src/Constant";
+import { ANKAN_TURNOVER_INDEX_ARRAY } from "../lib/constants/Constant";
 import { Meld } from "./MeldInput";
 import { RequiredIcon } from "./RequiredIcon";
 import { useTileClipboard } from "@/hooks/components/useTileClipboard";

@@ -1,4 +1,7 @@
-import { MAX_LENGTH_AKADORA, MIN_LENGTH_AKADORA } from "@/src/Constant";
+import {
+  MAX_LENGTH_AKADORA,
+  MIN_LENGTH_AKADORA,
+} from "@/lib/constants/Constant";
 import {
   Box,
   NumberInput,

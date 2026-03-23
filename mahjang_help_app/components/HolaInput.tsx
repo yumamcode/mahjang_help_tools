@@ -2,8 +2,8 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Tile } from "./Tile";
 import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup } from "@chakra-ui/react";
-import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
-import { HOLA_TYPE } from "@/src/Constant";
+import { HAI_ARRAY } from "@/lib/constants/AllHaiArrayConstant";
+import { HOLA_TYPE } from "@/lib/constants/Constant";
 import { useHola } from "@/hooks/components/useHola";
 
 const tiles = HAI_ARRAY;

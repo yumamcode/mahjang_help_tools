@@ -1,7 +1,7 @@
 import { Header } from "./Header";
 import { Box, HStack } from "@chakra-ui/react";
 import { Tile } from "./Tile";
-import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import { HAI_ARRAY } from "@/lib/constants/AllHaiArrayConstant";
 import { Dispatch, SetStateAction } from "react";
 import { useDispDora } from "@/hooks/components/useDispDora";
 

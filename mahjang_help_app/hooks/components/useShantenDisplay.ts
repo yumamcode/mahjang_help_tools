@@ -1,5 +1,5 @@
 import { Meld } from "@/components/MeldInput";
-import { SHANTEN_DESCRIPTIONS } from "@/src/Constant";
+import { SHANTEN_DESCRIPTIONS } from "@/lib/constants/Constant";
 import { calculateShanten, recommendDiscard } from "@/src/shantenCalculator";
 import { useEffect, useState } from "react";
 

@@ -3,12 +3,12 @@ import { Tile } from "./Tile";
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import { Header } from "./Header";
 import { ErrorMsg } from "./ErrorMsg";
-import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
+import { HAI_ARRAY } from "@/lib/constants/AllHaiArrayConstant";
 import type { Meld } from "./MeldInput";
 import {
   ANKAN_TURNOVER_INDEX_ARRAY,
   MAX_MELDS_AND_KANS_LENGTH,
-} from "@/src/Constant";
+} from "@/lib/constants/Constant";
 import { useKan } from "@/hooks/components/useKan";
 
 const tiles = HAI_ARRAY;

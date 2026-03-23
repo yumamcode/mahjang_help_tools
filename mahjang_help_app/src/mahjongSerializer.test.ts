@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { MELD_FROM_CODE, MELD_TYPE } from "@/src/Constant";
+import { MELD_FROM_CODE, MELD_TYPE } from "@/lib/constants/Constant";
 import {
   joinSerializedParts,
   serializeHand,

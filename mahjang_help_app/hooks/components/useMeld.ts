@@ -5,8 +5,8 @@ import {
   MELD_TYPE,
   SITUATIONALS,
   SUITS,
-} from "@/src/Constant";
-import { isChiable } from "@/src/isChiable";
+} from "@/lib/constants/Constant";
+import { isChiable } from "@/lib/isChiable";
 import { TileUtil } from "@/lib/TileUtil";
 import { Dispatch, SetStateAction, useState } from "react";
 

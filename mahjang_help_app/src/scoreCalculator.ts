@@ -6,7 +6,7 @@ import {
   AKADORA_NUMBER_FOR_CONVINIENCE,
   NUMBER_5TH_TILES,
   SITUATIONALS,
-} from "@/src/Constant";
+} from "@/lib/constants/Constant";
 import { replaceWithAkadora, toWindCode } from "@/lib/scoreCalculatorHelpers";
 import { getMaxHandLength } from "@/lib/getMaxHandLength";
 import {

@@ -1,5 +1,5 @@
 import type { Meld } from "@/components/MeldInput";
-import { MELD_FROM_CODE } from "@/src/Constant";
+import { MELD_FROM_CODE } from "@/lib/constants/Constant";
 import { TileUtil } from "@/lib/TileUtil";
 
 // 空文字を除外して、majiang-core が読めるカンマ区切り文字列にまとめる

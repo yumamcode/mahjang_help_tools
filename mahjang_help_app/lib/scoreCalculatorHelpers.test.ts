@@ -4,7 +4,7 @@ import {
   AKADORA_NUMBER_IN_FACT,
   SUITS,
   WINDS,
-} from "@/src/Constant";
+} from "@/lib/constants/Constant";
 import {
   isHonorTileGroup,
   replaceOneFiveWithAkadora,

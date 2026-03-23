@@ -1,4 +1,4 @@
-import { MAX_HAND_LENGTH_WITH_MELDS_AND_KANS } from "@/src/Constant";
+import { MAX_HAND_LENGTH_WITH_MELDS_AND_KANS } from "@/lib/constants/Constant";
 
 // 副露・カンの合計数に応じて、純手牌の数をMapの固定値から返す。
 const getMaxHandLengthProcesser = (

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { HOLA_TYPE, MELD_TYPE, WINDS } from "@/src/Constant";
+import { HOLA_TYPE, MELD_TYPE, WINDS } from "@/lib/constants/Constant";
 import { calculateScore } from "@/src/scoreCalculator";
 
 describe("calculateScore", () => {

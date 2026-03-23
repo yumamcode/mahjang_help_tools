@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { HStack } from "@chakra-ui/react";
 import { Header } from "./Header";
-import { SITUATIONALS } from "../src/Constant";
+import { SITUATIONALS } from "../lib/constants/Constant";
 import type { Meld } from "./MeldInput";
 import { useSituational } from "@/hooks/components/useSituational";
 

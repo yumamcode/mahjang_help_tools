@@ -3,7 +3,7 @@ import {
   AKADORA_NUMBER_IN_FACT,
   SUITS,
   WINDS,
-} from "@/src/Constant";
+} from "@/lib/constants/Constant";
 
 // 字牌セグメントは赤ドラ変換しない
 const isHonorTileGroup = (suit: string): boolean => {

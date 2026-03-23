@@ -1,5 +1,5 @@
 import { Meld } from "@/components/MeldInput";
-import { MIN_LENGTH_AKADORA, WINDS } from "@/src/Constant";
+import { MIN_LENGTH_AKADORA, WINDS } from "@/lib/constants/Constant";
 import { Dispatch, SetStateAction, useReducer } from "react";
 
 // 点数計算に必要な入力値をまとめて保持する state

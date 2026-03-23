@@ -1,7 +1,7 @@
 // components/WindInput.js
 import React, { Dispatch, SetStateAction } from "react";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
-import { WINDS } from "@/src/Constant";
+import { WINDS } from "@/lib/constants/Constant";
 
 const winds = Object.values(WINDS);
 

@@ -2,7 +2,7 @@ import type { Meld } from "@/components/MeldInput";
 import {
   MAX_HAND_LENGTH_WITH_MELDS_AND_KANS,
   SHANTEN_DESCRIPTIONS,
-} from "@/src/Constant";
+} from "@/lib/constants/Constant";
 import {
   joinSerializedParts,
   serializeKans,

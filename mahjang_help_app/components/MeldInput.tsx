@@ -4,8 +4,8 @@ import { Tile } from "./Tile";
 import { ErrorMsg } from "./ErrorMsg";
 import { Header } from "./Header";
 import { HStack, Box, Button, ButtonGroup, VStack } from "@chakra-ui/react";
-import { HAI_ARRAY } from "@/src/AllHaiArrayConstant";
-import { MELD_TYPE } from "../src/Constant";
+import { HAI_ARRAY } from "@/lib/constants/AllHaiArrayConstant";
+import { MELD_TYPE } from "../lib/constants/Constant";
 import { useMeld } from "@/hooks/components/useMeld";
 
 type Meld = {
